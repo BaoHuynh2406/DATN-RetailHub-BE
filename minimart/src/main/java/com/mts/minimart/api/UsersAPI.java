@@ -35,4 +35,48 @@ public class UsersAPI {
         }
 
     }
+
+    @GetMapping("/findAll")
+    public ResponseObject<?> doGetFindAll()
+    {
+        var resultApi= new ResponseObject<>();
+        try
+        {
+            resultApi.setSuccess(true);
+            resultApi.setData(usersService.findAll());
+            log.info("Find All Users Success");
+            return resultApi;
+        }
+        catch (Exception e)
+        {
+            log.error("Error while findAllUsers", e);
+            resultApi.setSuccess(false);
+            resultApi.setMessage("Error while findAllUsers");
+            return resultApi;
+        }
+
+    }
+
+    @GetMapping("/dem")
+    public ResponseObject<?> doGetDem()
+    {
+        var resultApi= new ResponseObject<>();
+        try
+        {
+            resultApi.setSuccess(true);
+            resultApi.setData(usersService.demSoLuongNguoiDung());
+            log.info("Find All Users Success");
+            return resultApi;
+        }
+        catch (Exception e)
+        {
+            log.error("Error while findAllUsers", e);
+            resultApi.setSuccess(false);
+            resultApi.setMessage("Error while findAllUsers");
+            return resultApi;
+        }
+
+    }
+
+
 }

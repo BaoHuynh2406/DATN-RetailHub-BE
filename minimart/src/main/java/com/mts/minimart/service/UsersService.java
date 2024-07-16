@@ -13,5 +13,9 @@ public interface UsersService
 
     List<UsersDto> findAllUsers();
 
+    List<Users> findAll();
+
     public List<UsersDto> getUsersByRoleId(String roleId);
+
+    public int demSoLuongNguoiDung();
 }

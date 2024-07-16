@@ -31,7 +31,18 @@ public class UsersServiceImpl implements UsersService
        return UsersDto.convertListUsersEtoListUsersDto(usersRepository.findAll());
     }
 
+    @Override
+    public List<Users> findAll() {
+        return usersRepository.findAll();
+    }
+
     public List<UsersDto> getUsersByRoleId(String roleId) {
         return UsersDto.convertListUsersEtoListUsersDto(usersRepository.findByRoleIdRole(roleId));
+    }
+
+    @Override
+    public int demSoLuongNguoiDung() {
+        int dem = usersRepository.findAll().size();
+        return dem;
     }
 }
