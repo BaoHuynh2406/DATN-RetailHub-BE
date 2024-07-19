@@ -4,11 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="" />
+    <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Payments.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/dto/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/dto/InvoiceItemsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -28,19 +41,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.RetailHub.executor": "Run",
+    "git-widget-placeholder": "feature/my-new-feature",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Khoahoc/DuanTN/PackEnd/DATN-MiniMart-BE/RetailHub",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="RetailHub" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -69,6 +85,7 @@
       <updated>1721380153742</updated>
       <workItem from="1721380154893" duration="799000" />
       <workItem from="1721381008254" duration="1444000" />
+      <workItem from="1721383336386" duration="1134000" />
     </task>
     <servers />
   </component>
