@@ -13,7 +13,9 @@ public class Receiving
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int receivingId;
+
     private int supplierId;
-    private Date recevingDate;
+
+    private Date receivingDate;
 
 }
