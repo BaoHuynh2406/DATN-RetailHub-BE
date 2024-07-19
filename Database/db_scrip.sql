@@ -1,6 +1,6 @@
 ﻿create database db_retailhub
--- Tạo bảng point_history
-CREATE TABLE point_history
+
+ CREATE TABLE point_history
 (
     history_id INT PRIMARY KEY IDENTITY(1,1), -- Khóa chính tự động tăng
     employee_id INT NOT NULL, -- Mã nhân viên thực hiện giao dịch
@@ -10,7 +10,7 @@ CREATE TABLE point_history
     description NVARCHAR(100) NOT NULL -- Mô tả giao dịch
 );
 
--- Tạo bảng customers
+
 CREATE TABLE customers
 (
     customer_id INT PRIMARY KEY IDENTITY(1000,1), -- Khóa chính tự động tăng, bắt đầu từ 1000
@@ -19,7 +19,6 @@ CREATE TABLE customers
     points INT NOT NULL -- Số điểm hiện có của khách hàng
 );
 
--- Tạo bảng invoices
 CREATE TABLE invoices
 (
     invoice_id INT PRIMARY KEY IDENTITY(1,1), -- Khóa chính tự động tăng
@@ -31,7 +30,6 @@ CREATE TABLE invoices
     total_payment DECIMAL(18,2) NOT NULL -- Tổng số tiền đã thanh toán
 );
 
--- Tạo bảng payment_methods
 CREATE TABLE payment_methods
 (
     payment_method_id INT PRIMARY KEY IDENTITY(1,1), -- Khóa chính tự động tăng
