@@ -10,6 +10,6 @@ public class Categories
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int categorieId;
+    private int categoryId;
     private String categoryName;
 }

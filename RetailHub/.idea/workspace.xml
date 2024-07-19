@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Receving.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Roles.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Receving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Receiving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/RecvingDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/ReceivingDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +47,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.RetailHub.executor": "Run",
     "git-widget-placeholder": "G.Bao",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "F:/FPT POLYTECHNIC/DATN-MiniMart-BE/RetailHub",
@@ -88,7 +92,7 @@
       <updated>1721380153742</updated>
       <workItem from="1721380154893" duration="799000" />
       <workItem from="1721381008254" duration="1444000" />
-      <workItem from="1721383767350" duration="1074000" />
+      <workItem from="1721383767350" duration="2479000" />
     </task>
     <servers />
   </component>

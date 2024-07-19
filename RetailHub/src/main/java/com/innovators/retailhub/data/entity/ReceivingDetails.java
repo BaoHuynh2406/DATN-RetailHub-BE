@@ -2,19 +2,17 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
-
 @Entity
 @Data
-@Table(name = "receving_details")
-public class RecvingDetails
+@Table(name = "receiving_details")
+public class ReceivingDetails
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int recevingDetaiId;
-    private int recevingId;
+    private int receivingDetailId;
+    private int receivingId;
     private int productId;
     private Double quantity;
-    private Double racevingCost;
+    private Double receivingCost;
     private String note;
 }

@@ -8,11 +8,11 @@ import java.sql.Date;
 @Entity
 @Data
 @Table(name = "receiving")
-public class Receving
+public class Receiving
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int recevingId;
+    private int receivingId;
     private int supplierId;
     private Date recevingDate;
 

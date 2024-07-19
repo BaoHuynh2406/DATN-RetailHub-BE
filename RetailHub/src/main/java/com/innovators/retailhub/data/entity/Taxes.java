@@ -9,7 +9,7 @@ import lombok.Data;
 public class Taxes
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tax_id")
     private String taxId;
     private String taxName;
     private Double taxRate;
