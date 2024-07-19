@@ -22,11 +22,9 @@ public class InvoiceItems {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "unit_price", nullable = false, precision = 18, scale = 2)
+    @Column(name = "unit_price", nullable = false)
     private Double unitPrice;
 
-    @Column(name = "tax_amount", nullable = false, precision = 10, scale = 2)
+    @Column(name = "tax_amount", nullable = false)
     private Double taxAmount;
-
-    // Nếu có quan hệ với các entity khác thì cần thêm @ManyToOne, @OneToMany, @JoinColumn, v.v...
 }

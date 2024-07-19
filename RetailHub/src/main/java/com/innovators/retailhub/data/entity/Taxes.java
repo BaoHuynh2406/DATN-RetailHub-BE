@@ -11,9 +11,8 @@ import java.math.BigDecimal;
 public class Taxes
 {
     @Id
+    @Column(name = "tax_id", length = 10)
     private String taxId;
-
     private String taxName;
-
     private BigDecimal taxRate;
 }

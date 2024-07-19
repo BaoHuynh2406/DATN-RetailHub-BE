@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name ="Customers")
+@Table(name ="customers")
 @Data
-public class Customers {
+public class Customers
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
