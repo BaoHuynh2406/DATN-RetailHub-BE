@@ -1,7 +1,8 @@
 CREATE DATABASE db_retailhub;
 GO
 
-CREATE TABLE employees (
+CREATE TABLE employees 
+(
                            employee_id INT IDENTITY(1,1) PRIMARY KEY,
                            full_name NVARCHAR(50),
                            password VARCHAR(500),
@@ -16,7 +17,8 @@ CREATE TABLE employees (
 );
 GO
 
-CREATE TABLE suppliers (
+CREATE TABLE suppliers 
+(
                            supplier_id INT IDENTITY(1,1) PRIMARY KEY,
                            supplier_name NVARCHAR(50),
                            supplier_description NVARCHAR(255), -- mô tả
@@ -27,7 +29,8 @@ CREATE TABLE suppliers (
 );
 GO
 
-CREATE TABLE products (
+CREATE TABLE products 
+(
                           product_id INT IDENTITY(1,1) PRIMARY KEY,
                           barcode VARCHAR(25), -- mã vạch
                           product_name NVARCHAR(50),
@@ -42,33 +45,38 @@ CREATE TABLE products (
 );
 GO
 
-CREATE TABLE roles (
+CREATE TABLE roles 
+(
                        role_id VARCHAR(10) PRIMARY KEY,
                        role_description NVARCHAR(100) -- mô tả
 );
 GO
 
-CREATE TABLE categories (
+CREATE TABLE categories 
+(
                             category_id INT IDENTITY(1,1) PRIMARY KEY,
                             category_name NVARCHAR(50)
 );
 GO
 
-CREATE TABLE taxes (
+CREATE TABLE taxes 
+(
                        tax_id VARCHAR(10) PRIMARY KEY,
                        tax_name NVARCHAR(20),
                        tax_rate DECIMAL(5,2) -- tỉ lệ thuế
 );
 GO
 
-CREATE TABLE receiving (
+CREATE TABLE receiving 
+(
                            receiving_id INT IDENTITY(1,1) PRIMARY KEY,
                            supplier_id INT, -- mã nhà cung cấp
                            receiving_date DATE
 );
 GO
 
-CREATE TABLE receiving_details (
+CREATE TABLE receiving_details 
+(
                                    receiving_detail_id INT IDENTITY(1,1) PRIMARY KEY,
                                    receiving_id INT,
                                    product_id INT,
