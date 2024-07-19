@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cedf21c3-7088-4abb-b19e-4d85061d3bbe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Database/db_scrip.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Database/db_scrip.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RetailHub/src/main/java/com/innovators/retailhub/data/entity/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/RetailHub/src/main/java/com/innovators/retailhub/data/entity/Employee.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,10 +16,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2jSTX7IItLHnk74rQIjP1vt6Cw8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,8 +28,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Hoa",
+    "git-widget-placeholder": "nguyenhoa",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/FPT/project/DATN-MiniMart-BE/RetailHub",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -37,6 +39,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\FPT\project\DATN-MiniMart-BE\RetailHub\src\main\java\com\innovators\retailhub\data\entity" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -54,6 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1721379515576</updated>
       <workItem from="1721379518163" duration="2217000" />
+      <workItem from="1721383095053" duration="155000" />
     </task>
     <servers />
   </component>
