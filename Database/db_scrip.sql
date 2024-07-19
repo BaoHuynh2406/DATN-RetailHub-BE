@@ -1,3 +1,7 @@
+CREATE DATABASE db_retailhub;
+
+use db_retailhub;
+
 -- Bảng Invoice Items
 CREATE TABLE invoice_items 
 (
