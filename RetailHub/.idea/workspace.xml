@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/api/EmployeesAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/api/ResponseObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/dto/EmployeesDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/repository/EmployeesRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/service/EmployeesService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/service/impelement/EmployeesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Database/db_scrip.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../Database/db_scrip.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Customers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Customers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Invoices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Invoices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PaymentMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PaymentMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Payments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Payments.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PointHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PointHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Roles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/api/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/dto/InvoiceItemsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/dto/InvoiceItemsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/repository/test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,15 +53,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "HTTP Request.generated-requests | #10.executor": "Run",
+    "HTTP Request.generated-requests | #11.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.RetailHub.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "call__API__by__Hoa",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/FPT POLYTECHNIC/DATN-MiniMart-BE/RetailHub",
+    "last_opened_file_path": "D:/Zalo files/minimart",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,7 +72,13 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.RetailHub">
+    <configuration name="generated-requests | #10" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="10" requestIdentifier="#10" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #11" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="11" requestIdentifier="#11" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="RetailHub" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="RetailHub" />
@@ -79,12 +87,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.generated-requests | #11" />
+        <item itemvalue="HTTP Request.generated-requests | #10" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
       </set>
     </attachedChunks>
   </component>
@@ -99,6 +113,7 @@
       <workItem from="1721380154893" duration="799000" />
       <workItem from="1721381008254" duration="1444000" />
       <workItem from="1721383767350" duration="2479000" />
+      <workItem from="1721400381846" duration="3478000" />
     </task>
     <servers />
   </component>

@@ -166,3 +166,12 @@ CREATE TABLE receiving_details
     note                NVARCHAR(50)
 );
 GO
+
+-- Thêm dữ liệu vào bảng employee
+INSERT INTO employees (full_name, password, email, phone_number, address, image, birthday, start_date, end_date, status)
+VALUES
+('Lý Nguyên Hòa', 'password123', 'nguyenhoa102@gmail.com', '0909123456', '123 Đường ABC, Quận 1', 'image1.jpg', '1990-01-01', '2023-07-01', NULL, 1),
+('Huỳnh Thiên Bảo', 'password456', 'baohuynh2406@gmail.com', '0919123456', '456 Đường DEF, Quận 2', 'image2.jpg', '1992-02-02', '2023-07-01', NULL, 1),
+('Võ Hoàng Vinh', 'password789', 'vinhhoang04@gmail.com', '0929123456', '789 Đường GHI, Quận 3', 'image3.jpg', '1988-03-03', '2023-07-01', '2024-01-01', 0);
+GO
+select * from employees
