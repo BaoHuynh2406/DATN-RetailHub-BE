@@ -10,7 +10,8 @@ import static java.util.stream.Collectors.toList;
 
 @Data
 @Builder
-public class EmployeesDTO {
+public class EmployeesDTO
+{
     private int employeeId;
     private String fullName;
     private String passWord;
@@ -22,8 +23,10 @@ public class EmployeesDTO {
     private Date endDate;
     private Boolean status;
 
-    public static EmployeesDTO convertToDTO(Employees employees) {
-        if (Objects.isNull(employees)) {
+    public static EmployeesDTO convertToDTO(Employees employees)
+    {
+        if (Objects.isNull(employees))
+        {
             return null;
         }
         return EmployeesDTO.builder()
@@ -40,8 +43,10 @@ public class EmployeesDTO {
                 .build();
     }
 
-    public static List<EmployeesDTO> convertToDTO(List<Employees> employees) {
-        if (Objects.isNull(employees) || employees.isEmpty()) {
+    public static List<EmployeesDTO> convertToDTO(List<Employees> employees)
+    {
+        if (Objects.isNull(employees) || employees.isEmpty())
+        {
             return List.of();
         }
         return employees.stream()
