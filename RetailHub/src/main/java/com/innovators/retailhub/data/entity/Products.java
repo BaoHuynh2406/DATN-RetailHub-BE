@@ -21,6 +21,6 @@ public class Products
     private Double quantity;
     private String unit;
     private String location;
-    private Date expiry_date;
+    private Date expiryDate;
     private Boolean status;
 }
