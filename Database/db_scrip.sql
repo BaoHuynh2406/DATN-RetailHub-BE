@@ -10,7 +10,6 @@ CREATE TABLE roles (
 GO
     CREATE TABLE employees (
         employee_id INT IDENTITY(1, 1) PRIMARY KEY,
-        role_id VARCHAR(10),
         full_name NVARCHAR(50) NOT NULL,
         password VARCHAR(500) NOT NULL,
         email VARCHAR(50) NOT NULL,
@@ -37,9 +36,6 @@ GO
 CREATE TABLE point_history (
     history_id INT PRIMARY KEY IDENTITY(1, 1),
     -- Khóa chính tự động tăng
-    employee_id INT,
-    -- Mã nhân viên thực hiện giao dịch
-    customer_id INT,
     transaction_date DATE NOT NULL,
     -- Ngày giao dịch
     points INT NOT NULL,
@@ -99,16 +95,12 @@ GO
 GO
     CREATE TABLE receiving (
         receiving_id INT IDENTITY(1, 1) PRIMARY KEY,
-        supplier_id INT,
-        -- mã nhà cung cấp
         receiving_date DATE NOT NULL
     );
 
 GO
     CREATE TABLE receiving_details (
         receiving_detail_id INT IDENTITY(1, 1) PRIMARY KEY,
-        receiving_id INT,
-        product_id INT,
         quantity DECIMAL(10, 2) NOT NULL,
         receiving_cost DECIMAL(10, 2) NOT NULL,
         -- giá nhập
@@ -120,8 +112,6 @@ GO
     CREATE TABLE stock_check (
         stock_check_id INT IDENTITY(1, 1) PRIMARY KEY,
         -- Khóa chính tự động tăng
-        employee_id INT NOT NULL,
-        -- Khóa ngoại đến bảng nhân viên
         stock_check_date DATETIME NOT NULL -- Ngày kiểm
     );
 
@@ -130,10 +120,6 @@ GO
     CREATE TABLE stock_check_item (
         stock_check_item_id INT IDENTITY(1, 1) PRIMARY KEY,
         -- Khóa chính tự động tăng
-        stock_check_id INT,
-        -- Khóa ngoại đến bảng Stock Check
-        product_id INT,
-        -- Khóa ngoại đến bảng sản phẩm
         actual_quantity DECIMAL(10, 2) NOT NULL,
         -- Số lượng thực tế
         recorded_quantity DECIMAL(10, 2) NOT NULL,
@@ -147,10 +133,6 @@ GO
     CREATE TABLE payments (
         payment_id INT IDENTITY(1, 1) PRIMARY KEY,
         -- Khóa chính tự động tăng
-        invoice_id INT,
-        -- Khóa ngoại đến bảng hóa đơn
-        payment_method_id INT,
-        -- Khóa ngoại đến bảng phương thức thanh toán
         amount DECIMAL(18, 2) NOT NULL,
         -- Số tiền thanh toán
         payment_date DATETIME NOT NULL,
@@ -170,10 +152,6 @@ GO
     CREATE TABLE invoices (
         invoice_id INT PRIMARY KEY IDENTITY(1, 1),
         -- Khóa chính tự động tăng
-        employee_id INT NOT NULL,
-        -- Mã nhân viên thực hiện giao dịch
-        customer_id INT NOT NULL,
-        -- Mã khách hàng (liên kết tới bảng customers)
         invoice_date DATETIME NOT NULL,
         -- Ngày lập hóa đơn
         total_tax DECIMAL(18, 2) NOT NULL,
@@ -188,10 +166,6 @@ GO
     CREATE TABLE invoice_items (
         invoice_item_id INT IDENTITY(1, 1) PRIMARY KEY,
         -- Khóa chính tự động tăng
-        invoice_id INT,
-        -- Khóa ngoại đến bảng hóa đơn
-        product_id INT,
-        -- Khóa ngoại đến bảng sản phẩm
         quantity INT NOT NULL,
         -- Số lượng
         unit_price DECIMAL(18, 2) NOT NULL,

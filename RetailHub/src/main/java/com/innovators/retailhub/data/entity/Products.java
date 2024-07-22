@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -23,4 +24,18 @@ public class Products
     private String location;
     private Date expiryDate;
     private Boolean status;
+
+    @OneToMany(mappedBy = "product")
+    private List<InvoiceItems> invoiceItems;
+
+    @OneToMany(mappedBy = "product")
+    private List<StockCheckItem> stockCheckItems;
+
+    @ManyToOne
+    @JoinColumn(name = "tax_id")
+    private Taxes taxes;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Categories category;
 }

@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Receiving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Receiving.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Suppliers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Suppliers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Categories.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PointHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PointHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Products.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Products.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Taxes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +112,7 @@
       <workItem from="1721400381846" duration="3478000" />
       <workItem from="1721560616574" duration="1653000" />
       <workItem from="1721577793279" duration="2328000" />
-      <workItem from="1721634817830" duration="5872000" />
+      <workItem from="1721634817830" duration="9136000" />
     </task>
     <servers />
   </component>

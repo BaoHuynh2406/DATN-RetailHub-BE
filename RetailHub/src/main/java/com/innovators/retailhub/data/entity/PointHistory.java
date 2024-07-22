@@ -12,8 +12,6 @@ public class PointHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "history_id")
     private int historyId;
-    @Column(name = "customer_id", nullable = false)
-    private int customerId;
     @Column(name = "transaction_date", nullable = false)
     private Date transactionDate;
     @Column(name = "points", nullable = false)
