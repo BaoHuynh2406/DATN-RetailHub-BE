@@ -22,4 +22,9 @@ public class Employees
     private Date startDate;
     private Date endDate;
     private Boolean status;
+
+//    Khóa ngọoại
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Roles role;
 }
