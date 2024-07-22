@@ -14,7 +14,7 @@ public class Employees
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
     private String fullName;
-    private String passWord;
+    private String password;
     private String email;
     private String phoneNumber;
     private String address;
