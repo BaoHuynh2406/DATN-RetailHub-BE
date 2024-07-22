@@ -2,14 +2,13 @@ package com.innovators.retailhub.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
 @Data
-public class Employees
-{
+public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
@@ -23,8 +22,13 @@ public class Employees
     private Date endDate;
     private Boolean status;
 
-//    Khóa ngọoại
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Roles role;
+
+    @OneToMany(mappedBy = "employee")
+    private List<PointHistory> listPointHistory;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Invoices> listInvoices;
 }

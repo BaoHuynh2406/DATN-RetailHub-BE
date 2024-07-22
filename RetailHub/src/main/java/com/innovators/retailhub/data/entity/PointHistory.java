@@ -2,14 +2,12 @@ package com.innovators.retailhub.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
 
 @Entity
-@Table(name ="PointHistory")
+@Table(name ="pointHistory")
 @Data
-public class PointHistory
-{
+public class PointHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "history_id")
@@ -24,4 +22,8 @@ public class PointHistory
     private String transactionType;
     @Column(name = "description")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employees employee;
 }

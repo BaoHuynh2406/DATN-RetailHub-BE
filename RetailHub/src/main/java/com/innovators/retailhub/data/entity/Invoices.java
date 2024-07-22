@@ -2,19 +2,15 @@ package com.innovators.retailhub.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
 
 @Entity
-@Table(name ="Invoices")
+@Table(name ="invoices")
 @Data
-public class Invoices
-{
+public class Invoices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int invoiceId;
-    @Column(name = "employee_id", nullable = false)
-    private int employeeId;
     @Column(name = "customer_id", nullable = false)
     private int customerId;
     @Column(name = "invoice_date", nullable = false)
@@ -25,4 +21,8 @@ public class Invoices
     private Double totalAmount;
     @Column(name = "total_payment", nullable = false)
     private Double totalPayment;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employees employee;
 }

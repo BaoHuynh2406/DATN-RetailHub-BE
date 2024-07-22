@@ -14,7 +14,7 @@ public class EmployeesDTO
 {
     private int employeeId;
     private String fullName;
-    private String passWord;
+    private String password;
     private String email;
     private String phoneNumber;
     private String address;
@@ -32,7 +32,7 @@ public class EmployeesDTO
         return EmployeesDTO.builder()
                 .employeeId(employees.getEmployeeId())
                 .fullName(employees.getFullName())
-                .passWord(employees.getPassWord())
+                .password(employees.getPassword())
                 .email(employees.getEmail())
                 .phoneNumber(employees.getPhoneNumber())
                 .address(employees.getAddress())
