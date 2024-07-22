@@ -21,6 +21,7 @@ public class PointHistory {
     @Column(name = "description")
     private String description;
 
+    // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;

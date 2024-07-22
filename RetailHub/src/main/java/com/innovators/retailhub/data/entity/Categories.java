@@ -15,6 +15,7 @@ public class Categories
     private int categoryId;
     private String categoryName;
 
+    // Khóa ngoại
     @OneToMany(mappedBy = "category")
     private List<Products> products;
 }

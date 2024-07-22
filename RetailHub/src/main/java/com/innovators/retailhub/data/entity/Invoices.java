@@ -11,8 +11,6 @@ public class Invoices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int invoiceId;
-    @Column(name = "customer_id", nullable = false)
-    private int customerId;
     @Column(name = "invoice_date", nullable = false)
     private Date invoiceDate;
     @Column(name = "total_tax", nullable = false)
@@ -22,6 +20,7 @@ public class Invoices {
     @Column(name = "total_payment", nullable = false)
     private Double totalPayment;
 
+    // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;

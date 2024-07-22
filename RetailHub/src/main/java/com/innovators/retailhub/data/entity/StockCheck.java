@@ -14,11 +14,10 @@ public class StockCheck
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stock_check_id")
     private Integer stockCheckId;
-    @Column(name = "employee_id", nullable = false)
-    private Integer employeeId;
     @Column(name = "stock_check_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date stockCheckDate;
 
+    // Khóa ngoại
 }
 

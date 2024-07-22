@@ -19,6 +19,7 @@ public class StockCheckItem
     @Column(name = "note", length = 50)
     private String note;
 
+    // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;

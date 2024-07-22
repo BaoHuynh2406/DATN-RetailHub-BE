@@ -228,7 +228,3 @@ VALUES
     );
 
 GO
-select
-    *
-from
-    employees

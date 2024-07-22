@@ -19,6 +19,7 @@ public class InvoiceItems {
     @Column(name = "tax_amount", nullable = false)
     private Double taxAmount;
 
+    // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;

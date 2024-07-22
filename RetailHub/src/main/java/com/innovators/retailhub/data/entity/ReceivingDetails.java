@@ -12,14 +12,10 @@ public class ReceivingDetails
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int receivingDetailId;
-
-    private int receivingId;
-
     private int productId;
-
     private BigDecimal quantity;
-
     private BigDecimal receivingCost;
-
     private String note;
+
+    // Khóa ngoại
 }

@@ -17,6 +17,7 @@ public class Taxes
     private String taxName;
     private BigDecimal taxRate;
 
+    // Khóa ngoại
     @OneToMany(mappedBy = "taxes")
     private List<Products> product;
 }

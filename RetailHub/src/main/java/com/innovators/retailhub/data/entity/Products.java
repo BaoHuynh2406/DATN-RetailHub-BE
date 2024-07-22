@@ -25,6 +25,7 @@ public class Products
     private Date expiryDate;
     private Boolean status;
 
+    // Khóa ngoại
     @OneToMany(mappedBy = "product")
     private List<InvoiceItems> invoiceItems;
 

@@ -22,6 +22,7 @@ public class Employees {
     private Date endDate;
     private Boolean status;
 
+    // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Roles role;

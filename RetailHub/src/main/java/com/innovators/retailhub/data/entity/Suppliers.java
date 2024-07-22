@@ -20,6 +20,7 @@ public class Suppliers
     private String supplierAddress;
     private boolean active;
 
+    // Khóa ngoại
     @OneToMany(mappedBy = "supplier")
     private List<Receiving> receiving;
 }
