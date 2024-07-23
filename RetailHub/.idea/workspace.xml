@@ -65,7 +65,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.RetailHub.executor": "Run",
-    "git-widget-placeholder": "FK__hoa",
+    "git-widget-placeholder": "Vinh",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/FPT/project/DATN-MiniMart-BE/RetailHub",
     "node.js.detected.package.eslint": "true",
@@ -76,6 +76,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.innovators.retailhub.service" />
+      <recent name="com.innovators.retailhub.service.impelement" />
+      <recent name="com.innovators.retailhub.data.repository" />
+      <recent name="com.innovators.retailhub.api" />
+      <recent name="com.innovators.retailhub.data.entity" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.RetailHub">
     <configuration name="generated-requests | #10" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="10" requestIdentifier="#10" runType="Run single request">
       <method v="2" />

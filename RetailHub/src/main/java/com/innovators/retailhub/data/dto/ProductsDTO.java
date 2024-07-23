@@ -1,6 +1,5 @@
 package com.innovators.retailhub.data.dto;
 
-import com.innovators.retailhub.data.entity.Employees;
 import com.innovators.retailhub.data.entity.Products;
 import lombok.Builder;
 import lombok.Data;
