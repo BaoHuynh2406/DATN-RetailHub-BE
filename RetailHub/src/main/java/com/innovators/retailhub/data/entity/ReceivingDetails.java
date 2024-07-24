@@ -30,4 +30,8 @@ public class ReceivingDetails
 
     @OneToMany(mappedBy = "receving_id")
     private List<Receiving> receiving;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
 }
