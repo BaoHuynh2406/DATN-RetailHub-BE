@@ -1,6 +1,7 @@
 package com.innovators.retailhub.data.dto;
 
 import com.innovators.retailhub.data.entity.Employees;
+import com.innovators.retailhub.data.entity.Roles;
 import lombok.Builder;
 import lombok.Data;
 import java.sql.Date;
@@ -22,6 +23,7 @@ public class EmployeesDTO
     private Date startDate;
     private Date endDate;
     private Boolean status;
+    private String roleId;
 
     public static EmployeesDTO convertToDTO(Employees employees)
     {
@@ -40,6 +42,7 @@ public class EmployeesDTO
                 .startDate(employees.getStartDate())
                 .endDate(employees.getEndDate())
                 .status(employees.getStatus())
+                .roleId(employees.getRole() != null ? employees.getRole().getRoleId().toString() : null)
                 .build();
     }
 

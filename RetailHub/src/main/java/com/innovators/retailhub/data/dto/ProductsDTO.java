@@ -26,7 +26,9 @@ public class ProductsDTO
     private String location;
     private Date expiryDate;
     private Boolean status;
-    private int role_id;
+    private String roleId;
+    private String taxId;
+    private int categoryId;
 
     public static ProductsDTO convertToDTO(Products products)
     {
@@ -45,6 +47,8 @@ public class ProductsDTO
                 .location(products.getLocation())
                 .expiryDate(products.getExpiryDate())
                 .status(products.getStatus())
+                .taxId(products.getTaxes() != null ? products.getTaxes().getTaxId().toString() : null)
+                .categoryId(products.getCategory() != null ? products.getCategory().getCategoryId() : null)
                 .build();
     }
     public static List<ProductsDTO> convertToDTO(List<Products> products)
