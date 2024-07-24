@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,4 +19,10 @@ public class Receiving
 
     private Date receivingDate;
 
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Suppliers supplier;
+
+    @OneToMany(mappedBy = "receving")
+    private List<Suppliers> supplier;
 }
