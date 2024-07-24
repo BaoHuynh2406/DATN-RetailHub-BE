@@ -12,14 +12,15 @@ public class StockCheckItem
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stock_check_item_id")
     private Integer stockCheckItemId;
-    @Column(name = "stock_check_id", nullable = false)
-    private Integer stockCheckId;
-    @Column(name = "product_id", nullable = false)
-    private Integer productId;
     @Column(name = "actual_quantity", nullable = false)
     private Double actualQuantity;
     @Column(name = "recorded_quantity", nullable = false)
     private Double recordedQuantity;
     @Column(name = "note", length = 50)
     private String note;
+
+    // Khóa ngoại
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
 }

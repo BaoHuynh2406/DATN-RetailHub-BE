@@ -16,4 +16,6 @@ public class PaymentMethods
     private String paymentName;
     @Column(name = "image", length = 100)
     private String image;
+
+    // Khóa ngoại
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,4 +16,8 @@ public class Taxes
     private String taxId;
     private String taxName;
     private BigDecimal taxRate;
+
+    // Khóa ngoại
+    @OneToMany(mappedBy = "taxes")
+    private List<Products> product;
 }

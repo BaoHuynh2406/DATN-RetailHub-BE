@@ -12,19 +12,15 @@ public class InvoiceItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invoice_item_id")
     private Integer invoiceItemId;
-
-    @Column(name = "invoice_id", nullable = false)
-    private Integer invoiceId;
-
-    @Column(name = "product_id", nullable = false)
-    private Integer productId;
-
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
     @Column(name = "unit_price", nullable = false)
     private Double unitPrice;
-
     @Column(name = "tax_amount", nullable = false)
     private Double taxAmount;
+
+    // Khóa ngoại
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
 }

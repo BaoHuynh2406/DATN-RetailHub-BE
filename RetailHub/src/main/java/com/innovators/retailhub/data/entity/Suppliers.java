@@ -3,6 +3,8 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "suppliers")
 @Data
@@ -17,4 +19,8 @@ public class Suppliers
     private String supplierEmail;
     private String supplierAddress;
     private boolean active;
+
+    // Khóa ngoại
+    @OneToMany(mappedBy = "supplier")
+    private List<Receiving> receiving;
 }
