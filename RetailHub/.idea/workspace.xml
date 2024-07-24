@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f704ba66-98d4-436d-a113-86b089598d1a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Employees.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Employees.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/InvoiceItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Invoices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Invoices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PaymentMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/PaymentMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Payments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Payments.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Products.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/Products.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/innovators/retailhub/data/entity/StockCheckItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +90,7 @@
       <workItem from="1721383767350" duration="2479000" />
       <workItem from="1721398315764" duration="26000" />
       <workItem from="1721757796208" duration="263000" />
-      <workItem from="1721793663535" duration="2502000" />
+      <workItem from="1721793663535" duration="4033000" />
     </task>
     <servers />
   </component>
