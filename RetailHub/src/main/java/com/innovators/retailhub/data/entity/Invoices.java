@@ -3,6 +3,7 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name ="invoices")
@@ -21,7 +22,11 @@ public class Invoices {
     private Double totalPayment;
 
     // Khóa ngoại
+    @OneToMany(mappedBy = "invoice")
+    private List<InvoiceItems> invoiceItems;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;
+    @OneToMany(mappedBy = "invoice")
+    private List<Payments> payments;
 }

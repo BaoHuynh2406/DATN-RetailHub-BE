@@ -18,4 +18,6 @@ public class PaymentMethods
     private String image;
 
     // Khóa ngoại
+    @OneToMany(mappedBy = "paymentMethod")
+    private java.util.Set<Payments> payments;
 }

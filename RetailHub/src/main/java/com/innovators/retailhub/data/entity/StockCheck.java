@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,5 +20,11 @@ public class StockCheck
     private Date stockCheckDate;
 
     // Khóa ngoại
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", nullable = false)
+    private Employees employee;
+
+    @OneToMany(mappedBy = "stockCheck")
+    private List<StockCheckItem> stockCheckItems;
 }
 

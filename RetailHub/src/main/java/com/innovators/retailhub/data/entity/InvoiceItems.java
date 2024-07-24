@@ -21,6 +21,10 @@ public class InvoiceItems {
 
     // Khóa ngoại
     @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoices invoice;
+
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;
 }

@@ -19,5 +19,12 @@ public class Payments
     private Date paymentDate;
 
     // Khóa ngoại
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoices invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethods paymentMethod;
 }
 
