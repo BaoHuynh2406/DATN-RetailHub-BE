@@ -26,6 +26,7 @@ public class ProductsDTO
     private String location;
     private Date expiryDate;
     private Boolean status;
+    private int role_id;
 
     public static ProductsDTO convertToDTO(Products products)
     {
