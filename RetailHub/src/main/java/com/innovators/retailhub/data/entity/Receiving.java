@@ -20,6 +20,6 @@ public class Receiving
     @JoinColumn(name = "supplier_id")
     private Suppliers supplier;
 
-    @OneToMany(mappedBy = "receving")
-    private List<Suppliers> supplier;
+    @OneToMany(mappedBy = "receiving")
+    private List<ReceivingDetails> receivingDetails;
 }

@@ -28,5 +28,5 @@ public class PointHistory {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private PointHistory pointHistory;
+    private Customers customer;
 }

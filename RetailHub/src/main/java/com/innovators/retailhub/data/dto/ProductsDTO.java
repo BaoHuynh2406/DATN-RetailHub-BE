@@ -4,6 +4,7 @@ import com.innovators.retailhub.data.entity.Products;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,8 +20,8 @@ public class ProductsDTO
     private String productName;
     private String productDescription;
     private String image;
-    private Double cost;
-    private Double quantity;
+    private BigDecimal cost;
+    private BigDecimal quantity;
     private String unit;
     private String location;
     private Date expiryDate;
@@ -46,7 +47,7 @@ public class ProductsDTO
                 .location(products.getLocation())
                 .expiryDate(products.getExpiryDate())
                 .status(products.getStatus())
-                .taxId(products.getTaxes() != null ? products.getTaxes().getTaxId().toString() : null)
+                .taxId(products.getTax() != null ? products.getTax().getTaxId().toString() : null)
                 .categoryId(products.getCategory() != null ? products.getCategory().getCategoryId() : null)
                 .build();
     }

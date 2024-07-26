@@ -12,10 +12,6 @@ public class Payments
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Integer paymentId;
-    @Column(name = "invoice_id")
-    private int invoiceId;
-    @Column(name = "payment_method_id")
-    private int paymentMethodId;
     @Column(name = "amount", nullable = false)
     private Double amount;
     @Column(name = "payment_date", nullable = false)
@@ -24,13 +20,12 @@ public class Payments
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "payment_method_id")
-    private PaymentMethods paymentMethods;
     @JoinColumn(name = "invoice_id")
     private Invoices invoice;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethod;
+
 }
 

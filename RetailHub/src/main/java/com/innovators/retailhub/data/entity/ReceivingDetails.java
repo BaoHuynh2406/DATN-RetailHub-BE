@@ -13,19 +13,16 @@ public class ReceivingDetails
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int receivingDetailId;
-    private int productId;
     private BigDecimal quantity;
     private BigDecimal receivingCost;
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "receving_id")
+    @JoinColumn(name = "receiving_id")
     private Receiving receiving;
 
-    @OneToMany(mappedBy = "receving_id")
-    private List<Receiving> receiving;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;
+
 }

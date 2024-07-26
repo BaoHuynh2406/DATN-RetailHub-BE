@@ -21,9 +21,12 @@ public class Customers
     @Column(name = "points", nullable = false)
     private int points;
 
-    @OneToMany(mappedBy = "customers")
+    @OneToMany(mappedBy = "customer")
+    private List<PointHistory> pointHistories;
+
+    @OneToMany(mappedBy = "customer")
     private List<Invoices> invoices;
 
-    @OneToMany(mappedBy = "pointHistory")
-    private List<PointHistory> pointHistories;
+
+
 }

@@ -28,7 +28,4 @@ public class InvoiceItems {
     @JoinColumn(name = "product_id")
     private Products product;
 
-    @ManyToOne
-    @JoinColumn(name = "invoice_id")
-    private Invoices invoicesItems;
 }

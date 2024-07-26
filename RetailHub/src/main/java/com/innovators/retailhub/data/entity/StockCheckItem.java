@@ -21,12 +21,12 @@ public class StockCheckItem
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Products product;
+    @JoinColumn(name = "stock_check_id")
+    private StockCheck stockCheck;
 
 
     @ManyToOne
-    @JoinColumn(name = "stock_check_id")
-    private StockCheck stockCheck;
+    @JoinColumn(name = "product_id")
+    private Products product;
 
 }

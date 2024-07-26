@@ -18,5 +18,5 @@ public class Taxes
     private BigDecimal taxRate;
 
     @OneToMany(mappedBy = "tax")
-    private List<Products> product;
+    private List<Products> products;
 }

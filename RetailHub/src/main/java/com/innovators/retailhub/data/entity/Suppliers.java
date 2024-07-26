@@ -22,5 +22,5 @@ public class Suppliers
 
     // Khóa ngoại
     @OneToMany(mappedBy = "supplier")
-    private List<Receiving> receiving;
+    private List<Receiving> receivings;
 }

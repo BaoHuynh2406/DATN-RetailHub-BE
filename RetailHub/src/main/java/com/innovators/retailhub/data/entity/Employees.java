@@ -48,10 +48,10 @@ public class Employees {
     private Roles role; //Ok
 
     @OneToMany(mappedBy = "employee")
-    private List<PointHistory> listPointHistory;
+    private List<PointHistory> pointHistories;
 
     @OneToMany(mappedBy = "employee")
-    private List<Invoices> listInvoices;
+    private List<Invoices> invoices;
 
     @OneToMany(mappedBy = "employee")
     private List<StockCheck> stockChecks;
