@@ -25,4 +25,8 @@ public class PointHistory {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private PointHistory pointHistory;
 }

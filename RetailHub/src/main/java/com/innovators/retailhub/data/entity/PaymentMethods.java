@@ -3,6 +3,8 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name ="PaymentMethods")
 @Data
@@ -18,4 +20,6 @@ public class PaymentMethods
     private String image;
 
     // Khóa ngoại
+    @OneToMany(mappedBy = "paymentMethods")
+    private List<Payments> payments;
 }

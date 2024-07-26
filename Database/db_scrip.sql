@@ -20,6 +20,7 @@ GO
         start_date DATE NOT NULL, -- ngày vào làm
         end_date DATE, -- ngày ra
         status BIT -- trạng thái
+
     );
 
 GO

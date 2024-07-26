@@ -3,6 +3,7 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name ="invoices")
@@ -24,4 +25,11 @@ public class Invoices {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customers customers;
+
+    @OneToMany(mappedBy = "invoicesItems")
+    private List<InvoiceItems> invoiceItems;
 }
