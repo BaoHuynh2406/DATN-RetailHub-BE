@@ -16,8 +16,10 @@ public class Receiving
     private int receivingId;
     private Date receivingDate;
 
-    // khóa ngoại
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Suppliers supplier;
+
+    @OneToMany(mappedBy = "receving")
+    private List<Suppliers> supplier;
 }

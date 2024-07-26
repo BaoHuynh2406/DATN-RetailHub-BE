@@ -16,7 +16,6 @@ public class Roles
     private String roleId;
     private String roleDescription;
 
-    // Khóa ngoại
     @OneToMany(mappedBy = "role")
     private List<Employees> employees;
 }

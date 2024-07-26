@@ -2,6 +2,7 @@ package com.innovators.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.awt.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -17,5 +18,14 @@ public class ReceivingDetails
     private BigDecimal receivingCost;
     private String note;
 
-    // Khóa ngoại
+    @ManyToOne
+    @JoinColumn(name = "receving_id")
+    private Receiving receiving;
+
+    @OneToMany(mappedBy = "receving_id")
+    private List<Receiving> receiving;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
 }
