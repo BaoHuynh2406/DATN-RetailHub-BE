@@ -45,7 +45,7 @@ public class Employees {
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
-    private Roles role;
+    private Roles role; //Ok
 
     @OneToMany(mappedBy = "employee")
     private List<PointHistory> listPointHistory;

@@ -24,6 +24,7 @@ public class Invoices {
     // Khóa ngoại
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceItems> invoiceItems;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;
