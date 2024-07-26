@@ -22,6 +22,8 @@ public class Invoices {
     private Double totalPayment;
 
     // Khóa ngoại
+    @OneToMany(mappedBy = "invoice")
+    private List<InvoiceItems> invoiceItems;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employees employee;
@@ -32,4 +34,6 @@ public class Invoices {
 
     @OneToMany(mappedBy = "invoicesItems")
     private List<InvoiceItems> invoiceItems;
+    @OneToMany(mappedBy = "invoice")
+    private List<Payments> payments;
 }

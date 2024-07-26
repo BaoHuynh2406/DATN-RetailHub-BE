@@ -26,5 +26,11 @@ public class Payments
     @ManyToOne
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethods;
+    @JoinColumn(name = "invoice_id")
+    private Invoices invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private PaymentMethods paymentMethod;
 }
 

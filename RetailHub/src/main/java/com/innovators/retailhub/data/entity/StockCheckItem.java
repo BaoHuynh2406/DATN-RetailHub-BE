@@ -23,4 +23,10 @@ public class StockCheckItem
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;
+
+
+    @ManyToOne
+    @JoinColumn(name = "stock_check_id")
+    private StockCheck stockCheck;
+
 }

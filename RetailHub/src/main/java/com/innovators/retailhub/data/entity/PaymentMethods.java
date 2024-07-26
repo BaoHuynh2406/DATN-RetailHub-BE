@@ -22,4 +22,6 @@ public class PaymentMethods
     // Khóa ngoại
     @OneToMany(mappedBy = "paymentMethods")
     private List<Payments> payments;
+    @OneToMany(mappedBy = "paymentMethod")
+    private java.util.Set<Payments> payments;
 }
