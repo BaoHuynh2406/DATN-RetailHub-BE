@@ -2,43 +2,38 @@ package com.project.retailhub.service.impelement;
 
 
 import com.project.retailhub.data.dto.request.EmployeeRequest;
-import com.project.retailhub.data.dto.response.employees.EmployeeResponseFull;
+import com.project.retailhub.data.dto.response.EmployeeResponse;
 import com.project.retailhub.data.entity.Employees;
+import com.project.retailhub.data.mapper.EmployeesMapper;
 import com.project.retailhub.data.repository.EmployeesRepository;
 import com.project.retailhub.data.repository.RolesRepository;
 import com.project.retailhub.service.EmployeesService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeesServiceImpl implements EmployeesService {
 
-    private final EmployeesRepository employeesRepository;
-    private final RolesRepository repository;
+    EmployeesRepository employeesRepository;
+    RolesRepository roleRepository;
+    EmployeesMapper employeesMapper;
 
 
     @Override
     public void addNewEmployee(EmployeeRequest request) {
-        Employees employee = new Employees();
-        employee.setPassword(request.getPassword());
-        employee.setFullName(request.getFullName());
-        employee.setPhoneNumber(request.getPhoneNumber());
-        employee.setAddress(request.getAddress());
-        employee.setRole(repository.findById(request.getRoleId()).orElseThrow(() -> new RuntimeException("Roles not found")));
-        employee.setImage(request.getImage());
-        employee.setStartDate(request.getStartDate());
-        employee.setEndDate(request.getEndDate());
-        employee.setStatus(request.getStatus());
-        employee.setEmail(request.getEmail());
+        if (employeesRepository.existsByEmail(request.getEmail()))
+            throw new RuntimeException("Email already exists");
 
+        Employees employee = employeesMapper.toEmployees(request);
         employeesRepository.save(employee);
     }
 
@@ -61,7 +56,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         employee.setAddress(request.getAddress());
 
         // Cập nhật vai trò
-        employee.setRole(repository.findById(request.getRoleId())
+        employee.setRole(roleRepository.findById(request.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Role not found")));
 
         employee.setImage(request.getImage());
@@ -74,8 +69,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
-    public EmployeeResponseFull getEmployee(long idEmployee) {
-        return EmployeeResponseFull.convertToDTO(
+    public EmployeeResponse getEmployee(long idEmployee) {
+        return employeesMapper.toEmployeeResponse(
                 employeesRepository.findById(idEmployee)
                         .orElseThrow(() -> new RuntimeException("Employee not found")));
     }
@@ -86,16 +81,16 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
-    public List<EmployeeResponseFull> findAllEmployees() {
-        return EmployeeResponseFull.convertToDTO(employeesRepository.findAll());
+    public List<EmployeeResponse> findAllEmployees() {
+        return employeesMapper.toEmployeeResponseList(employeesRepository.findAll());
     }
 
 
     @Override
-    public EmployeeResponseFull getByEmail(String email) {
+    public EmployeeResponse getByEmail(String email) {
         Employees employee = employeesRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with email " + email + " not found"));
 
-        return EmployeeResponseFull.convertToDTO(employee);
+        return employeesMapper.toEmployeeResponse(employee);
     }
 }

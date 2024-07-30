@@ -1,6 +1,6 @@
-package com.project.retailhub.data.dto.request;
+package com.project.retailhub.data.dto.response;
 
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +10,9 @@ import java.sql.Date;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeRequest {
+public class EmployeeResponse {
     long employeeId;
     String fullName;
     String password;

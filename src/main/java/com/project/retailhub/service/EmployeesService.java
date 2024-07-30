@@ -2,7 +2,7 @@ package com.project.retailhub.service;
 
 
 import com.project.retailhub.data.dto.request.EmployeeRequest;
-import com.project.retailhub.data.dto.response.employees.EmployeeResponseFull;
+import com.project.retailhub.data.dto.response.EmployeeResponse;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ public interface EmployeesService
 
     void updateEmployee(EmployeeRequest request);
 
-    EmployeeResponseFull getEmployee(long idEmployee);
+    EmployeeResponse getEmployee(long idEmployee);
 
     void deleteEmployee(long idEmployee);
 
-    List<EmployeeResponseFull> findAllEmployees();
+    List<EmployeeResponse> findAllEmployees();
 
-    EmployeeResponseFull getByEmail(String email);
+    EmployeeResponse getByEmail(String email);
 }
