@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api-public/product")
 public class ProductsAPI
 {
-    final ProductsService productsService;
-    @GetMapping("/findAllProducts")
-    public ResponseObject<?> doGetFindAllProducts()
-    {
-        var resultApi = new ResponseObject<>();
-        try {
-            resultApi.setSuccess(true);
-            resultApi.setData(productsService.findAllProducts());
-            log.info("Find All Products Success");
-            return resultApi;
-        } catch (Exception e) {
-            log.error("Error while fetching all products", e);
-            resultApi.setSuccess(false);
-            resultApi.setMessage("Error while fetching all products");
-            return resultApi;
-        }
-    }
+//    final ProductsService productsService;
+//    @GetMapping("/findAllProducts")
+//    public ResponseObject<?> doGetFindAllProducts()
+//    {
+//        var resultApi = new ResponseObject<>();
+//        try {
+//            resultApi.setSuccess(true);
+//            resultApi.setData(productsService.findAllProducts());
+//            log.info("Find All Products Success");
+//            return resultApi;
+//        } catch (Exception e) {
+//            log.error("Error while fetching all products", e);
+//            resultApi.setSuccess(false);
+//            resultApi.setMessage("Error while fetching all products");
+//            return resultApi;
+//        }
+//    }
 }

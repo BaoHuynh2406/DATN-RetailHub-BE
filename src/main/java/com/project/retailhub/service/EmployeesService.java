@@ -1,18 +1,23 @@
 package com.project.retailhub.service;
 
-import com.project.retailhub.data.dto.EmployeeDTO;
-import com.project.retailhub.data.entity.Employees;
+
+import com.project.retailhub.data.dto.request.EmployeeRequest;
+import com.project.retailhub.data.dto.response.employees.EmployeeResponseFull;
+
 import java.util.List;
+
 
 public interface EmployeesService
 {
-    void saveEmployee(Employees employees);
+    void addNewEmployee(EmployeeRequest request);
 
-    void deleteEmployee(Employees employees);
+    void updateEmployee(EmployeeRequest request);
 
-    List<EmployeeDTO> findAllEmployees();
+    EmployeeResponseFull getEmployee(long idEmployee);
 
-    List<Employees> findAll();
+    void deleteEmployee(long idEmployee);
 
-    EmployeeDTO getByEmail(EmployeeDTO employee);
+    List<EmployeeResponseFull> findAllEmployees();
+
+    EmployeeResponseFull getByEmail(String email);
 }

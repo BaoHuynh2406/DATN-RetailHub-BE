@@ -1,4 +1,4 @@
-package com.project.retailhub.data.dto;
+package com.project.retailhub.data.dto.response.employees;
 
 import com.project.retailhub.data.entity.Employees;
 import lombok.Builder;
@@ -6,13 +6,13 @@ import lombok.Data;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+
 import static java.util.stream.Collectors.toList;
 
 @Data
 @Builder
-public class EmployeeDTO
-{
-    private int userId;
+public class EmployeeResponseFull {
+    private long employeeId;
     private String fullName;
     private String password;
     private String email;
@@ -24,14 +24,14 @@ public class EmployeeDTO
     private Boolean status;
     private String roleId;
 
-    public static EmployeeDTO convertToDTO(Employees employees)
-    {
-        if (Objects.isNull(employees))
-        {
+
+
+    public static EmployeeResponseFull convertToDTO(Employees employees) {
+        if (Objects.isNull(employees)) {
             return null;
         }
-        return EmployeeDTO.builder()
-                .userId(employees.getEmployeeId())
+        return EmployeeResponseFull.builder()
+                .employeeId(employees.getEmployeeId())
                 .fullName(employees.getFullName())
                 .password(employees.getPassword())
                 .email(employees.getEmail())
@@ -45,14 +45,12 @@ public class EmployeeDTO
                 .build();
     }
 
-    public static List<EmployeeDTO> convertToDTO(List<Employees> employees)
-    {
-        if (Objects.isNull(employees) || employees.isEmpty())
-        {
+    public static List<EmployeeResponseFull> convertToDTO(List<Employees> employees) {
+        if (Objects.isNull(employees) || employees.isEmpty()) {
             return List.of();
         }
         return employees.stream()
-                .map(EmployeeDTO::convertToDTO)
+                .map(EmployeeResponseFull::convertToDTO)
                 .collect(toList());
     }
 }
