@@ -1,18 +1,26 @@
 package com.project.retailhub.service;
 
-import com.project.retailhub.data.dto.EmployeeDTO;
-import com.project.retailhub.data.entity.Employees;
+
+import com.project.retailhub.data.dto.request.EmployeeRequest;
+import com.project.retailhub.data.dto.response.EmployeeResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import java.util.List;
+
 
 public interface EmployeesService
 {
-    void saveEmployee(Employees employees);
+    void addNewEmployee(EmployeeRequest request);
 
-    void deleteEmployee(Employees employees);
+    void updateEmployee(EmployeeRequest request);
 
-    List<EmployeeDTO> findAllEmployees();
+    EmployeeResponse getEmployee(long idEmployee);
 
-    List<Employees> findAll();
+    EmployeeResponse getMyInfo();
 
-    EmployeeDTO getByEmail(EmployeeDTO employee);
+    void deleteEmployee(long idEmployee);
+
+    List<EmployeeResponse> findAllEmployees();
+
+    EmployeeResponse getByEmail(String email);
 }

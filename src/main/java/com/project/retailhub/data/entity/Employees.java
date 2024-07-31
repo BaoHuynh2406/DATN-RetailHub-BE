@@ -1,19 +1,26 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.sql.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "employees")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Employees {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private int employeeId;
+    private long employeeId;
 
     @Column(name = "full_name")
     private String fullName;
@@ -44,8 +51,8 @@ public class Employees {
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
-    private Roles role; //Ok
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    private Roles role;
 
     @OneToMany(mappedBy = "employee")
     private List<PointHistory> pointHistories;
