@@ -7,13 +7,18 @@ import com.project.retailhub.data.entity.Employees;
 import com.project.retailhub.data.mapper.EmployeesMapper;
 import com.project.retailhub.data.repository.EmployeesRepository;
 import com.project.retailhub.data.repository.RolesRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.EmployeesService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,14 +31,19 @@ public class EmployeesServiceImpl implements EmployeesService {
     EmployeesRepository employeesRepository;
     RolesRepository roleRepository;
     EmployeesMapper employeesMapper;
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
 
     @Override
     public void addNewEmployee(EmployeeRequest request) {
         if (employeesRepository.existsByEmail(request.getEmail()))
-            throw new RuntimeException("Email already exists");
+            throw new AppException(ErrorCode.USER_EXISTED);
 
-        Employees employee = employeesMapper.toEmployees(request);
+        //Thực hiện chuyển đồi request thành entity
+        Employees employee = employeesMapper.toEmployees(request, roleRepository);
+//        Mã hóa mật khẩu
+        employee.setPassword(passwordEncoder.encode(request.getPassword()));
+
         employeesRepository.save(employee);
     }
 
@@ -42,22 +52,23 @@ public class EmployeesServiceImpl implements EmployeesService {
         // Kiểm tra xem ID có phải là null không
         long id = request.getEmployeeId();
         if (id == 0) {
-            throw new RuntimeException("Employee ID cannot be null");
+            throw new AppException(ErrorCode.EMPLOYEE_ID_NULL);
         }
 
         // Tìm kiếm nhân viên theo ID
         Employees employee = employeesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         // Cập nhật thông tin nhân viên
-        employee.setPassword(request.getPassword()); // Bạn có thể muốn mã hóa mật khẩu ở nơi khác
+        //Mã hóa mật khẩu ở đây
+        employee.setPassword(passwordEncoder.encode(request.getPassword()));
         employee.setFullName(request.getFullName());
         employee.setPhoneNumber(request.getPhoneNumber());
         employee.setAddress(request.getAddress());
 
         // Cập nhật vai trò
         employee.setRole(roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role not found")));
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)));
 
         employee.setImage(request.getImage());
         employee.setStartDate(request.getStartDate());
@@ -72,7 +83,18 @@ public class EmployeesServiceImpl implements EmployeesService {
     public EmployeeResponse getEmployee(long idEmployee) {
         return employeesMapper.toEmployeeResponse(
                 employeesRepository.findById(idEmployee)
-                        .orElseThrow(() -> new RuntimeException("Employee not found")));
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    @Override
+    public EmployeeResponse getMyInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+
+        String email = authentication.getName(); // Lấy user name người dùng ở đây là email
+        return getByEmail(email);
     }
 
     @Override
@@ -81,6 +103,7 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')") //Yêu cầu quyền admin
     public List<EmployeeResponse> findAllEmployees() {
         return employeesMapper.toEmployeeResponseList(employeesRepository.findAll());
     }
@@ -89,8 +112,7 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Override
     public EmployeeResponse getByEmail(String email) {
         Employees employee = employeesRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with email " + email + " not found"));
-
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return employeesMapper.toEmployeeResponse(employee);
     }
 }

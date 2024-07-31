@@ -1,11 +1,15 @@
 package com.project.retailhub.data.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseObject<OBJ> implements Serializable {
     /**
@@ -15,7 +19,7 @@ public class ResponseObject<OBJ> implements Serializable {
 
     private boolean success = true;
 
-    private int status = 200;
+    private int code = 200;
 
     private String message;
 

@@ -5,16 +5,16 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.EmployeesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api-public/employees")
+@RequestMapping("/api/employees")
 public class EmployeesAPI {
 
     final EmployeesService employeesService;
-
     @GetMapping("/getAllEmployees")
     public ResponseObject<?> doGetFindAllEmployees() {
         var resultApi = new ResponseObject<>();
@@ -30,6 +30,15 @@ public class EmployeesAPI {
         resultApi.setSuccess(true);
         resultApi.setData(employeesService.getEmployee(idEmployee));
         log.info("Get employee with ID " + idEmployee);
+        return resultApi;
+    }
+
+    @GetMapping("/my-info")
+    public ResponseObject<?> doGetMyInfo() {
+        var resultApi = new ResponseObject<>();
+        resultApi.setSuccess(true);
+        resultApi.setData(employeesService.getMyInfo());
+        log.info("Get my info");
         return resultApi;
     }
 
