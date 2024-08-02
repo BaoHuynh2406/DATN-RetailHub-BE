@@ -1,9 +1,9 @@
 package com.project.retailhub.config;
 
-import com.project.retailhub.data.entity.Employees;
-import com.project.retailhub.data.entity.Roles;
-import com.project.retailhub.data.repository.EmployeesRepository;
-import com.project.retailhub.data.repository.RolesRepository;
+import com.project.retailhub.data.entity.Employee;
+import com.project.retailhub.data.entity.Role;
+import com.project.retailhub.data.repository.EmployeeRepository;
+import com.project.retailhub.data.repository.RoleRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -31,27 +31,27 @@ public class ApplicationConfig {
     static final String ADMIN_PASSWORD = "admin123";
 
     @Bean
-    ApplicationRunner applicationRunner(EmployeesRepository employeesRepository, RolesRepository rolesRepository) {
+    ApplicationRunner applicationRunner(EmployeeRepository employeeRepository, RoleRepository roleRepository) {
         log.info("Initializing application.....");
         return args ->
         {
-            if (!employeesRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
+            if (!employeeRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
                 return;
             }
 
             log.info("Create Account Default: {} | {}", ADMIN_EMAIL, ADMIN_PASSWORD);
-            if (rolesRepository.findById("ADMIN").isEmpty()) {
-                rolesRepository.save(Roles.builder()
+            if (roleRepository.findById("ADMIN").isEmpty()) {
+                roleRepository.save(Role.builder()
                         .roleId("ADMIN")
                         .roleDescription("Quản lý")
                         .build());
             }
 
-            employeesRepository.save
-                    (Employees.builder()
+            employeeRepository.save
+                    (Employee.builder()
                     .email(ADMIN_EMAIL)
                     .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                    .role(rolesRepository.findById("ADMIN").get())
+                    .role(roleRepository.findById("ADMIN").get())
                     .fullName("Quản lý")
                     .address("TP Hồ Chí Minh")
                     .phoneNumber("00000000")

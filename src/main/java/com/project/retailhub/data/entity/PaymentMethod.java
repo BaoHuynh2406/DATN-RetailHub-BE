@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name ="PaymentMethods")
 @Data
-public class PaymentMethods
+public class PaymentMethod
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +21,5 @@ public class PaymentMethods
 
     // Khóa ngoại
     @OneToMany(mappedBy = "paymentMethod")
-    private List<Payments> payments;
+    private List<Payment> payments;
 }

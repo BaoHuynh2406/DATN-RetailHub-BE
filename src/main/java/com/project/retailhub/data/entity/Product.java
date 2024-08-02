@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "products")
 @Data
-public class Products
+public class Product
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,17 +49,17 @@ public class Products
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Categories category;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "tax_id")
-    private Taxes tax;
+    private Taxe tax;
 
     @OneToMany(mappedBy = "product")
-    private List<ReceivingDetails> receivingDetails;
+    private List<ReceivingDetail> receivingDetails;
 
     @OneToMany(mappedBy = "product")
-    private List<InvoiceItems> invoiceItems;
+    private List<InvoiceItem> invoiceItems;
 
     @OneToMany(mappedBy = "product")
     private List<StockCheckItem> stockCheckItems;

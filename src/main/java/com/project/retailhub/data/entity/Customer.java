@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name ="customers")
 @Data
-public class Customers
+public class Customer
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Customers
     private List<PointHistory> pointHistories;
 
     @OneToMany(mappedBy = "customer")
-    private List<Invoices> invoices;
+    private List<Invoice> invoices;
 
 
 

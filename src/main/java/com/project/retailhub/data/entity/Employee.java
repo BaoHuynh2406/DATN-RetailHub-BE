@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Employees {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,13 +52,13 @@ public class Employees {
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-    private Roles role;
+    private Role role;
 
     @OneToMany(mappedBy = "employee")
     private List<PointHistory> pointHistories;
 
     @OneToMany(mappedBy = "employee")
-    private List<Invoices> invoices;
+    private List<Invoice> invoices;
 
     @OneToMany(mappedBy = "employee")
     private List<StockCheck> stockChecks;

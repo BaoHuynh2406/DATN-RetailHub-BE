@@ -6,7 +6,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "payments")
-public class Payments
+public class Payment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,11 @@ public class Payments
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "invoice_id")
-    private Invoices invoice;
+    private Invoice invoice;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id")
-    private PaymentMethods paymentMethod;
+    private PaymentMethod paymentMethod;
 
 }
 

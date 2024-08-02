@@ -3,14 +3,13 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.EmployeeRequest;
 import com.project.retailhub.data.dto.response.EmployeeResponse;
-import com.project.retailhub.data.entity.Employees;
+import com.project.retailhub.data.entity.Employee;
 import com.project.retailhub.data.mapper.EmployeesMapper;
-import com.project.retailhub.data.repository.EmployeesRepository;
-import com.project.retailhub.data.repository.RolesRepository;
+import com.project.retailhub.data.repository.EmployeeRepository;
+import com.project.retailhub.data.repository.RoleRepository;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.EmployeesService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -28,23 +27,23 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeesServiceImpl implements EmployeesService {
 
-    EmployeesRepository employeesRepository;
-    RolesRepository roleRepository;
+    EmployeeRepository employeeRepository;
+    RoleRepository roleRepository;
     EmployeesMapper employeesMapper;
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
 
     @Override
     public void addNewEmployee(EmployeeRequest request) {
-        if (employeesRepository.existsByEmail(request.getEmail()))
+        if (employeeRepository.existsByEmail(request.getEmail()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
         //Thực hiện chuyển đồi request thành entity
-        Employees employee = employeesMapper.toEmployees(request, roleRepository);
+        Employee employee = employeesMapper.toEmployees(request, roleRepository);
 //        Mã hóa mật khẩu
         employee.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        employeesRepository.save(employee);
+        employeeRepository.save(employee);
     }
 
     @Override
@@ -56,7 +55,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
 
         // Tìm kiếm nhân viên theo ID
-        Employees employee = employeesRepository.findById(id)
+        Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         // Cập nhật thông tin nhân viên
@@ -76,13 +75,13 @@ public class EmployeesServiceImpl implements EmployeesService {
         employee.setStatus(request.getStatus());
 
         // Lưu nhân viên đã cập nhật
-        employeesRepository.save(employee);
+        employeeRepository.save(employee);
     }
 
     @Override
     public EmployeeResponse getEmployee(long idEmployee) {
         return employeesMapper.toEmployeeResponse(
-                employeesRepository.findById(idEmployee)
+                employeeRepository.findById(idEmployee)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
@@ -99,19 +98,19 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     @Override
     public void deleteEmployee(long idEmployee) {
-        employeesRepository.deleteById(idEmployee);
+        employeeRepository.deleteById(idEmployee);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')") //Yêu cầu quyền admin
     public List<EmployeeResponse> findAllEmployees() {
-        return employeesMapper.toEmployeeResponseList(employeesRepository.findAll());
+        return employeesMapper.toEmployeeResponseList(employeeRepository.findAll());
     }
 
 
     @Override
     public EmployeeResponse getByEmail(String email) {
-        Employees employee = employeesRepository.findByEmail(email)
+        Employee employee = employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return employeesMapper.toEmployeeResponse(employee);
     }

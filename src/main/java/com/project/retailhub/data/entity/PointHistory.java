@@ -24,9 +24,9 @@ public class PointHistory {
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employees employee;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customers customer;
+    private Customer customer;
 }

@@ -18,8 +18,8 @@ public class Receiving
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private Suppliers supplier;
+    private Supplier supplier;
 
     @OneToMany(mappedBy = "receiving")
-    private List<ReceivingDetails> receivingDetails;
+    private List<ReceivingDetail> receivingDetails;
 }
