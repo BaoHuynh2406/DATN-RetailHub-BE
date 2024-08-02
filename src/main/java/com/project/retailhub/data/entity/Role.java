@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Roles
+public class Role
 {
     @Id
     @Column(name = "role_id", length = 10)
@@ -23,5 +23,5 @@ public class Roles
     private String roleDescription;
 
     @OneToMany(mappedBy = "role")
-    private List<Employees> employees;
+    private List<Employee> employees;
 }

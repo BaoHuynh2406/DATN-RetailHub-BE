@@ -2,6 +2,7 @@ package com.project.retailhub.api;
 
 import com.nimbusds.jose.JOSEException;
 import com.project.retailhub.data.dto.request.AuthenticationRequest;
+import com.project.retailhub.data.dto.request.LogoutRequest;
 import com.project.retailhub.data.dto.request.VerifierTokenRequest;
 import com.project.retailhub.data.dto.response.AuthenticationResponse;
 import com.project.retailhub.data.dto.response.ResponseObject;
@@ -47,10 +48,32 @@ public class AuthenticationController {
         return resultApi;
     }
 
-    @PostMapping("/verify-token")
+    @PostMapping("/logout")
+    public ResponseObject doPostLogout(@RequestBody LogoutRequest request) {
+        var resultApi = new ResponseObject<>();
+        try {
+            authenticationService.logout(request);
+        } catch (ParseException e) {
+            throw new RuntimeException("Lỗi bất đinh: " + e.getMessage());
+        } catch (JOSEException e) {
+            throw new RuntimeException("Lỗi bất đinh: " + e.getMessage());
+        }
+
+        return  resultApi;
+    }
+
+    @PostMapping("/verify")
     public ResponseObject<?> verifyToken(@RequestBody VerifierTokenRequest request) throws ParseException, JOSEException {
         var resultApi = new ResponseObject<>();
         resultApi.setData(authenticationService.verifyToken(request));
+        resultApi.setSuccess(true);
+        return resultApi;
+    }
+
+    @PostMapping("/refresh")
+    public ResponseObject<?> refreshToken(@RequestBody VerifierTokenRequest request) throws ParseException, JOSEException {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(authenticationService.refreshToken(request));
         resultApi.setSuccess(true);
         return resultApi;
     }

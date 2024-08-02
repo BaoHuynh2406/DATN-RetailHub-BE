@@ -11,7 +11,7 @@ CREATE TABLE roles (
 );
 
 GO
-    CREATE TABLE employees (
+    CREATE TABLE employee (
         employee_id INT IDENTITY(1, 1) PRIMARY KEY,
         role_id VARCHAR(10),
         full_name NVARCHAR(100) NOT NULL,
@@ -204,14 +204,14 @@ GO
 
 GO
 
--- Thêm khóa ngoại cho bảng employees
-ALTER TABLE employees
+-- Thêm khóa ngoại cho bảng employee
+ALTER TABLE employee
 ADD CONSTRAINT FK_employees_role_id FOREIGN KEY (role_id) REFERENCES roles(role_id);
 
 GO
 -- Thêm khóa ngoại cho bảng point_history
 ALTER TABLE point_history
-ADD CONSTRAINT FK_point_history_employee_id FOREIGN KEY (employee_id) REFERENCES employees(employee_id);
+ADD CONSTRAINT FK_point_history_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id);
 ALTER TABLE point_history
 ADD CONSTRAINT FK_point_history_customer_id FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
 
@@ -238,7 +238,7 @@ ADD CONSTRAINT FK_receiving_details_product_id FOREIGN KEY (product_id) REFERENC
 GO
 -- Thêm khóa ngoại cho bảng stock_check
 ALTER TABLE stock_check
-ADD CONSTRAINT FK_stock_check_employee_id FOREIGN KEY (employee_id) REFERENCES employees(employee_id);
+ADD CONSTRAINT FK_stock_check_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id);
 
 GO
 -- Thêm khóa ngoại cho bảng stock_check_item
@@ -250,7 +250,7 @@ ADD CONSTRAINT FK_stock_check_item_product_id FOREIGN KEY (product_id) REFERENCE
 GO
 -- Thêm khóa ngoại cho bảng invoices
 ALTER TABLE invoices
-ADD CONSTRAINT FK_invoices_employee_id FOREIGN KEY (employee_id) REFERENCES employees(employee_id);
+ADD CONSTRAINT FK_invoices_employee_id FOREIGN KEY (employee_id) REFERENCES employee(employee_id);
 ALTER TABLE invoices
 ADD CONSTRAINT FK_invoices_customer_id FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
 
@@ -272,9 +272,9 @@ ADD CONSTRAINT FK_payments_payment_method_id FOREIGN KEY (payment_method_id) REF
 
  INSERT INTO Roles Values ('USER', N'Người dùng'), ('ADMIN', N'Quản lý')
 
- SELECT * FROM employees
+ SELECT * FROM employee
 
-INSERT INTO employees (
+INSERT INTO employee (
     full_name,
     password,
     email,

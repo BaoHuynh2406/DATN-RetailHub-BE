@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @Table(name = "receiving_details")
-public class ReceivingDetails
+public class ReceivingDetail
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,6 @@ public class ReceivingDetails
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Products product;
+    private Product product;
 
 }

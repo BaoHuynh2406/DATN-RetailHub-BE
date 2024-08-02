@@ -1,16 +1,15 @@
 package com.project.retailhub.data.repository;
 
-import com.project.retailhub.data.entity.Employees;
+import com.project.retailhub.data.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 
 @Repository
-public interface EmployeesRepository extends JpaRepository<Employees, Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    Optional<Employees> findByEmail(String email);
+    Optional<Employee> findByEmail(String email);
     boolean existsByEmail(String email);
 }

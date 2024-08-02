@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name ="invoices")
 @Data
-public class Invoices {
+public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int invoiceId;
@@ -24,15 +24,15 @@ public class Invoices {
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employees employee;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customers customer;
+    private Customer customer;
 
     @OneToMany(mappedBy = "invoice")
-    private List<InvoiceItems> invoiceItems;
+    private List<InvoiceItem> invoiceItems;
 
     @OneToMany(mappedBy = "invoice")
-    private List<Payments> payments;
+    private List<Payment> payments;
 }

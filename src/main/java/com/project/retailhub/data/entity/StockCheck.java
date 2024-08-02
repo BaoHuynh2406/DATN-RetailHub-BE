@@ -21,8 +21,8 @@ public class StockCheck
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employees employee;
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
 
     @OneToMany(mappedBy = "stockCheck")
     private List<StockCheckItem> stockCheckItems;

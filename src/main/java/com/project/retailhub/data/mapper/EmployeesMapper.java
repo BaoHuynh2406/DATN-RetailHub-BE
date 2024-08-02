@@ -3,9 +3,9 @@ package com.project.retailhub.data.mapper;
 import com.project.retailhub.data.dto.request.EmployeeRequest;
 import com.project.retailhub.data.dto.response.EmployeeResponse;
 import com.project.retailhub.data.dto.response.RoleRespone;
-import com.project.retailhub.data.entity.Employees;
-import com.project.retailhub.data.entity.Roles;
-import com.project.retailhub.data.repository.RolesRepository;
+import com.project.retailhub.data.entity.Employee;
+import com.project.retailhub.data.entity.Role;
+import com.project.retailhub.data.repository.RoleRepository;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,18 +18,18 @@ public interface EmployeesMapper {
 
     // Chuyển đổi từ EmployeeRequest sang Employees
     @Mapping(source = "roleId", target = "role", qualifiedByName = "roleIdToRole")
-    Employees toEmployees(EmployeeRequest request, @Context RolesRepository roleRepository);
+    Employee toEmployees(EmployeeRequest request, @Context RoleRepository roleRepository);
 
     // Chuyển đổi từ roleId thành Role entity
     @Named("roleIdToRole")
-    default Roles mapRoleIdToRole(String roleId, @Context RolesRepository roleRepository) {
+    default Role mapRoleIdToRole(String roleId, @Context RoleRepository roleRepository) {
         return roleRepository.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
     // Chuyển đổi từ Roles entity sang RoleRespone DTO
     @Named("roleToRoleRespone")
-    default RoleRespone mapRoleToRoleRespone(Roles role) {
+    default RoleRespone mapRoleToRoleRespone(Role role) {
         if (role == null) {
             return null;
         }
@@ -41,12 +41,12 @@ public interface EmployeesMapper {
 
     // Chuyển đổi từ Employees entity sang EmployeeResponse DTO
     @Mapping(source = "role", target = "role", qualifiedByName = "roleToRoleRespone")
-    EmployeeResponse toEmployeeResponse(Employees employee);
+    EmployeeResponse toEmployeeResponse(Employee employee);
 
     // Phương thức chuyển đổi danh sách Employees thành danh sách EmployeeResponse
-    List<EmployeeResponse> toEmployeeResponseList(List<Employees> employees);
+    List<EmployeeResponse> toEmployeeResponseList(List<Employee> employees);
 
     // Phương thức chuyển đổi danh sách EmployeeRequest thành danh sách Employees
-    List<Employees> toEmployeesList(List<EmployeeRequest> requests);
+    List<Employee> toEmployeesList(List<EmployeeRequest> requests);
 
 }

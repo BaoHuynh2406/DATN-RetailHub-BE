@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "taxes")
-public class Taxes
+public class Taxe
 {
     @Id
     @Column(name = "tax_id", length = 10)
@@ -18,5 +18,5 @@ public class Taxes
     private BigDecimal taxRate;
 
     @OneToMany(mappedBy = "tax")
-    private List<Products> products;
+    private List<Product> products;
 }

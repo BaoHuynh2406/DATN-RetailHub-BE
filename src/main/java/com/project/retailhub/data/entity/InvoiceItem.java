@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "invoice_items")
-public class InvoiceItems {
+public class InvoiceItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class InvoiceItems {
     // Khóa ngoại
     @ManyToOne
     @JoinColumn(name = "invoice_id")
-    private Invoices invoice;
+    private Invoice invoice;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Products product;
+    private Product product;
 
 }

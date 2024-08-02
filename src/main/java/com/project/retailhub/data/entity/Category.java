@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "categories")
-public class Categories
+public class Category
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,5 +17,5 @@ public class Categories
 
     // Khóa ngoại
     @OneToMany(mappedBy = "category")
-    private List<Products> products;
+    private List<Product> products;
 }
