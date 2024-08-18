@@ -1,8 +1,8 @@
 package com.project.retailhub.config;
 
-import com.project.retailhub.data.entity.Employee;
+import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.entity.Role;
-import com.project.retailhub.data.repository.EmployeeRepository;
+import com.project.retailhub.data.repository.UserRepository;
 import com.project.retailhub.data.repository.RoleRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
@@ -22,7 +23,6 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ApplicationConfig {
-    PasswordEncoder passwordEncoder;
 
     @NonFinal
     static final String ADMIN_EMAIL = "admin@retailhub.com";
@@ -31,11 +31,12 @@ public class ApplicationConfig {
     static final String ADMIN_PASSWORD = "admin123";
 
     @Bean
-    ApplicationRunner applicationRunner(EmployeeRepository employeeRepository, RoleRepository roleRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         log.info("Initializing application.....");
         return args ->
         {
-            if (!employeeRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            if (!userRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
                 return;
             }
 
@@ -47,17 +48,18 @@ public class ApplicationConfig {
                         .build());
             }
 
-            employeeRepository.save
-                    (Employee.builder()
-                    .email(ADMIN_EMAIL)
-                    .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                    .role(roleRepository.findById("ADMIN").get())
-                    .fullName("Quản lý")
-                    .address("TP Hồ Chí Minh")
-                    .phoneNumber("00000000")
-                    .startDate(Date.valueOf(LocalDate.now()))
-                    .status(true)
-                    .build()
+            userRepository.save
+                    (User.builder()
+                            .email(ADMIN_EMAIL)
+                            .password(passwordEncoder.encode(ADMIN_PASSWORD))
+                            .role(roleRepository.findById("ADMIN").get())
+                            .fullName("Quản lý")
+                            .address("TP Hồ Chí Minh")
+                            .phoneNumber("00000000")
+                            .startDate(Date.valueOf(LocalDate.now()))
+                            .isActive(true)
+                            .isDelete(false)
+                            .build()
                     );
             log.info("Application initialization completed .....");
         };

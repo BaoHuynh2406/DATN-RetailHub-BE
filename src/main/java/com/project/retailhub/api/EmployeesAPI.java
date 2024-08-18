@@ -1,11 +1,10 @@
 package com.project.retailhub.api;
 
-import com.project.retailhub.data.dto.request.EmployeeRequest;
+import com.project.retailhub.data.dto.request.UserRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
-import com.project.retailhub.service.EmployeesService;
+import com.project.retailhub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/employees")
 public class EmployeesAPI {
 
-    final EmployeesService employeesService;
+    final UserService userService;
     @GetMapping("/getAllEmployees")
     public ResponseObject<?> doGetFindAllEmployees() {
         var resultApi = new ResponseObject<>();
         resultApi.setSuccess(true);
-        resultApi.setData(employeesService.findAllEmployees());
+        resultApi.setData(userService.findAllEmployees());
         log.info("Find All Employees Success");
         return resultApi;
     }
@@ -28,7 +27,7 @@ public class EmployeesAPI {
     public ResponseObject<?> doGetEmployee(@PathVariable("idEmployee") long idEmployee) {
         var resultApi = new ResponseObject<>();
         resultApi.setSuccess(true);
-        resultApi.setData(employeesService.getEmployee(idEmployee));
+        resultApi.setData(userService.getEmployee(idEmployee));
         log.info("Get employee with ID " + idEmployee);
         return resultApi;
     }
@@ -37,26 +36,26 @@ public class EmployeesAPI {
     public ResponseObject<?> doGetMyInfo() {
         var resultApi = new ResponseObject<>();
         resultApi.setSuccess(true);
-        resultApi.setData(employeesService.getMyInfo());
+        resultApi.setData(userService.getMyInfo());
         log.info("Get my info");
         return resultApi;
     }
 
     @PostMapping("/add-new-employee")
-    public ResponseObject<?> doPostAddNewEmployee(@RequestBody EmployeeRequest request) {
+    public ResponseObject<?> doPostAddNewEmployee(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
         resultApi.setSuccess(true);
-        employeesService.addNewEmployee(request);
+        userService.addNewEmployee(request);
         resultApi.setMessage("Employee added successfully");
         log.info("Added employee successfully");
         return resultApi;
     }
 
     @PutMapping("/update-employee")
-    public ResponseObject<?> doPostUpdateEmployee(@RequestBody EmployeeRequest request) {
+    public ResponseObject<?> doPostUpdateEmployee(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
         resultApi.setSuccess(true);
-        employeesService.updateEmployee(request);
+        userService.updateEmployee(request);
         resultApi.setMessage("Employee updated successfully");
         log.info("Updated employee with ID " + request.getEmployeeId() + " successfully");
         return resultApi;

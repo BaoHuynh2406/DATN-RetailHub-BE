@@ -2,6 +2,8 @@ package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,20 +13,20 @@ import java.util.List;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int invoiceId;
-    @Column(name = "invoice_date", nullable = false)
+    private Long invoiceId;
+
     private Date invoiceDate;
-    @Column(name = "total_tax", nullable = false)
-    private Double totalTax;
-    @Column(name = "total_amount", nullable = false)
-    private Double totalAmount;
-    @Column(name = "total_payment", nullable = false)
-    private Double totalPayment;
+
+    private BigDecimal totalTax;
+
+    private BigDecimal totalAmount;
+
+    private BigDecimal totalPayment;
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

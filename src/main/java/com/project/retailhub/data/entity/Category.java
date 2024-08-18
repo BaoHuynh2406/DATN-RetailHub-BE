@@ -14,6 +14,7 @@ public class Category
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
     private String categoryName;
+    private boolean isDelete;
 
     // Khóa ngoại
     @OneToMany(mappedBy = "category")

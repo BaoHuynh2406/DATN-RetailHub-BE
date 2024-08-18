@@ -6,27 +6,28 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name ="customers")
+@Table(name = "customers")
 @Data
-public class Customer
-{
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private int customerId;
-    @Column(name = "full_name", nullable = false, length = 50)
+    private Long customerId;
+
     private String fullName;
-    @Column(name = "phone_number", nullable = false, length = 15)
+
     private String phoneNumber;
-    @Column(name = "points", nullable = false)
+
     private int points;
+
+    private Boolean isActive;
+
+    private Boolean isDelete;
 
     @OneToMany(mappedBy = "customer")
     private List<PointHistory> pointHistories;
 
     @OneToMany(mappedBy = "customer")
     private List<Invoice> invoices;
-
 
 
 }

@@ -8,58 +8,52 @@ import java.sql.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Employee {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
-    private long employeeId;
+    private long userId;
 
-    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "image")
-    private String image;
+    private String imageName;
 
-    @Column(name = "start_date")
     private Date startDate;
 
-    @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "status")
-    private Boolean status;
+    private Date birthday;
+
+    private Boolean isActive;
+
+    private Boolean isDelete;
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "user")
     private List<PointHistory> pointHistories;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "user")
     private List<Invoice> invoices;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "user")
     private List<StockCheck> stockChecks;
 }

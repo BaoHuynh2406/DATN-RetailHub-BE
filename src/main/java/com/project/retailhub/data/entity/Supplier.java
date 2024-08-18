@@ -12,13 +12,13 @@ public class Supplier
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int supplierId;
+    private Long supplierId;
     private String supplierName;
     private String supplierDescription;
     private String supplierPhoneNumber;
     private String supplierEmail;
     private String supplierAddress;
-    private boolean active;
+    private boolean isDelete;
 
     // Khóa ngoại
     @OneToMany(mappedBy = "supplier")

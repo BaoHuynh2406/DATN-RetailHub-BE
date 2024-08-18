@@ -1,9 +1,9 @@
 package com.project.retailhub.data.mapper;
 
-import com.project.retailhub.data.dto.request.EmployeeRequest;
-import com.project.retailhub.data.dto.response.EmployeeResponse;
+import com.project.retailhub.data.dto.request.UserRequest;
+import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.dto.response.RoleRespone;
-import com.project.retailhub.data.entity.Employee;
+import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.entity.Role;
 import com.project.retailhub.data.repository.RoleRepository;
 import org.mapstruct.Context;
@@ -14,11 +14,11 @@ import org.mapstruct.Named;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface EmployeesMapper {
+public interface UserMapper {
 
     // Chuyển đổi từ EmployeeRequest sang Employees
     @Mapping(source = "roleId", target = "role", qualifiedByName = "roleIdToRole")
-    Employee toEmployees(EmployeeRequest request, @Context RoleRepository roleRepository);
+    User toUser(UserRequest request, @Context RoleRepository roleRepository);
 
     // Chuyển đổi từ roleId thành Role entity
     @Named("roleIdToRole")
@@ -41,12 +41,12 @@ public interface EmployeesMapper {
 
     // Chuyển đổi từ Employees entity sang EmployeeResponse DTO
     @Mapping(source = "role", target = "role", qualifiedByName = "roleToRoleRespone")
-    EmployeeResponse toEmployeeResponse(Employee employee);
+    UserResponse toUserResponse(User user);
 
     // Phương thức chuyển đổi danh sách Employees thành danh sách EmployeeResponse
-    List<EmployeeResponse> toEmployeeResponseList(List<Employee> employees);
+    List<UserResponse> toUserResponseList(List<User> users);
 
     // Phương thức chuyển đổi danh sách EmployeeRequest thành danh sách Employees
-    List<Employee> toEmployeesList(List<EmployeeRequest> requests);
+    List<User> toEmployeesList(List<UserRequest> requests);
 
 }

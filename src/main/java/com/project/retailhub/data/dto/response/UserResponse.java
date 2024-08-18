@@ -1,6 +1,5 @@
 package com.project.retailhub.data.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,7 +11,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class EmployeeResponse {
+public class UserResponse {
     long employeeId;
     String fullName;
     String email;

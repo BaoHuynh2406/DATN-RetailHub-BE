@@ -11,9 +11,9 @@ import com.project.retailhub.data.dto.request.LogoutRequest;
 import com.project.retailhub.data.dto.request.VerifierTokenRequest;
 import com.project.retailhub.data.dto.response.AuthenticationResponse;
 import com.project.retailhub.data.dto.response.VerifierTokenResponse;
-import com.project.retailhub.data.entity.Employee;
+import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.entity.InvalidateToken;
-import com.project.retailhub.data.repository.EmployeeRepository;
+import com.project.retailhub.data.repository.UserRepository;
 import com.project.retailhub.data.repository.InvalidateTokenRepository;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
@@ -24,6 +24,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,32 +45,32 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
     private String SIGNER_KEY;
 
     @NonFinal
-    @Value("${security.expiration")
+    @Value("${security.expiration}")
     private long EXPIRATION;
 
     @NonFinal
     @Value("${security.refresh.expiration}")
     private long REFRESH_EXPIRATION;
 
-    EmployeeRepository employeeRepository;
+    UserRepository userRepository;
     InvalidateTokenRepository invalidateTokenRepository;
-    PasswordEncoder passwordEncoder;
 
     //Kiểm tra email và mật khẩu
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         AuthenticationResponse respone = new AuthenticationResponse();
-        Employee employee = employeeRepository
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        User user = userRepository
                 .findByEmail(request.getEmail())
                 .orElseThrow(
                         () -> new AppException(ErrorCode.INCONRECT_USER_NAME_OR_PASSWORD)
                 );
 
         //Kiểm tra mật khẩu đã đúng hay chưa
-        respone.setAuthenticated(passwordEncoder.matches(request.getPassword(), employee.getPassword()));
+        respone.setAuthenticated(passwordEncoder.matches(request.getPassword(), user.getPassword()));
         //Nếu đúng mới tạo token
         if (respone.isAuthenticated()) {
-            respone.setToken(genarateToken(employee));
+            respone.setToken(genarateToken(user));
         }else{
             throw new AppException(ErrorCode.INCONRECT_USER_NAME_OR_PASSWORD);
         }
@@ -87,7 +88,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         invalidateTokenRepository.save(InvalidateToken.builder().tokenId(jit).expiryTime(expiryTime).build());
 
         //Tạo token mới với th��i hạn mới
-        var newToken = genarateToken(employeeRepository
+        var newToken = genarateToken(userRepository
                 .findByEmail(signedJWT
                         .getJWTClaimsSet()
                         .getSubject())
@@ -113,20 +114,20 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
 
 
     //    Hàm tạo token
-    private String genarateToken(Employee employee) {
+    private String genarateToken(User user) {
         //Header khai báo cách mã hóa
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         //Nội dung của payload
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(employee.getEmail())
+                .subject(user.getEmail())
                 .issuer("retailhub.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(EXPIRATION, ChronoUnit.SECONDS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
-                .claim("scope", employee.getRole().getRoleId())
+                .claim("scope", user.getRole().getRoleId())
                 .build();
 
         //Gán vào payload

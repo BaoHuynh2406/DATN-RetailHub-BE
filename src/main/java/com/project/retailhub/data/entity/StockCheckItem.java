@@ -3,6 +3,8 @@ package com.project.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @Entity
 @Table(name = "stock_check_item")
@@ -10,13 +12,12 @@ public class StockCheckItem
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "stock_check_item_id")
-    private Integer stockCheckItemId;
-    @Column(name = "actual_quantity", nullable = false)
-    private Double actualQuantity;
-    @Column(name = "recorded_quantity", nullable = false)
-    private Double recordedQuantity;
-    @Column(name = "note", length = 50)
+    private Long stockCheckItemId;
+
+    private BigDecimal actualQuantity;
+
+    private BigDecimal recordedQuantity;
+
     private String note;
 
     // Khóa ngoại

@@ -11,7 +11,7 @@ import java.sql.Date;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeRequest {
+public class UserRequest {
     long employeeId;
     String fullName;
     String password;

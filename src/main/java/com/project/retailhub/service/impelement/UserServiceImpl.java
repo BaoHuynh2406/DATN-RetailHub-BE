@@ -1,15 +1,15 @@
 package com.project.retailhub.service.impelement;
 
 
-import com.project.retailhub.data.dto.request.EmployeeRequest;
-import com.project.retailhub.data.dto.response.EmployeeResponse;
-import com.project.retailhub.data.entity.Employee;
-import com.project.retailhub.data.mapper.EmployeesMapper;
-import com.project.retailhub.data.repository.EmployeeRepository;
+import com.project.retailhub.data.dto.request.UserRequest;
+import com.project.retailhub.data.dto.response.UserResponse;
+import com.project.retailhub.data.entity.User;
+import com.project.retailhub.data.mapper.UserMapper;
+import com.project.retailhub.data.repository.UserRepository;
 import com.project.retailhub.data.repository.RoleRepository;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
-import com.project.retailhub.service.EmployeesService;
+import com.project.retailhub.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,29 +25,31 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class EmployeesServiceImpl implements EmployeesService {
+public class UserServiceImpl implements UserService {
 
-    EmployeeRepository employeeRepository;
+    UserRepository userRepository;
     RoleRepository roleRepository;
-    EmployeesMapper employeesMapper;
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    UserMapper userMapper;
+
 
 
     @Override
-    public void addNewEmployee(EmployeeRequest request) {
-        if (employeeRepository.existsByEmail(request.getEmail()))
+    public void addNewEmployee(UserRequest request) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        if (userRepository.existsByEmail(request.getEmail()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
         //Thực hiện chuyển đồi request thành entity
-        Employee employee = employeesMapper.toEmployees(request, roleRepository);
+        User user = userMapper.toUser(request, roleRepository);
 //        Mã hóa mật khẩu
-        employee.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        employeeRepository.save(employee);
+        userRepository.save(user);
     }
 
     @Override
-    public void updateEmployee(EmployeeRequest request) {
+    public void updateEmployee(UserRequest request) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         // Kiểm tra xem ID có phải là null không
         long id = request.getEmployeeId();
         if (id == 0) {
@@ -55,38 +57,38 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
 
         // Tìm kiếm nhân viên theo ID
-        Employee employee = employeeRepository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         // Cập nhật thông tin nhân viên
         //Mã hóa mật khẩu ở đây
-        employee.setPassword(passwordEncoder.encode(request.getPassword()));
-        employee.setFullName(request.getFullName());
-        employee.setPhoneNumber(request.getPhoneNumber());
-        employee.setAddress(request.getAddress());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setFullName(request.getFullName());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setAddress(request.getAddress());
 
         // Cập nhật vai trò
-        employee.setRole(roleRepository.findById(request.getRoleId())
+        user.setRole(roleRepository.findById(request.getRoleId())
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)));
 
-        employee.setImage(request.getImage());
-        employee.setStartDate(request.getStartDate());
-        employee.setEndDate(request.getEndDate());
-        employee.setStatus(request.getStatus());
+        user.setImageName(request.getImage());
+        user.setStartDate(request.getStartDate());
+        user.setEndDate(request.getEndDate());
+        user.setIsActive(request.getStatus());
 
         // Lưu nhân viên đã cập nhật
-        employeeRepository.save(employee);
+        userRepository.save(user);
     }
 
     @Override
-    public EmployeeResponse getEmployee(long idEmployee) {
-        return employeesMapper.toEmployeeResponse(
-                employeeRepository.findById(idEmployee)
+    public UserResponse getEmployee(long idEmployee) {
+        return userMapper.toUserResponse(
+                userRepository.findById(idEmployee)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
-    public EmployeeResponse getMyInfo() {
+    public UserResponse getMyInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return null;
@@ -98,20 +100,20 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     @Override
     public void deleteEmployee(long idEmployee) {
-        employeeRepository.deleteById(idEmployee);
+        userRepository.deleteById(idEmployee);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')") //Yêu cầu quyền admin
-    public List<EmployeeResponse> findAllEmployees() {
-        return employeesMapper.toEmployeeResponseList(employeeRepository.findAll());
+    public List<UserResponse> findAllEmployees() {
+        return userMapper.toUserResponseList(userRepository.findAll());
     }
 
 
     @Override
-    public EmployeeResponse getByEmail(String email) {
-        Employee employee = employeeRepository.findByEmail(email)
+    public UserResponse getByEmail(String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        return employeesMapper.toEmployeeResponse(employee);
+        return userMapper.toUserResponse(user);
     }
 }

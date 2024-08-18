@@ -14,38 +14,29 @@ public class Product
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 
-    @Column(name = "barcode", nullable = false, length = 25)
     private String barcode;
 
-    @Column(name = "product_name", nullable = false, length = 50)
     private String productName;
 
-    @Column(name = "product_description", nullable = false, length = 500)
     private String productDescription;
 
-    @Column(name = "image", nullable = false, length = 500)
     private String image;
 
-    @Column(name = "cost", nullable = false, precision = 18, scale = 2)
     private BigDecimal cost;
 
-    @Column(name = "quantity", nullable = false, precision = 10, scale = 2)
-    private BigDecimal quantity;
+    private BigDecimal price;
 
-    @Column(name = "unit", nullable = false, length = 10)
+    private BigDecimal inventoryCount;
+
     private String unit;
 
-    @Column(name = "location", length = 255)
     private String location;
 
-    @Column(name = "expiry_date", nullable = false)
     private Date expiryDate;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status;
+    private Boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

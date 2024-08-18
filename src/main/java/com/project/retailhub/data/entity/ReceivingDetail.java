@@ -11,7 +11,7 @@ public class ReceivingDetail
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int receivingDetailId;
+    private Long receivingDetailId;
     private BigDecimal quantity;
     private BigDecimal receivingCost;
     private String note;

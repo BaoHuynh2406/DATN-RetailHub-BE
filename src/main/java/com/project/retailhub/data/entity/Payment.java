@@ -1,6 +1,8 @@
 package com.project.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -10,12 +12,10 @@ public class Payment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payment_id")
-    private Integer paymentId;
-    @Column(name = "amount", nullable = false)
-    private Double amount;
-    @Column(name = "payment_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    private Long paymentId;
+
+    private BigDecimal amount;
+
     private Date paymentDate;
 
     // Khóa ngoại
