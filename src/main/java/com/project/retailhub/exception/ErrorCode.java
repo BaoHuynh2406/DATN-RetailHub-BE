@@ -30,8 +30,8 @@ public enum ErrorCode {
 
     // Sửa lại HTTP status code từ "UNAUTHORIZED" thành "FORBIDDEN" để phù hợp hơn
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
+ // Roles
 
-    // Roles
     ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
