@@ -9,10 +9,7 @@ import com.project.retailhub.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -34,17 +31,15 @@ public class CustomJwtDecoder implements JwtDecoder {
     private static final Logger logger = LoggerFactory.getLogger(CustomJwtDecoder.class);
 
     @Override
-    public Jwt decode(String token) {
+    public Jwt decode(String token) throws JwtException {
+
         try {
             var response = authenticationService.verifyToken(
                     VerifierTokenRequest.builder().token(token).build());
-            if (!response.isValid()) {
-                logger.warn("Token validation failed: Unauthenticated");
-                throw new AppException(ErrorCode.UNAUTHORIZED);
-            }
+
+            if (!response.isValid()) throw new BadJwtException("Token invalid");
         } catch (JOSEException | ParseException e) {
-            logger.warn("Token verification failed: " + e.getMessage());
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new BadJwtException(e.getMessage());
         }
 
         if (Objects.isNull(nimbusJwtDecoder)) {
@@ -54,11 +49,6 @@ public class CustomJwtDecoder implements JwtDecoder {
                     .build();
         }
 
-        try {
-            return nimbusJwtDecoder.decode(token);
-        } catch (JwtException e) {
-            logger.warn("JWT decoding failed: " + e.getMessage());
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
-        }
+        return nimbusJwtDecoder.decode(token);
     }
 }
