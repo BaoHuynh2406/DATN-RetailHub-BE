@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    // Chuyển đổi từ EmployeeRequest sang Employees
+    // Chuyển đổi từ UserRequest sang User
     @Mapping(source = "roleId", target = "role", qualifiedByName = "roleIdToRole")
     User toUser(UserRequest request, @Context RoleRepository roleRepository);
 
@@ -39,7 +39,7 @@ public interface UserMapper {
                 .build();
     }
 
-    // Chuyển đổi từ Employees entity sang EmployeeResponse DTO
+    // Chuyển đổi từ User entity sang UserResponse DTO
     @Mapping(source = "role", target = "role", qualifiedByName = "roleToRoleRespone")
     UserResponse toUserResponse(User user);
 

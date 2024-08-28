@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface UserService
 {
-    void addNewEmployee(UserRequest request);
+    void addNewUser(UserRequest request);
 
-    void updateEmployee(UserRequest request);
+    void updateUser(UserRequest request);
 
-    UserResponse getEmployee(long idEmployee);
+    UserResponse getUser(long idEmployee);
 
     UserResponse getMyInfo();
 
-    void deleteEmployee(long idEmployee);
+    void deleteUser(long idEmployee);
 
-    List<UserResponse> findAllEmployees();
+    List<UserResponse> findAllUser();
 
     UserResponse getByEmail(String email);
 }

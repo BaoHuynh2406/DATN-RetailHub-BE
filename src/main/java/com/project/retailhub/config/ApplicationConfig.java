@@ -55,7 +55,7 @@ public class ApplicationConfig {
                             .role(roleRepository.findById("ADMIN").get())
                             .fullName("Quản lý")
                             .address("TP Hồ Chí Minh")
-                            .phoneNumber("00000000")
+                            .phoneNumber("123456789")
                             .startDate(Date.valueOf(LocalDate.now()))
                             .isActive(true)
                             .isDelete(false)

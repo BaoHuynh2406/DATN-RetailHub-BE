@@ -34,35 +34,34 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void addNewEmployee(UserRequest request) {
+    public void addNewUser(UserRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         if (userRepository.existsByEmail(request.getEmail()))
-            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
 
         //Thực hiện chuyển đồi request thành entity
         User user = userMapper.toUser(request, roleRepository);
-//        Mã hóa mật khẩu
+        // Mã hóa mật khẩu
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
         userRepository.save(user);
     }
 
     @Override
-    public void updateEmployee(UserRequest request) {
+    public void updateUser(UserRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         // Kiểm tra xem ID có phải là null không
         long id = request.getEmployeeId();
         if (id == 0) {
-            throw new AppException(ErrorCode.EMPLOYEE_ID_NULL);
+            throw new AppException(ErrorCode.USER_ID_NULL);
         }
-
         // Tìm kiếm nhân viên theo ID
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         // Cập nhật thông tin nhân viên
         //Mã hóa mật khẩu ở đây
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         user.setFullName(request.getFullName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(request.getAddress());
@@ -81,10 +80,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getEmployee(long idEmployee) {
+    public UserResponse getUser(long idEmployee) {
         return userMapper.toUserResponse(
                 userRepository.findById(idEmployee)
-                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
     }
 
     @Override
@@ -93,19 +92,18 @@ public class UserServiceImpl implements UserService {
         if (authentication == null) {
             return null;
         }
-
-        String email = authentication.getName(); // Lấy user name người dùng ở đây là email
-        return getByEmail(email);
-    }
-
-    @Override
-    public void deleteEmployee(long idEmployee) {
-        userRepository.deleteById(idEmployee);
+       long userId = Long.parseLong(authentication.getName()); // Lấy user ID
+        return getUser(userId);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')") //Yêu cầu quyền admin
-    public List<UserResponse> findAllEmployees() {
+    public void deleteUser(long idEmployee) {
+        userRepository.deleteById(idEmployee);
+    }
+
+    @Override
+    public List<UserResponse> findAllUser() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
 
@@ -113,7 +111,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         return userMapper.toUserResponse(user);
     }
 }

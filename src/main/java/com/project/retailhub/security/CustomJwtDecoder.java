@@ -3,6 +3,8 @@ package com.project.retailhub.security;
 
 import com.nimbusds.jose.JOSEException;
 import com.project.retailhub.data.dto.request.VerifierTokenRequest;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import java.text.ParseException;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
@@ -27,19 +31,22 @@ public class CustomJwtDecoder implements JwtDecoder {
 
     private NimbusJwtDecoder nimbusJwtDecoder = null;
 
-    @Override
-    public Jwt decode(String token) throws JwtException {
+    private static final Logger logger = LoggerFactory.getLogger(CustomJwtDecoder.class);
 
-        //Tùy chỉnh kiểu xác thực bằng cách dùng hàm veriry đã code trong service
+    @Override
+    public Jwt decode(String token) {
         try {
             var response = authenticationService.verifyToken(
                     VerifierTokenRequest.builder().token(token).build());
-            if (!response.isValid()) throw new JwtException("Token invalid");
+            if (!response.isValid()) {
+                logger.warn("Token validation failed: Unauthenticated");
+                throw new AppException(ErrorCode.UNAUTHORIZED);
+            }
         } catch (JOSEException | ParseException e) {
-            throw new JwtException(e.getMessage());
+            logger.warn("Token verification failed: " + e.getMessage());
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        // Xác thực mặc đình của Spring Sercurity
         if (Objects.isNull(nimbusJwtDecoder)) {
             SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
             nimbusJwtDecoder = NimbusJwtDecoder.withSecretKey(secretKeySpec)
@@ -47,6 +54,11 @@ public class CustomJwtDecoder implements JwtDecoder {
                     .build();
         }
 
-        return nimbusJwtDecoder.decode(token);
+        try {
+            return nimbusJwtDecoder.decode(token);
+        } catch (JwtException e) {
+            logger.warn("JWT decoding failed: " + e.getMessage());
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
     }
 }

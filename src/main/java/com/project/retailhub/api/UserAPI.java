@@ -10,52 +10,47 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/employees")
-public class EmployeesAPI {
+@RequestMapping("/api/user")
+public class UserAPI {
 
     final UserService userService;
-    @GetMapping("/getAllEmployees")
+    @GetMapping("/getAll")
     public ResponseObject<?> doGetFindAllEmployees() {
         var resultApi = new ResponseObject<>();
-        resultApi.setSuccess(true);
-        resultApi.setData(userService.findAllEmployees());
+        resultApi.setData(userService.findAllUser());
         log.info("Find All Employees Success");
         return resultApi;
     }
 
-    @GetMapping("/{idEmployee}")
-    public ResponseObject<?> doGetEmployee(@PathVariable("idEmployee") long idEmployee) {
+    @GetMapping("/{idUser}")
+    public ResponseObject<?> doGetEmployee(@PathVariable("idUser") long idUser) {
         var resultApi = new ResponseObject<>();
-        resultApi.setSuccess(true);
-        resultApi.setData(userService.getEmployee(idEmployee));
-        log.info("Get employee with ID " + idEmployee);
+        resultApi.setData(userService.getUser(idUser));
+        log.info("Get employee with ID " + idUser);
         return resultApi;
     }
 
     @GetMapping("/my-info")
     public ResponseObject<?> doGetMyInfo() {
         var resultApi = new ResponseObject<>();
-        resultApi.setSuccess(true);
         resultApi.setData(userService.getMyInfo());
         log.info("Get my info");
         return resultApi;
     }
 
-    @PostMapping("/add-new-employee")
-    public ResponseObject<?> doPostAddNewEmployee(@RequestBody UserRequest request) {
+    @PostMapping("/create")
+    public ResponseObject<?> doPostCreateUser(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
-        resultApi.setSuccess(true);
-        userService.addNewEmployee(request);
+        userService.addNewUser(request);
         resultApi.setMessage("Employee added successfully");
         log.info("Added employee successfully");
         return resultApi;
     }
 
-    @PutMapping("/update-employee")
-    public ResponseObject<?> doPostUpdateEmployee(@RequestBody UserRequest request) {
+    @PutMapping("/update")
+    public ResponseObject<?> doPostUpdateUser(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
-        resultApi.setSuccess(true);
-        userService.updateEmployee(request);
+        userService.updateUser(request);
         resultApi.setMessage("Employee updated successfully");
         log.info("Updated employee with ID " + request.getEmployeeId() + " successfully");
         return resultApi;

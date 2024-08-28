@@ -1,19 +1,26 @@
 package com.project.retailhub.data.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Entity
-@Data
 @Table(name = "receiving_details")
-public class ReceivingDetail
-{
+@Data
+public class ReceivingDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long receivingDetailId;
+
+    @Column(name = "quantity", precision = 10, scale = 2, nullable = false)
     private BigDecimal quantity;
+
+    @Column(name = "receiving_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal receivingCost;
+
+    @Column(name = "note", columnDefinition = "NVARCHAR(50)")
     private String note;
 
     @ManyToOne
@@ -23,5 +30,4 @@ public class ReceivingDetail
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
 }

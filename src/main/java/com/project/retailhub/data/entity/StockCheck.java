@@ -9,21 +9,21 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "stock_check")
-public class StockCheck
-{
+public class StockCheck {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockCheckId;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "stock_check_date", nullable = false)
     private Date stockCheckDate;
 
     // Khóa ngoại
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "stockCheck")
     private List<StockCheckItem> stockCheckItems;
 }
-

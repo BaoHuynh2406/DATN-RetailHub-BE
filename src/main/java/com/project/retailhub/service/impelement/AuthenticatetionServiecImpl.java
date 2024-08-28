@@ -7,12 +7,15 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.project.retailhub.data.dto.request.AuthenticationRequest;
-import com.project.retailhub.data.dto.request.LogoutRequest;
+import com.project.retailhub.data.dto.request.LogoutTokenRequest;
+import com.project.retailhub.data.dto.request.LogoutUserIdRequest;
 import com.project.retailhub.data.dto.request.VerifierTokenRequest;
 import com.project.retailhub.data.dto.response.AuthenticationResponse;
 import com.project.retailhub.data.dto.response.VerifierTokenResponse;
+import com.project.retailhub.data.entity.Token;
 import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.entity.InvalidateToken;
+import com.project.retailhub.data.repository.TokenRepository;
 import com.project.retailhub.data.repository.UserRepository;
 import com.project.retailhub.data.repository.InvalidateTokenRepository;
 import com.project.retailhub.exception.AppException;
@@ -32,7 +35,9 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -54,6 +59,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
 
     UserRepository userRepository;
     InvalidateTokenRepository invalidateTokenRepository;
+    TokenRepository tokenRepository;
 
     //Kiểm tra email và mật khẩu
     @Override
@@ -63,16 +69,20 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         User user = userRepository
                 .findByEmail(request.getEmail())
                 .orElseThrow(
-                        () -> new AppException(ErrorCode.INCONRECT_USER_NAME_OR_PASSWORD)
+                        () -> new AppException(ErrorCode.INCORRECT_USERNAME_OR_PASSWORD)
                 );
+        //Kiểm tra user có bị xóa hoặc DeActive không
+        if (!user.getIsActive() || user.getIsDelete()) {
+            throw new AppException(ErrorCode.USER_IS_DISABLED);
+        }
 
         //Kiểm tra mật khẩu đã đúng hay chưa
         respone.setAuthenticated(passwordEncoder.matches(request.getPassword(), user.getPassword()));
         //Nếu đúng mới tạo token
         if (respone.isAuthenticated()) {
             respone.setToken(genarateToken(user));
-        }else{
-            throw new AppException(ErrorCode.INCONRECT_USER_NAME_OR_PASSWORD);
+        } else {
+            throw new AppException(ErrorCode.INCORRECT_USERNAME_OR_PASSWORD);
         }
         return respone;
     }
@@ -89,19 +99,42 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
 
         //Tạo token mới với th��i hạn mới
         var newToken = genarateToken(userRepository
-                .findByEmail(signedJWT
+                .findById(Long.parseLong(signedJWT
                         .getJWTClaimsSet()
-                        .getSubject())
+                        .getSubject()))
                 .orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED))
+                        () -> new AppException(ErrorCode.USER_NOT_FOUND))
         );
 
         return AuthenticationResponse.builder().token(newToken).authenticated(true).build();
     }
 
+    // Vô hiệu hóa tất cả token còn hạn của một người dùng
+    @Override
+    public void logout(LogoutUserIdRequest request) {
+        long userId = request.getUserId();
+        // Lấy tất cả token của người dùng từ bảng Token
+        List<Token> tokens = tokenRepository.findByUserId(userId);
+
+        // Lấy thời gian hiện tại
+        Date now = new Date();
+
+        // Lọc những token còn hạn sử dụng
+        List<InvalidateToken> invalidateTokens = tokens.stream()
+                .filter(token -> token.getExpiryTime().after(now)) // Lọc những token còn hạn
+                .map(token -> InvalidateToken.builder()
+                        .tokenId(token.getTokenId())
+                        .expiryTime(token.getExpiryTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        // Thêm các token đó vào bảng invalidateToken
+        invalidateTokenRepository.saveAll(invalidateTokens);
+    }
+
     //Vô hiệu hóa token
     @Override
-    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+    public void logout(LogoutTokenRequest request) throws ParseException, JOSEException {
         //Kiểm tra token hợp lệ
         var signToken = handleVerifyToken(request.getToken(), false);
         //Nếu hợp lệ thì thêm vào bảng token cần bị hủy
@@ -113,14 +146,14 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
     }
 
 
-    //    Hàm tạo token
+    //    Hàm tạo token và lưu vào bảng token
     private String genarateToken(User user) {
         //Header khai báo cách mã hóa
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         //Nội dung của payload
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getEmail())
+                .subject(user.getUserId() + "")
                 .issuer("retailhub.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
@@ -139,6 +172,15 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         //Tạo chữ kí cho Token
         try {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
+
+            //Thêm vào bảng token để lưu lại
+            Token token = Token.builder()
+                    .tokenId(jwtClaimsSet.getJWTID())
+                    .userId(user.getUserId())
+                    .expiryTime(jwtClaimsSet.getExpirationTime())
+                    .build();
+
+            tokenRepository.save(token);
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Can't create Token", e);
@@ -152,12 +194,12 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         var token = request.getToken();
         VerifierTokenResponse response = new VerifierTokenResponse();
         //Thực hiện kiểm tra
-       try {
-           handleVerifyToken(token, false);
-           response.setValid(true);
-       }catch (AppException e){
-           response.setValid(false);
-       }
+        try {
+            handleVerifyToken(token, false);
+            response.setValid(true);
+        } catch (AppException e) {
+            response.setValid(false);
+        }
         return response;
 
     }

@@ -1,5 +1,6 @@
 package com.project.retailhub.data.dto.response;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,8 @@ public class UserResponse {
     String image;
     Date startDate;
     Date endDate;
-    Boolean status;
+    Date birthday;
+    Boolean isActive;
+    Boolean isDelete;
     RoleRespone role;
 }

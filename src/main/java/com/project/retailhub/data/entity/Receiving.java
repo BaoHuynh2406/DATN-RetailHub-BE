@@ -9,11 +9,13 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "receiving")
-public class Receiving
-{
+public class Receiving {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long receivingId;
+
+    @Column(name = "receiving_date", nullable = false)
     private Date receivingDate;
 
     @ManyToOne

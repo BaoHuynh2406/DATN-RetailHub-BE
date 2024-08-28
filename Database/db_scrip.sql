@@ -3,6 +3,7 @@ GO
 use db_retailhub;
 
 -- USE master
+-- GO
 -- DROP DATABASE db_retailhub;
 
 CREATE TABLE roles

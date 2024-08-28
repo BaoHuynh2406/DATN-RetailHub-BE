@@ -23,8 +23,7 @@ public class GlobaleExceptionHandler {
         ResponseObject<?> responseObject = new ResponseObject<>();
         responseObject.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         responseObject.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-        responseObject.setSuccess(false);
-        return ResponseEntity.badRequest().body(responseObject);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseObject);
     }
 
     //Quản lý lỗi về ứng dụng
@@ -32,11 +31,8 @@ public class GlobaleExceptionHandler {
     ResponseEntity<ResponseObject> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ResponseObject apiResponse = new ResponseObject();
-
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
-        apiResponse.setSuccess(false);
-
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
 
@@ -46,7 +42,6 @@ public class GlobaleExceptionHandler {
         ResponseObject<?> responseObject = new ResponseObject<>();
         responseObject.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         responseObject.setMessage(exception.getMessage());
-        responseObject.setSuccess(false);
         return new ResponseEntity<>(responseObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -56,7 +51,6 @@ public class GlobaleExceptionHandler {
         ResponseObject<?> responseObject = new ResponseObject<>();
         responseObject.setCode(HttpStatus.BAD_REQUEST.value());
         responseObject.setMessage("Validation Failed: " + exception.getMessage());
-        responseObject.setSuccess(false);
         return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
     }
 
@@ -67,7 +61,6 @@ public class GlobaleExceptionHandler {
 
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ResponseObject.builder()
-                        .success(false)
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
                         .build());
@@ -77,11 +70,9 @@ public class GlobaleExceptionHandler {
     @ExceptionHandler(value = AuthenticationException.class)
     public ResponseEntity<ResponseObject<?>> handlingAuthenticationException(AuthenticationException exception) {
         log.error("Authentication exception occurred: {}", exception.getMessage());
-
         ResponseObject<?> responseObject = new ResponseObject<>();
         responseObject.setCode(HttpStatus.UNAUTHORIZED.value());
         responseObject.setMessage("Authentication failed: " + exception.getMessage());
-        responseObject.setSuccess(false);
         return new ResponseEntity<>(responseObject, HttpStatus.UNAUTHORIZED);
     }
 
