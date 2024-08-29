@@ -198,66 +198,37 @@ CREATE TABLE payments
 
 GO
 
+CREATE TRIGGER trg_DeleteExpiredTokens
+ON token
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @RowCount INT;
+    SET @RowCount = (SELECT COUNT(*) FROM token);
 
+    IF @RowCount > 100
+    BEGIN
+        DELETE FROM token WHERE expiry_time < GETDATE();
+    END
+END;
+
+GO
+
+CREATE TRIGGER trg_DeleteExpiredInvalidateToken
+ON invalidate_token
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @RowCount INT;
+    SET @RowCount = (SELECT COUNT(*) FROM invalidate_token);
+
+    IF @RowCount > 100
+    BEGIN
+        DELETE FROM invalidate_token WHERE expiry_time < GETDATE();
+    END
+END;
+
+GO
 
 
 --------------------------------------------------------------------------------------
-
-INSERT INTO Roles
-Values
-    ('USER', N'Người dùng'),
-    ('ADMIN', N'Quản lý')
-
-SELECT *
-FROM user
-
-INSERT INTO user
-    (
-    full_name,
-    password,
-    email,
-    phone_number,
-    address,
-    image,
-    birthday,
-    start_date,
-    end_date,
-    status
-    )
-VALUES
-    (
-        N'Lý Nguyên Hòa',
-        'password123',
-        'nguyenhoa102@gmail.com',
-        '0909123456',
-        N'123 Đường ABC, Quận 1',
-        'image1.jpg',
-        '1990-01-01',
-        '2023-07-01',
-        NULL,
-        1
-),
-    (
-        N'Huỳnh Thiên Bảo',
-        'password456',
-        'baohuynh2406@gmail.com',
-        '0919123456',
-        N'456 Đường DEF, Quận 2',
-        'image2.jpg',
-        '1992-02-02',
-        '2023-07-01',
-        NULL,
-        1
-),
-    (
-        N'Võ Hoàng Vinh',
-        'password789',
-        'vinhhoang04@gmail.com',
-        '0929123456',
-        N'789 Đường GHI, Quận 3',
-        'image3.jpg',
-        '1988-03-03',
-        '2023-07-01',
-        '2024-01-01',
-        0
-);

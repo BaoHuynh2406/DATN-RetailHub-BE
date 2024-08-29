@@ -80,6 +80,9 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         respone.setAuthenticated(passwordEncoder.matches(request.getPassword(), user.getPassword()));
         //Nếu đúng mới tạo token
         if (respone.isAuthenticated()) {
+            LogoutUserIdRequest u = LogoutUserIdRequest.builder().userId(user.getUserId()).build();
+            //Hủy các token cũ của user đang đăng nhập
+            logout(u);
             respone.setToken(genarateToken(user));
         } else {
             throw new AppException(ErrorCode.INCORRECT_USERNAME_OR_PASSWORD);
@@ -130,6 +133,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
 
         // Thêm các token đó vào bảng invalidateToken
         invalidateTokenRepository.saveAll(invalidateTokens);
+        log.info("Logut user: " + request.getUserId());
     }
 
     //Vô hiệu hóa token

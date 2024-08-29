@@ -13,6 +13,8 @@ import com.project.retailhub.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     UserRepository userRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
@@ -93,6 +96,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
        long userId = Long.parseLong(authentication.getName()); // Lấy user ID
+        log.info("getInfoUser: userId=" + userId);
         return getUser(userId);
     }
 

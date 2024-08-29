@@ -34,7 +34,6 @@ public class UserAPI {
     public ResponseObject<?> doGetMyInfo() {
         var resultApi = new ResponseObject<>();
         resultApi.setData(userService.getMyInfo());
-        log.info("Get my info");
         return resultApi;
     }
 
