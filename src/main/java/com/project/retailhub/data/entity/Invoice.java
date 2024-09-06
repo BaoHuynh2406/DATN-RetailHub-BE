@@ -1,7 +1,7 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,11 @@ import java.util.List;
 
 @Entity
 @Table(name ="invoices")
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

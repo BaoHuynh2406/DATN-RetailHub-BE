@@ -13,7 +13,7 @@ import java.sql.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class UserResponse {
-    long employeeId;
+    long userId;
     String fullName;
     String email;
     String phoneNumber;

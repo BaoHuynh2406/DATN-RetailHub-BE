@@ -1,13 +1,17 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "receiving_details")
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReceivingDetail {
 
     @Id

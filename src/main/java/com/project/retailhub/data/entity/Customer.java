@@ -1,14 +1,18 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer {
 
     @Id

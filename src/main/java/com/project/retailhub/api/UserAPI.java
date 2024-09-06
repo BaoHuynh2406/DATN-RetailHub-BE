@@ -18,15 +18,15 @@ public class UserAPI {
     public ResponseObject<?> doGetFindAllEmployees() {
         var resultApi = new ResponseObject<>();
         resultApi.setData(userService.findAllUser());
-        log.info("Find All Employees Success");
+        log.info("Get ALL Users");
         return resultApi;
     }
 
-    @GetMapping("/{idUser}")
-    public ResponseObject<?> doGetEmployee(@PathVariable("idUser") long idUser) {
+    @GetMapping("/{userId}")
+    public ResponseObject<?> doGetEmployee(@PathVariable("userId") long userId) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(userService.getUser(idUser));
-        log.info("Get employee with ID " + idUser);
+        resultApi.setData(userService.getUser(userId));
+        log.info("Get employee with ID " + userId);
         return resultApi;
     }
 

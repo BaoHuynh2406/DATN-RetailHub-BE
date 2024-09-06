@@ -1,13 +1,17 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "receiving")
 public class Receiving {
 

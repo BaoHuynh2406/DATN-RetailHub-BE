@@ -1,12 +1,16 @@
 package com.project.retailhub.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "stock_check")
 public class StockCheck {

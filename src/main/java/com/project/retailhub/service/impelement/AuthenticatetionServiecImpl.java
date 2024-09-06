@@ -98,7 +98,12 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
         //Nếu còn thì thực hiện thêm nó vào bảng hết hạn
         var jit = signedJWT.getJWTClaimsSet().getJWTID(); //ID
         var expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime(); //Thời hạn hết
-        invalidateTokenRepository.save(InvalidateToken.builder().tokenId(jit).expiryTime(expiryTime).build());
+        try {
+            invalidateTokenRepository.save(InvalidateToken.builder().tokenId(jit).expiryTime(expiryTime).build());
+        } catch (Exception e) {
+            log.warn(String.format("Token (User = %s). Đã thêm vào bảng hết hạn rồi, không thêm nữa.", signedJWT.getJWTClaimsSet().getSubject()));
+
+        }
 
         //Tạo token mới với th��i hạn mới
         var newToken = genarateToken(userRepository
@@ -184,7 +189,11 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
                     .expiryTime(jwtClaimsSet.getExpirationTime())
                     .build();
 
-            tokenRepository.save(token);
+            try {
+                tokenRepository.save(token);
+            } catch (Exception e) {
+                log.warn("Token (User = " + user.getUserId() + ") đã tồn tại trong bảng token, không thêm nữa.");
+            }
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Can't create Token", e);
