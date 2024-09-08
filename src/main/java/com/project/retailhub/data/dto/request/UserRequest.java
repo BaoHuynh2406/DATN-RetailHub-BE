@@ -1,6 +1,7 @@
 package com.project.retailhub.data.dto.request;
 
 
+import com.project.retailhub.data.dto.response.RoleRespone;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -12,15 +13,17 @@ import java.sql.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRequest {
-    long employeeId;
+    long userId;
     String fullName;
-    String password;
     String email;
+    String password;
     String phoneNumber;
     String address;
     String image;
     Date startDate;
     Date endDate;
-    Boolean status;
+    Date birthday;
+    Boolean isActive;
+    Boolean isDelete;
     String roleId;
 }

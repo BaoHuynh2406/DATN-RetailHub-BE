@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
 
-
     @Override
     public void addNewUser(UserRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         // Kiểm tra xem ID có phải là null không
-        long id = request.getEmployeeId();
+        long id = request.getUserId();
         if (id == 0) {
             throw new AppException(ErrorCode.USER_ID_NULL);
         }
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setImageName(request.getImage());
         user.setStartDate(request.getStartDate());
         user.setEndDate(request.getEndDate());
-        user.setIsActive(request.getStatus());
+        user.setIsActive(request.getIsActive());
 
         // Lưu nhân viên đã cập nhật
         userRepository.save(user);
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
         if (authentication == null) {
             return null;
         }
-       long userId = Long.parseLong(authentication.getName()); // Lấy user ID
+        long userId = Long.parseLong(authentication.getName()); // Lấy user ID
         log.info("getInfoUser: userId=" + userId);
         return getUser(userId);
     }

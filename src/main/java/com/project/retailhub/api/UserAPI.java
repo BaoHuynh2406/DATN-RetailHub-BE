@@ -51,7 +51,7 @@ public class UserAPI {
         var resultApi = new ResponseObject<>();
         userService.updateUser(request);
         resultApi.setMessage("Employee updated successfully");
-        log.info("Updated employee with ID " + request.getEmployeeId() + " successfully");
+        log.info("Updated employee with ID " + request.getUserId() + " successfully");
         return resultApi;
     }
 }
