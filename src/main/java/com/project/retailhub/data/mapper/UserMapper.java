@@ -27,7 +27,7 @@ public interface UserMapper {
                 .orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
-    // Chuyển đổi từ Roles entity sang RoleRespone DTO
+    // Chuyển đổi từ Role entity sang RoleResponse DTO
     @Named("roleToRoleRespone")
     default RoleRespone mapRoleToRoleRespone(Role role) {
         if (role == null) {
