@@ -14,7 +14,7 @@ CREATE TABLE roles
 
 CREATE TABLE users
 (
-    user_id BIGINT IDENTITY(1, 100000) PRIMARY KEY,
+    user_id BIGINT IDENTITY(100000, 1) PRIMARY KEY,
     role_id VARCHAR(10),
     full_name NVARCHAR(100) NOT NULL,
     password VARCHAR(500) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE suppliers
 
 CREATE TABLE products
 (
-    product_id BIGINT IDENTITY(1, 1) PRIMARY KEY,
+    product_id BIGINT IDENTITY(100000, 1) PRIMARY KEY,
     barcode VARCHAR(25) NOT NULL,
     product_name NVARCHAR(50) NOT NULL,
     product_description NVARCHAR(500) NOT NULL,

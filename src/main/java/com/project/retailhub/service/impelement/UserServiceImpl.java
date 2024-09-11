@@ -82,9 +82,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUser(long idEmployee) {
+    public UserResponse getUser(long userId) {
         return userMapper.toUserResponse(
-                userRepository.findById(idEmployee)
+                userRepository.findById(userId)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
     }
 
