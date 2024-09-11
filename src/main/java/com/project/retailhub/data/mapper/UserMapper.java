@@ -27,21 +27,24 @@ public interface UserMapper {
                 .orElseThrow(() -> new RuntimeException("Role not found"));
     }
 
-    // Chuyển đổi từ Role entity sang RoleResponse DTO
+    // Chuyển đổi từ User entity sang UserResponse
+    @Mapping(source = "role", target = "role", qualifiedByName = "roleToRoleRespone")
+    UserResponse toUserResponse(User user);
+
+
+    // Chuyển đổi từ Roles entity sang RoleRespone DTO
     @Named("roleToRoleRespone")
     default RoleRespone mapRoleToRoleRespone(Role role) {
         if (role == null) {
             return null;
         }
+
         return RoleRespone.builder()
                 .roleId(role.getRoleId())
                 .roleDescription(role.getRoleDescription())
                 .build();
     }
 
-    // Chuyển đổi từ User entity sang UserResponse DTO
-    @Mapping(source = "role", target = "role", qualifiedByName = "roleToRoleRespone")
-    UserResponse toUserResponse(User user);
 
     // Phương thức chuyển đổi danh sách Employees thành danh sách EmployeeResponse
     List<UserResponse> toUserResponseList(List<User> users);
