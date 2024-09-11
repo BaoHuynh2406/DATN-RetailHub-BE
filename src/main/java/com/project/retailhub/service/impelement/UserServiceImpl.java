@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -102,8 +103,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ADMIN')") //Yêu cầu quyền admin
     public void deleteUser(long idEmployee) {
-        userRepository.deleteById(idEmployee);
+        User user = userRepository.findById(idEmployee)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        user.setIsDelete(true);
+        userRepository.save(user);
     }
+
 
     @Override
     public List<UserResponse> findAllUser() {
