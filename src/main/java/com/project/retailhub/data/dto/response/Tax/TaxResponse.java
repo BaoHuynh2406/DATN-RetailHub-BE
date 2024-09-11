@@ -1,16 +1,17 @@
-package com.project.retailhub.data.dto.request;
+package com.project.retailhub.data.dto.response.Tax;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 
-@Data
-@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TaxRequest {
+@Builder
+public class TaxResponse {
     String taxId;
     String taxName;
     BigDecimal taxRate;
