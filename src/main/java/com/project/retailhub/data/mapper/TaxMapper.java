@@ -13,12 +13,13 @@ public interface TaxMapper {
     Tax toTax(TaxRequest request);
 
     // Entity to Response
-    Tax toTaxResponse(TaxResponse response);
+    TaxResponse toTaxResponse(Tax tax);
 
     // Phương thức chuyển đổi danh sách Tax thành danh sách TaxResponse
     List<TaxResponse> toTaxResponseList(List<Tax> taxes);
 
     // Phương thức chuyển đổi danh sách TaxRequest thành danh sách Tax
     List<Tax> toTaxesList(List<TaxRequest> requests);
+
 
 }

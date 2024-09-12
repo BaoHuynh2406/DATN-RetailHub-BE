@@ -1,18 +1,15 @@
-package com.project.retailhub.data.dto.request.Tax;
+package com.project.retailhub.data.dto.request.Category;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TaxRequest {
-    String taxId;
-    String taxName;
-    BigDecimal taxRate;
+public class CategoryRequest {
+    int categoryId;
+    String categoryName;
     Boolean isDelete;
 }
