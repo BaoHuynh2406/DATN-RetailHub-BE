@@ -67,7 +67,8 @@ CREATE TABLE taxes
 (
     tax_id VARCHAR(10) PRIMARY KEY,
     tax_name NVARCHAR(50),
-    tax_rate DECIMAL(5, 2)
+    tax_rate DECIMAL(5, 2),
+	is_delete BIT DEFAULT 0 NOT NULL
 );
 
 

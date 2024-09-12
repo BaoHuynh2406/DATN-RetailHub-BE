@@ -25,7 +25,7 @@ public class Category {
     private String categoryName;
 
     @Column(name = "is_delete", nullable = false, columnDefinition = "BIT DEFAULT 0")
-    private boolean isDelete;
+    private Boolean isDelete;
 
     // Khóa ngoại
     @OneToMany(mappedBy = "category")
