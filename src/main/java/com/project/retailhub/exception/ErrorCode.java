@@ -30,6 +30,7 @@ public enum ErrorCode {
 
     // Sửa lại HTTP status code từ "UNAUTHORIZED" thành "FORBIDDEN" để phù hợp hơn
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
+ // Roles
 
     //
     TAXNAME_ALREADY_EXIST(1011,"Tax already exists", HttpStatus.BAD_REQUEST),

@@ -50,6 +50,9 @@ public class Product {
     @Column(name = "expiry_date", nullable = false)
     private Date expiryDate;
 
+    @Column(name = "is_active", columnDefinition = "BIT DEFAULT 1", nullable = false)
+    private Boolean isActive;
+
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
     private Boolean isDelete;
 
