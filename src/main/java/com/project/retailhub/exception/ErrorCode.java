@@ -31,6 +31,25 @@ public enum ErrorCode {
     // Sửa lại HTTP status code từ "UNAUTHORIZED" thành "FORBIDDEN" để phù hợp hơn
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
 
+    //
+    TAXNAME_ALREADY_EXIST(1011,"Tax already exists", HttpStatus.BAD_REQUEST),
+
+    //
+    TAX_ID_NULL(1012,"Tax ID can't be null", HttpStatus.BAD_REQUEST),
+
+    //
+    TAX_NOT_FOUND(1012,"Tax not found", HttpStatus.BAD_REQUEST),
+
+    //
+    CATEGORY_NAME_ALREADY_EXIST(1011,"CATEGORY already exists", HttpStatus.BAD_REQUEST),
+
+    //
+    CATEGORY_ID_NULL(1012,"CATEGORY ID can't be null", HttpStatus.BAD_REQUEST),
+
+    //
+    CATEGORY_NOT_FOUND(1012,"CATEGORY not found", HttpStatus.BAD_REQUEST),
+
+
     // Roles
     ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND);
 

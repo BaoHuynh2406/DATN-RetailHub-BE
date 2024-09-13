@@ -1,6 +1,5 @@
 package com.project.retailhub.service.impelement;
 
-
 import com.project.retailhub.data.dto.request.UserRequest;
 import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.entity.User;
@@ -108,12 +107,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
     @Override
     public List<UserResponse> findAllUser() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
-
 
     @Override
     public UserResponse getByEmail(String email) {
