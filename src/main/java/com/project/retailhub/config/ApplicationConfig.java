@@ -25,7 +25,7 @@ import java.time.LocalDate;
 public class ApplicationConfig {
 
     @NonFinal
-    static final String ADMIN_EMAIL = "admin@retailhub.com";
+    static final String ADMIN_EMAIL = "admin@123";
 
     @NonFinal
     static final String ADMIN_PASSWORD = "admin123";
