@@ -6,20 +6,19 @@ import com.project.retailhub.data.dto.response.CustomeResponse;
 import java.util.List;
 
 public interface CustomerService {
-
-    void addNewCustomer(CustomerRequest request);
+    void addCustomer(CustomerRequest request);
 
     void updateCustomer(CustomerRequest request);
 
-    CustomeResponse getCustomer(long customerId);
+    void deleteCustomer(Long customerId);
 
-    void deleteCustomer(long customerId);
+    void restoreCustomer(Long customerId);
 
-    void restoreCustomer(long customerId);
+    CustomeResponse getCustomerById(Long customerId);
+
+    CustomeResponse getCustomerByPhoneNumber(String phoneNumber);
 
     List<CustomeResponse> getAllActiveCustomers();
 
     List<CustomeResponse> getAllDeletedCustomers();
-
-    CustomeResponse getByPhoneNumber(String phoneNumber);
 }

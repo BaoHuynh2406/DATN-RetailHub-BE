@@ -12,7 +12,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByPhoneNumber(String phoneNumber);
 
-    List<Customer> findByIsActiveTrue();
+    // Tìm tất cả khách hàng có isDelete là false (khách hàng đang hoạt động)
+    List<Customer> findAllByIsDeleteFalse();
 
-    List<Customer> findByIsDeleteTrue();
+    // Tìm tất cả khách hàng có isDelete là true (khách hàng đã bị xóa)
+    List<Customer> findAllByIsDeleteTrue();
 }
