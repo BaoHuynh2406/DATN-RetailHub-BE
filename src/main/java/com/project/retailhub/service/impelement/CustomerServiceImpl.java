@@ -29,9 +29,18 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(CustomerRequest request) {
         Customer customer = customerRepository.findById(request.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
-        customerMapper.toCustomer(request); // Cập nhật thông tin
+
+        // Cập nhật thông tin khách hàng
+        customer.setFullName(request.getFullName());
+        customer.setPhoneNumber(request.getPhoneNumber());
+        customer.setPoints(request.getPoints());
+        customer.setIsActive(request.getIsActive());
+        customer.setIsDelete(request.getIsDelete());
+
+        // Lưu lại khách hàng đã được cập nhật
         customerRepository.save(customer);
     }
+
 
     @Override
     public void deleteCustomer(Long customerId) {

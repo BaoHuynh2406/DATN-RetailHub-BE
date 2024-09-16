@@ -26,7 +26,7 @@ public class CustomerAPI {
         log.info("Get ALL Users");
         return resultApi;
     }
-    @PostMapping("/create")
+        @PostMapping("/create")
     public ResponseObject<?> doPostCreateCustomer(@RequestBody CustomerRequest request) {
         var resultApi = new ResponseObject<>();
         customerService.addCustomer(request);
@@ -43,7 +43,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{customerId}")
     public ResponseObject<?> doGetCustomer(@PathVariable("customerId") long customerId) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(customerService.getCustomerById(customerId));
@@ -51,7 +51,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
-    @DeleteMapping("/{customerId}")
+    @DeleteMapping("/Delete/{customerId}")
     public ResponseObject<?> doDeleteCustomer(@PathVariable("customerId") long customerId) {
         var resultApi = new ResponseObject<>();
         customerService.deleteCustomer(customerId);
