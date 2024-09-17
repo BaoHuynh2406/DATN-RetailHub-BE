@@ -47,14 +47,14 @@ public class ProductServiceImpl implements ProductService {
             throw new AppException(ErrorCode.PRODUCT_ID_NULL);
         }
         // Tìm kiếm sản phẩm theo ID
-        Product product = ProductRepository.findById(productId)
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         // Cập nhật thông tin sản phẩm
         product.setBarcode(request.getBarcode());
 
         // Lưu thông tin khi cập nhật thành công
-        ProductRepository.save(product);
+        productRepository.save(product);
     }
 
     @Override
