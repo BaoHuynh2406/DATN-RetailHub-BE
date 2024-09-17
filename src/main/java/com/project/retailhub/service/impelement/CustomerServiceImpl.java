@@ -5,6 +5,8 @@ import com.project.retailhub.data.dto.response.CustomeResponse;
 import com.project.retailhub.data.entity.Customer;
 import com.project.retailhub.data.mapper.CustomerMapper;
 import com.project.retailhub.data.repository.CustomerRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void addCustomer(CustomerRequest request) {
+        // Kiểm tra khách hàng đã tồn tại dựa trên số điện thoại
+        if (customerRepository.existsByPhoneNumber(request.getPhoneNumber())) {
+            throw new AppException(ErrorCode.CUSTOMER_ALREADY_EXISTS);
+        }
+
+        // Nếu không tồn tại, tiến hành thêm khách hàng mới
         Customer customer = customerMapper.toCustomer(request);
         customerRepository.save(customer);
     }
 
+
     @Override
     public void updateCustomer(CustomerRequest request) {
         Customer customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
 
         // Cập nhật thông tin khách hàng
         customer.setFullName(request.getFullName());
@@ -41,11 +50,15 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
     }
 
-
     @Override
     public void deleteCustomer(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+
+        if (customer.getIsDelete()) {
+            throw new AppException(ErrorCode.CUSTOMER_ALREADY_DELETED);
+        }
+
         customer.setIsDelete(true);
         customerRepository.save(customer);
     }
@@ -53,7 +66,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void restoreCustomer(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+
+        if (!customer.getIsDelete()) {
+            throw new AppException(ErrorCode.CUSTOMER_ALREADY_EXISTS); // Hoặc một lỗi khác phù hợp
+        }
+
         customer.setIsDelete(false);
         customerRepository.save(customer);
     }
@@ -62,14 +80,14 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomeResponse getCustomerById(Long customerId) {
         return customerRepository.findById(customerId)
                 .map(customerMapper::toCustomerResponse)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
     }
 
     @Override
     public CustomeResponse getCustomerByPhoneNumber(String phoneNumber) {
         return customerRepository.findByPhoneNumber(phoneNumber)
                 .map(customerMapper::toCustomerResponse)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
     }
 
     @Override

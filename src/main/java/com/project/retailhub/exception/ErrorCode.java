@@ -32,7 +32,14 @@ public enum ErrorCode {
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
 
     // Roles
-    ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND);
+    ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND),
+
+    // Customer
+    CUSTOMER_NOT_FOUND(3000, "Customer not found", HttpStatus.NOT_FOUND),
+    CUSTOMER_ALREADY_EXISTS(3001, "Customer already exists", HttpStatus.CONFLICT),
+    CUSTOMER_ALREADY_DELETED(3002, "Customer is already deleted", HttpStatus.CONFLICT),
+    INVALID_CUSTOMER_DATA(3003, "Invalid customer data", HttpStatus.BAD_REQUEST),
+    CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

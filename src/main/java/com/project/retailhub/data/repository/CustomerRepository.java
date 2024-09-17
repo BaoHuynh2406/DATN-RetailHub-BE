@@ -17,4 +17,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     // Tìm tất cả khách hàng có isDelete là true (khách hàng đã bị xóa)
     List<Customer> findAllByIsDeleteTrue();
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }

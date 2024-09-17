@@ -22,4 +22,6 @@ public interface UserService
     List<UserResponse> findAllUser();
 
     UserResponse getByEmail(String email);
+
+
 }

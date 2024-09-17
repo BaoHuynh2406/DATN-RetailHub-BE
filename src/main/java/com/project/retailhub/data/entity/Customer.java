@@ -35,10 +35,7 @@ public class Customer {
 
     @Column(name = "is_delete", columnDefinition = "BIT", nullable = false)
     private Boolean isDelete;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
-
+    
     @OneToMany(mappedBy = "customer")
     private List<PointHistory> pointHistories;
 
