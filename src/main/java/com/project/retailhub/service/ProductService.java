@@ -7,25 +7,21 @@ import java.util.List;
 
 public interface ProductService
 {
-    void appProduct(ProductRequest request);
+    void addProduct(ProductRequest request);
 
     void updateProduct(ProductRequest request);
 
     ProductResponse getProduct(long productId);
 
-    ProductResponse getMyInfo();
-
     void deleteProduct(long productId);
 
     void restoreProduct(long productId);
-
-    void toggleActiveProduct(long productId);
 
     List<ProductResponse> findAllProduct();
 
     List<ProductResponse> findAllAvailableProduct();
 
-    List<ProductResponse> findAllDeleteProduct();
+    List<ProductResponse> findAllDeletedProduct();
 
     ProductResponse getByBarcode(String barcode);
 }

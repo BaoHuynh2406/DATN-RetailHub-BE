@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     ProductMapper productMapper;
 
     @Override
-    public void appProduct(ProductRequest request) {
+    public void addProduct(ProductRequest request) {
         if (productRepository.existsByBarcode(request.getBarcode()))
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
 
@@ -59,46 +59,47 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getProduct(long productId) {
-        return null;
-    }
-
-    @Override
-    public ProductResponse getMyInfo() {
-        return null;
+        return productMapper.toProductResponse(
+                productRepository.findById(productId)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))
+        );
     }
 
     @Override
     public void deleteProduct(long productId) {
-
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setIsDelete(true);
+        productRepository.save(product);
     }
 
     @Override
     public void restoreProduct(long productId) {
-
-    }
-
-    @Override
-    public void toggleActiveProduct(long productId) {
-
+        Product product = productRepository.findById(productId)
+               .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setIsDelete(false);
+        productRepository.save(product);
     }
 
     @Override
     public List<ProductResponse> findAllProduct() {
-        return List.of();
+        return productMapper.toProductResponseList(productRepository.findAll());
     }
 
     @Override
     public List<ProductResponse> findAllAvailableProduct() {
-        return List.of();
+        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteFalse());
     }
 
     @Override
-    public List<ProductResponse> findAllDeleteProduct() {
-        return List.of();
+    public List<ProductResponse> findAllDeletedProduct() {
+        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteTrue());
     }
 
     @Override
     public ProductResponse getByBarcode(String barcode) {
-        return null;
+        Product product = productRepository.findByBarcode(barcode)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        return productMapper.toProductResponse(product);
     }
 }
