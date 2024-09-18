@@ -1,5 +1,9 @@
 package com.project.retailhub.data.dto.response.product;
 
+import com.project.retailhub.data.dto.response.Category.CategoryResponse;
+import com.project.retailhub.data.dto.response.Tax.TaxResponse;
+import com.project.retailhub.data.entity.Category;
+import com.project.retailhub.data.entity.Tax;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -26,6 +30,6 @@ public class ProductResponse {
     Date expiryDate;
     Boolean isActive;
     Boolean isDelete;
-    int categoryId;
-    String taxId;
+    CategoryResponse categoryId;
+    TaxResponse taxId;
 }
