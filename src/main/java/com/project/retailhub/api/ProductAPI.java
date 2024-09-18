@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class ProductAPI {
     final ProductService productService;
 
+    @GetMapping("/getAllProducts")
+    public ResponseObject<?> doGetFindAll() {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(productService.findAllProduct());
+        log.info("Get all products");
+        return resultApi;
+    }
+
     @GetMapping("/getAll-available-product")
     public ResponseObject<?> doGetFindAllAvaliable() {
         var resultApi = new ResponseObject<>();
@@ -35,6 +43,14 @@ public class ProductAPI {
         var resultApi = new ResponseObject<>();
         resultApi.setData(productService.getProduct(productId));
         log.info("Get product with ID " + productId);
+        return resultApi;
+    }
+
+    @GetMapping("/barcode/{Barcode}")
+    public ResponseObject<?> doGetProductByBarcode(@PathVariable("Barcode") String barcode) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(productService.getByBarcode(barcode));
+        log.info("Get product with barcode " + barcode);
         return resultApi;
     }
 
