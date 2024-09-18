@@ -1,5 +1,6 @@
 package com.project.retailhub.data.repository;
 
+import com.project.retailhub.data.entity.Category;
 import com.project.retailhub.data.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     // Tìm tất cả sản phẩm có isDelete = false( chưa bị xóa)
     List<Product> findAllByIsDeleteFalse();
+
+    List<Product> findAllByCategory(Category category);
 
     // Tìm tất cả sản phẩm có isDelete = true( đã bị xóa)
     List<Product> findAllByIsDeleteTrue();

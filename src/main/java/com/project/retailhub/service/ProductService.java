@@ -2,6 +2,7 @@ package com.project.retailhub.service;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.data.repository.CategoryRepository;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface ProductService
     List<ProductResponse> findAllDeletedProduct();
 
     ProductResponse getByBarcode(String barcode);
+
+    List<ProductResponse> getAllByCategoryId(int categoryId);
 }

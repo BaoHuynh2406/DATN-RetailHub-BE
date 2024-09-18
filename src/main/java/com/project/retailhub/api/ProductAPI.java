@@ -2,10 +2,14 @@ package com.project.retailhub.api;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
+import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.exception.AppException;
 import com.project.retailhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -45,6 +49,21 @@ public class ProductAPI {
         log.info("Get product with ID " + productId);
         return resultApi;
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseObject<?> getAllByCategoryId(@PathVariable int categoryId) {
+        var resultApi = new ResponseObject<>();
+        try {
+            resultApi.setData(productService.getAllByCategoryId(categoryId));
+            resultApi.setMessage("Products retrieved successfully");
+        } catch (AppException e) {
+            resultApi.setCode(e.getErrorCode().getCode());
+            resultApi.setMessage(e.getMessage());
+        }
+        log.info("Get products by category ID " + categoryId);
+        return resultApi;
+    }
+
 
     @GetMapping("/barcode/{Barcode}")
     public ResponseObject<?> doGetProductByBarcode(@PathVariable("Barcode") String barcode) {

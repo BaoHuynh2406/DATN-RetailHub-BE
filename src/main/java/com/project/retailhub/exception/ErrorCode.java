@@ -56,7 +56,8 @@ public enum ErrorCode {
     // Product
     PRODUCT_ALREADY_EXISTS(3000, "Product already exists", HttpStatus.CONFLICT),
     PRODUCT_ID_NULL(3001,"Product ID can't be null", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_FOUND(3002,"Product not found", HttpStatus.BAD_REQUEST);
+    PRODUCT_NOT_FOUND(3002,"Product not found", HttpStatus.BAD_REQUEST),
+    NO_PRODUCTS_FOUND(3003, "No products found in the category", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

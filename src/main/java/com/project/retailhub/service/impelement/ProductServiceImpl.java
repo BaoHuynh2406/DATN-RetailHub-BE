@@ -2,6 +2,7 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.data.entity.Category;
 import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.mapper.ProductMapper;
 import com.project.retailhub.data.repository.CategoryRepository;
@@ -102,4 +103,23 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return productMapper.toProductResponse(product);
     }
+
+    @Override
+    public List<ProductResponse> getAllByCategoryId(int categoryId) {
+        // Tìm danh mục dựa trên categoryId
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        // Tìm tất cả sản phẩm thuộc danh mục
+        List<Product> products = productRepository.findAllByCategory(category);
+
+        // Kiểm tra xem danh sách sản phẩm có rỗng không
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.NO_PRODUCTS_FOUND);
+        }
+
+        // Chuyển đổi danh sách sản phẩm thành danh sách ProductResponse và trả về
+        return productMapper.toProductResponseList(products);
+    }
+
 }

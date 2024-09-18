@@ -26,4 +26,6 @@ public class ProductResponse {
     Date expiryDate;
     Boolean isActive;
     Boolean isDelete;
+    int categoryId;
+    String taxId;
 }
