@@ -4,6 +4,7 @@ import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Category;
 import com.project.retailhub.data.entity.Product;
+import com.project.retailhub.data.entity.Tax;
 import com.project.retailhub.data.mapper.ProductMapper;
 import com.project.retailhub.data.repository.CategoryRepository;
 import com.project.retailhub.data.repository.ProductRepository;
@@ -33,13 +34,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addProduct(ProductRequest request) {
-        if (productRepository.existsByBarcode(request.getBarcode()))
+        if (productRepository.existsByBarcode(request.getBarcode())) {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
+        }
 
-        // Thực hiện chuyển đổi request thành entity
-        Product product = productMapper.toProduct(request);
+        // Chuyển đổi ID danh mục và thuế thành đối tượng với truyền @Context
+        Product product = productMapper.toProduct(request, categoryRepository, taxRepository);
         productRepository.save(product);
     }
+
 
     @Override
     public void updateProduct(ProductRequest request) {
@@ -47,24 +50,37 @@ public class ProductServiceImpl implements ProductService {
         if (productId <= 0) {
             throw new AppException(ErrorCode.PRODUCT_ID_NULL);
         }
+
         // Tìm kiếm sản phẩm theo ID
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        // Cập nhật thông tin sản phẩm
-        product.setBarcode(request.getBarcode());
+        // Chuyển đổi ID danh mục và thuế thành đối tượng với truyền @Context
+        Product updatedProduct = productMapper.toProduct(request, categoryRepository, taxRepository);
+
+        // Cập nhật các thông tin cần thiết
+        product.setBarcode(updatedProduct.getBarcode());
+        product.setCategory(updatedProduct.getCategory());
+        product.setTax(updatedProduct.getTax());
+        // Cập nhật các trường khác nếu cần
 
         // Lưu thông tin khi cập nhật thành công
         productRepository.save(product);
     }
 
+
+
+
     @Override
     public ProductResponse getProduct(long productId) {
-        return productMapper.toProductResponse(
-                productRepository.findById(productId)
-                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND))
-        );
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        ProductResponse response = productMapper.toProductResponse(product);
+        log.info("ProductResponse: {}", response);
+        return response;
     }
+
+
 
     @Override
     public void deleteProduct(long productId) {
@@ -77,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void restoreProduct(long productId) {
         Product product = productRepository.findById(productId)
-               .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         product.setIsDelete(false);
         productRepository.save(product);
     }
@@ -121,5 +137,4 @@ public class ProductServiceImpl implements ProductService {
         // Chuyển đổi danh sách sản phẩm thành danh sách ProductResponse và trả về
         return productMapper.toProductResponseList(products);
     }
-
 }

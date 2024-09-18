@@ -30,6 +30,6 @@ public class ProductResponse {
     Date expiryDate;
     Boolean isActive;
     Boolean isDelete;
-    CategoryResponse categoryId;
-    TaxResponse taxId;
+    CategoryResponse category;
+    TaxResponse tax;
 }

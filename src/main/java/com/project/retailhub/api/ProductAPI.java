@@ -4,9 +4,12 @@ import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,40 +22,40 @@ public class ProductAPI {
     final ProductService productService;
 
     @GetMapping("/getAllProducts")
-    public ResponseObject<?> doGetFindAll() {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<List<ProductResponse>> doGetFindAll() {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
         resultApi.setData(productService.findAllProduct());
         log.info("Get all products");
         return resultApi;
     }
 
     @GetMapping("/getAll-available-product")
-    public ResponseObject<?> doGetFindAllAvaliable() {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<List<ProductResponse>> doGetFindAllAvailable() {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
         resultApi.setData(productService.findAllAvailableProduct());
-        log.info("Get ALL Available Products");
+        log.info("Get all available products");
         return resultApi;
     }
 
     @GetMapping("/getAll-deleted-product")
-    public ResponseObject<?> doGetFindAllDeleted() {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<List<ProductResponse>> doGetFindAllDeleted() {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
         resultApi.setData(productService.findAllDeletedProduct());
-        log.info("Get ALL Deleted Products");
+        log.info("Get all deleted products");
         return resultApi;
     }
 
     @GetMapping("/{productId}")
-    public ResponseObject<?> doGetProduct(@PathVariable("productId") long productId) {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<ProductResponse> doGetProduct(@PathVariable("productId") long productId) {
+        var resultApi = new ResponseObject<ProductResponse>();
         resultApi.setData(productService.getProduct(productId));
         log.info("Get product with ID " + productId);
         return resultApi;
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseObject<?> getAllByCategoryId(@PathVariable int categoryId) {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<List<ProductResponse>> getAllByCategoryId(@PathVariable int categoryId) {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
         try {
             resultApi.setData(productService.getAllByCategoryId(categoryId));
             resultApi.setMessage("Products retrieved successfully");
@@ -64,18 +67,17 @@ public class ProductAPI {
         return resultApi;
     }
 
-
-    @GetMapping("/barcode/{Barcode}")
-    public ResponseObject<?> doGetProductByBarcode(@PathVariable("Barcode") String barcode) {
-        var resultApi = new ResponseObject<>();
+    @GetMapping("/barcode/{barcode}")
+    public ResponseObject<ProductResponse> doGetProductByBarcode(@PathVariable("barcode") String barcode) {
+        var resultApi = new ResponseObject<ProductResponse>();
         resultApi.setData(productService.getByBarcode(barcode));
         log.info("Get product with barcode " + barcode);
         return resultApi;
     }
 
     @PostMapping("/create")
-    public ResponseObject<?> doPostCreateProduct(@RequestBody ProductRequest request) {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<Void> doPostCreateProduct(@RequestBody ProductRequest request) {
+        var resultApi = new ResponseObject<Void>();
         productService.addProduct(request);
         resultApi.setMessage("Product added successfully");
         log.info("Added product successfully");
@@ -83,8 +85,8 @@ public class ProductAPI {
     }
 
     @PutMapping("/update")
-    public ResponseObject<?> doPutUpdateProduct(@RequestBody ProductRequest request) throws InterruptedException {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<Void> doPutUpdateProduct(@RequestBody ProductRequest request) {
+        var resultApi = new ResponseObject<Void>();
         productService.updateProduct(request);
         resultApi.setMessage("Product updated successfully");
         log.info("Updated product with ID " + request.getProductId() + " successfully");
@@ -92,8 +94,8 @@ public class ProductAPI {
     }
 
     @DeleteMapping("/delete/{productId}")
-    public ResponseObject<?> doDeleteProduct(@PathVariable("productId") long productId) {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<Void> doDeleteProduct(@PathVariable("productId") long productId) {
+        var resultApi = new ResponseObject<Void>();
         productService.deleteProduct(productId);
         resultApi.setMessage("Product deleted successfully");
         log.info("Deleted product with ID " + productId + " successfully");
@@ -101,11 +103,19 @@ public class ProductAPI {
     }
 
     @PutMapping("/restore/{productId}")
-    public ResponseObject<?> doRestoreProduct(@PathVariable("productId") long productId) {
-        var resultApi = new ResponseObject<>();
+    public ResponseObject<Void> doRestoreProduct(@PathVariable("productId") long productId) {
+        var resultApi = new ResponseObject<Void>();
         productService.restoreProduct(productId);
         resultApi.setMessage("Product restored successfully");
         log.info("Restored product with ID " + productId + " successfully");
         return resultApi;
+    }
+
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ResponseObject<?>> handleAppException(AppException ex) {
+        ResponseObject<?> response = new ResponseObject<>();
+        response.setCode(ex.getErrorCode().getCode());
+        response.setMessage(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
