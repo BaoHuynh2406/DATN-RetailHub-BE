@@ -15,9 +15,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
+    // Chuyển đổi từ categoryId và taxId sang Product
     @Mapping(source = "categoryId", target = "category", qualifiedByName = "categoryIdToCategory")
     @Mapping(source = "taxId", target = "tax", qualifiedByName = "taxIdToTax")
     Product toProduct(ProductRequest request, @Context CategoryRepository categoryRepository, @Context TaxRepository taxRepository);
@@ -57,6 +59,7 @@ public interface ProductMapper {
         return TaxResponse.builder()
                 .taxId(tax.getTaxId())
                 .taxName(tax.getTaxName())
+                .taxRate(tax.getTaxRate())
                 .build();
     }
 

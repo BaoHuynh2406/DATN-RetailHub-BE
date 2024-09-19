@@ -59,9 +59,19 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = productMapper.toProduct(request, categoryRepository, taxRepository);
 
         // Cập nhật các thông tin cần thiết
-        product.setBarcode(updatedProduct.getBarcode());
-        product.setCategory(updatedProduct.getCategory());
-        product.setTax(updatedProduct.getTax());
+        product.setBarcode(request.getBarcode());
+        product.setProductName(request.getProductName());
+        product.setProductDescription(request.getProductDescription());
+        product.setImage(request.getImage());
+        product.setCost(request.getCost());
+        product.setPrice(request.getPrice());
+        product.setInventoryCount(request.getInventoryCount());
+        product.setUnit(request.getUnit());
+        product.setLocation(request.getLocation());
+        product.setExpiryDate(request.getExpiryDate());
+        product.setIsActive(request.getIsActive());
+        product.setIsDelete(request.getIsDelete());
+
         // Cập nhật các trường khác nếu cần
 
         // Lưu thông tin khi cập nhật thành công
