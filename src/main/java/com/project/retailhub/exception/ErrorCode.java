@@ -59,7 +59,7 @@ public enum ErrorCode {
     CUSTOMER_ALREADY_EXISTS(3001, "Customer already exists", HttpStatus.CONFLICT),
     CUSTOMER_ALREADY_DELETED(3002, "Customer is already deleted", HttpStatus.CONFLICT),
     INVALID_CUSTOMER_DATA(3003, "Invalid customer data", HttpStatus.BAD_REQUEST),
-    CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST);
+    CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST),
     // Product
     PRODUCT_ALREADY_EXISTS(4000, "Product already exists", HttpStatus.CONFLICT),
     PRODUCT_ID_NULL(4001,"Product ID can't be null", HttpStatus.BAD_REQUEST),
