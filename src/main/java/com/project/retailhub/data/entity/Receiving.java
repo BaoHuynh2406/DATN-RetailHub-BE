@@ -22,14 +22,9 @@ public class Receiving {
     @Column(name = "receiving_date", nullable = false)
     private Date receivingDate;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    private Long supplierId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private long userId;
 
-    @OneToMany(mappedBy = "receiving")
-    private List<ReceivingDetail> receivingDetails;
+
 }

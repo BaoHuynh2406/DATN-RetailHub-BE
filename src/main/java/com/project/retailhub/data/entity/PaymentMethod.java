@@ -24,7 +24,4 @@ public class PaymentMethod
     @Column(name = "image", columnDefinition = "NVARCHAR(100)")
     private String image;
 
-    // Khóa ngoại
-    @OneToMany(mappedBy = "paymentMethod")
-    private List<Payment> payments;
 }

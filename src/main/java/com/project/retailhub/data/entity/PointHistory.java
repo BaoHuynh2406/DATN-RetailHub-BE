@@ -34,11 +34,7 @@ public class PointHistory {
     private String description;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private Long customerId;
 }

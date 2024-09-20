@@ -27,11 +27,7 @@ public class ReceivingDetail {
     @Column(name = "note", columnDefinition = "NVARCHAR(50)")
     private String note;
 
-    @ManyToOne
-    @JoinColumn(name = "receiving_id")
-    private Receiving receiving;
+    private Long receivingId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 }

@@ -171,7 +171,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
                         Instant.now().plus(EXPIRATION, ChronoUnit.SECONDS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
-                .claim("scope", user.getRole().getRoleId())
+                .claim("scope", user.getRoleId())
                 .build();
 
         //Gán vào payload

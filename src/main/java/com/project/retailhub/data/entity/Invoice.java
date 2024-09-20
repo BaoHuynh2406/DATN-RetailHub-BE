@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -28,17 +29,7 @@ public class Invoice {
     private BigDecimal totalPayment;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
-    @OneToMany(mappedBy = "invoice")
-    private List<InvoiceItem> invoiceItems;
-
-    @OneToMany(mappedBy = "invoice")
-    private List<Payment> payments;
+    private Long customerId;
 }

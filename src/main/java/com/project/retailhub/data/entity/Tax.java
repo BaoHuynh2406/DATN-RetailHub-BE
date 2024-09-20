@@ -28,7 +28,5 @@ public class Tax {
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
      private Boolean isDelete;
 
-    @OneToMany(mappedBy = "tax")
-    private List<Product> products;
 
 }

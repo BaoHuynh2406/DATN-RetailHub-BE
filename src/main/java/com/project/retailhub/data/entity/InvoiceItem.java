@@ -25,12 +25,8 @@ public class InvoiceItem {
     private BigDecimal taxAmount;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "invoice_id")
-    private Invoice invoice;
+    private Long invoiceId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
 }

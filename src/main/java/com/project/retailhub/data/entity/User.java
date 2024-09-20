@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class User {
 
@@ -58,17 +57,9 @@ public class User {
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
     private Boolean isDelete;
 
-    // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column(name = "role_id", length = 10, columnDefinition = "VARCHAR(10)")
+    private String roleId;
 
-    @OneToMany(mappedBy = "user")
-    private List<PointHistory> pointHistories;
 
-    @OneToMany(mappedBy = "user")
-    private List<Invoice> invoices;
 
-    @OneToMany(mappedBy = "user")
-    private List<StockCheck> stockChecks;
 }

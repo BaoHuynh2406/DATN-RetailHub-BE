@@ -26,8 +26,4 @@ public class Category {
 
     @Column(name = "is_delete", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private Boolean isDelete;
-
-    // Khóa ngoại
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
 }

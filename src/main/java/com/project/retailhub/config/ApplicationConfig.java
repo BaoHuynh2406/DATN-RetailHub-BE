@@ -52,7 +52,7 @@ public class ApplicationConfig {
                     (User.builder()
                             .email(ADMIN_EMAIL)
                             .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                            .role(roleRepository.findById("ADMIN").get())
+                            .roleId(roleRepository.findById("ADMIN").get().getRoleId())
                             .fullName("Quản lý")
                             .address("TP Hồ Chí Minh")
                             .phoneNumber("123456789")

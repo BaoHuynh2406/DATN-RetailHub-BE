@@ -9,61 +9,46 @@ import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.entity.Tax;
 import com.project.retailhub.data.repository.CategoryRepository;
 import com.project.retailhub.data.repository.TaxRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    // Chuyển đổi từ categoryId và taxId sang Product
-    @Mapping(source = "categoryId", target = "category", qualifiedByName = "categoryIdToCategory")
-    @Mapping(source = "taxId", target = "tax", qualifiedByName = "taxIdToTax")
-    Product toProduct(ProductRequest request, @Context CategoryRepository categoryRepository, @Context TaxRepository taxRepository);
+    Product toProduct(ProductRequest request);
 
-    @Named("categoryIdToCategory")
-    default Category mapCategoryIdToCategory(int categoryId, @Context CategoryRepository categoryRepository) {
-        return categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
-    }
-
-    @Named("taxIdToTax")
-    default Tax mapTaxIdToTax(String taxId, @Context TaxRepository taxRepository) {
-        return taxRepository.findById(taxId)
-                .orElseThrow(() -> new RuntimeException("Tax not found"));
-    }
-
-    @Mapping(source = "category", target = "category", qualifiedByName = "categoryToCategoryResponse")
-    @Mapping(source = "tax", target = "tax", qualifiedByName = "taxToTaxResponse")
-    ProductResponse toProductResponse(Product product);
+    @Mapping(source = "categoryId", target = "category", qualifiedByName = "categoryToCategoryResponse")
+    @Mapping(source = "taxId", target = "tax", qualifiedByName = "taxToTaxResponse")
+    ProductResponse toProductResponse(Product product, @Context CategoryRepository categoryRepository, @Context TaxRepository taxRepository);
 
     @Named("categoryToCategoryResponse")
-    default CategoryResponse mapCategoryToCategoryResponse(Category category) {
-        if (category == null) {
-            return null;
-        }
+    default CategoryResponse mapCategoryToCategoryResponse(int categoryId, @Context CategoryRepository categoryRepository) {
+        Category e = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         return CategoryResponse.builder()
-                .categoryId(category.getCategoryId())
-                .categoryName(category.getCategoryName())
+                .categoryId(e.getCategoryId())
+                .categoryName(e.getCategoryName())
                 .build();
     }
 
     @Named("taxToTaxResponse")
-    default TaxResponse mapTaxToTaxResponse(Tax tax) {
-        if (tax == null) {
-            return null;
-        }
+    default TaxResponse mapTaxToTaxResponse(String taxId, @Context TaxRepository taxRepository) {
+        Tax e = taxRepository.findById(taxId).orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
         return TaxResponse.builder()
-                .taxId(tax.getTaxId())
-                .taxName(tax.getTaxName())
-                .taxRate(tax.getTaxRate())
+                .taxId(e.getTaxId())
+                .taxName(e.getTaxName())
+                .taxRate(e.getTaxRate())
                 .build();
     }
 
-    List<ProductResponse> toProductResponseList(List<Product> products);
+    List<ProductResponse> toProductResponseList(List<Product> products, @Context CategoryRepository categoryRepository, @Context TaxRepository taxRepository);
 
     List<Product> toProductsList(List<ProductRequest> requests);
 }

@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // Chuyển đổi ID danh mục và thuế thành đối tượng với truyền @Context
-        Product product = productMapper.toProduct(request, categoryRepository, taxRepository);
+        Product product = productMapper.toProduct(request);
         productRepository.save(product);
     }
 
@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         // Chuyển đổi ID danh mục và thuế thành đối tượng với truyền @Context
-        Product updatedProduct = productMapper.toProduct(request, categoryRepository, taxRepository);
+        Product updatedProduct = productMapper.toProduct(request);
 
         // Cập nhật các thông tin cần thiết
         product.setBarcode(request.getBarcode());
@@ -79,17 +79,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
-
     @Override
     public ProductResponse getProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        ProductResponse response = productMapper.toProductResponse(product);
+        ProductResponse response = productMapper.toProductResponse(product, categoryRepository, taxRepository);
         log.info("ProductResponse: {}", response);
         return response;
     }
-
 
 
     @Override
@@ -110,34 +107,30 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> findAllProduct() {
-        return productMapper.toProductResponseList(productRepository.findAll());
+        return productMapper.toProductResponseList(productRepository.findAll(), categoryRepository, taxRepository);
     }
 
     @Override
     public List<ProductResponse> findAllAvailableProduct() {
-        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteFalse());
+        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteFalse(), categoryRepository, taxRepository);
     }
 
     @Override
     public List<ProductResponse> findAllDeletedProduct() {
-        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteTrue());
+        return productMapper.toProductResponseList(productRepository.findAllByIsDeleteTrue(), categoryRepository, taxRepository);
     }
 
     @Override
     public ProductResponse getByBarcode(String barcode) {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        return productMapper.toProductResponse(product);
+        return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
 
     @Override
     public List<ProductResponse> getAllByCategoryId(int categoryId) {
-        // Tìm danh mục dựa trên categoryId
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
-
         // Tìm tất cả sản phẩm thuộc danh mục
-        List<Product> products = productRepository.findAllByCategory(category);
+        List<Product> products = productRepository.findAllByCategoryId(categoryId);
 
         // Kiểm tra xem danh sách sản phẩm có rỗng không
         if (products.isEmpty()) {
@@ -145,6 +138,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // Chuyển đổi danh sách sản phẩm thành danh sách ProductResponse và trả về
-        return productMapper.toProductResponseList(products);
+        return productMapper.toProductResponseList(products, categoryRepository, taxRepository);
     }
 }

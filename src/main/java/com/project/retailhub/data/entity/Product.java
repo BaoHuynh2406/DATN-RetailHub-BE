@@ -57,20 +57,10 @@ public class Product {
     private Boolean isDelete;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private int categoryId;
 
-    @ManyToOne
-    @JoinColumn(name = "tax_id")
-    private Tax tax;
+    @Column(name = "tax_id", length = 10)
+    private String taxId;
 
-    @OneToMany(mappedBy = "product")
-    private List<ReceivingDetail> receivingDetails;
 
-    @OneToMany(mappedBy = "product")
-    private List<InvoiceItem> invoiceItems;
-
-    @OneToMany(mappedBy = "product")
-    private List<StockCheckItem> stockCheckItems;
 }
