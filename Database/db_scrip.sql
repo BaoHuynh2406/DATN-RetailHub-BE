@@ -18,7 +18,7 @@ CREATE TABLE users
     role_id VARCHAR(10),
     full_name NVARCHAR(100) NOT NULL,
     password VARCHAR(500) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     phone_number VARCHAR(15) NOT NULL,
     address NVARCHAR(200),
     image_name NVARCHAR(200),

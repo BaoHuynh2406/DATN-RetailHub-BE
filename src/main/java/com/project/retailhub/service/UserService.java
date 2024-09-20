@@ -19,7 +19,15 @@ public interface UserService
 
     void deleteUser(long idEmployee);
 
+    void restoreUser(long idEmployee);
+
+    void toggleActiveUser(long idEmployee);
+
     List<UserResponse> findAllUser();
+
+    List<UserResponse> findAllAvailableUsers();
+
+    List<UserResponse> findAllDeletedUsers();
 
     UserResponse getByEmail(String email);
 
