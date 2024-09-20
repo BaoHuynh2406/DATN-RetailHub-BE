@@ -32,23 +32,23 @@ public enum ErrorCode {
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
  // Roles
 
-    //
-    TAXNAME_ALREADY_EXIST(1011,"Tax already exists", HttpStatus.BAD_REQUEST),
+    // Đã tồn tại tên Thuế
+    TAXNAME_ALREADY_EXIST(01,"Tax already exists", HttpStatus.BAD_REQUEST),
 
-    //
-    TAX_ID_NULL(1012,"Tax ID can't be null", HttpStatus.BAD_REQUEST),
+    // TaxID Không thể là null
+    TAX_ID_NULL(02,"Tax ID can't be null", HttpStatus.BAD_REQUEST),
 
-    //
-    TAX_NOT_FOUND(1012,"Tax not found", HttpStatus.BAD_REQUEST),
+    // Không tìm thấy Thuế
+    TAX_NOT_FOUND(03,"Tax not found", HttpStatus.BAD_REQUEST),
 
-    //
-    CATEGORY_NAME_ALREADY_EXIST(1011,"CATEGORY already exists", HttpStatus.BAD_REQUEST),
+    // Đã tồn tại tên loại hàng
+    CATEGORY_NAME_ALREADY_EXIST(11,"CATEGORY already exists", HttpStatus.BAD_REQUEST),
 
-    //
-    CATEGORY_ID_NULL(1012,"CATEGORY ID can't be null", HttpStatus.BAD_REQUEST),
+    // CATEGORY_ID không thể là null
+    CATEGORY_ID_NULL(12,"CATEGORY ID can't be null", HttpStatus.BAD_REQUEST),
 
-    //
-    CATEGORY_NOT_FOUND(1012,"CATEGORY not found", HttpStatus.BAD_REQUEST),
+    // Không tìm thấy CATEGORY
+    CATEGORY_NOT_FOUND(13,"CATEGORY not found", HttpStatus.BAD_REQUEST),
 
 
     // Roles
