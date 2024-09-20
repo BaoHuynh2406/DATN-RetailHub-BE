@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         // Cập nhật thông tin nhân viên
         //Mã hóa mật khẩu ở đây
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        if(request.getPassword() != null) user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(request.getAddress());
