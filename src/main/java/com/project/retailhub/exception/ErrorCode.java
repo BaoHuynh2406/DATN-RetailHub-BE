@@ -60,6 +60,11 @@ public enum ErrorCode {
     CUSTOMER_ALREADY_DELETED(3002, "Customer is already deleted", HttpStatus.CONFLICT),
     INVALID_CUSTOMER_DATA(3003, "Invalid customer data", HttpStatus.BAD_REQUEST),
     CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST);
+    // Product
+    PRODUCT_ALREADY_EXISTS(4000, "Product already exists", HttpStatus.CONFLICT),
+    PRODUCT_ID_NULL(4001,"Product ID can't be null", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(4002,"Product not found", HttpStatus.BAD_REQUEST),
+    NO_PRODUCTS_FOUND(4003, "No products found in the category", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
