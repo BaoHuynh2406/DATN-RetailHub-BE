@@ -2,13 +2,19 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.CustomerRequest;
 import com.project.retailhub.data.dto.response.CustomeResponse;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.entity.Customer;
+import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.mapper.CustomerMapper;
 import com.project.retailhub.data.repository.CustomerRepository;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -103,4 +109,47 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream().map(customerMapper::toCustomerResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size) {
+        // Tạo Pageable object
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        // Lấy danh sách Page<Customer> từ repository
+        Page<Customer> p  = customerRepository.findAll(pageable);
+
+        // Gọi phương thức toCustomerResponseList từ instance của CustomerMapper
+        List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
+
+        // Trả về PageResponse với data được map từ danh sách customerResponseList
+        return PageResponse.<CustomeResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(customerResponseList) // Sử dụng danh sách đã map
+                .build();
+    }
+
+    @Override
+    public PageResponse<CustomeResponse> getAllDeletedCustomerPagination(int page, int size) {
+        // Tạo Pageable object
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        // Lấy danh sách Page<Customer> từ repository
+        Page<Customer> p  = customerRepository.findAll(pageable);
+
+        // Gọi phương thức toCustomerResponseList từ instance của CustomerMapper
+        List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
+
+        // Trả về PageResponse với data được map từ danh sách customerResponseList
+        return PageResponse.<CustomeResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(customerResponseList) // Sử dụng danh sách đã map
+                .build();
+    }
+
 }
