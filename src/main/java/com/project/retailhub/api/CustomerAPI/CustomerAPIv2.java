@@ -1,8 +1,7 @@
-package com.project.retailhub.api;
+package com.project.retailhub.api.CustomerAPI;
 
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.CustomerService;
-import com.project.retailhub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/customer")
-public class CustomerV2 {
+public class CustomerAPIv2 {
     final CustomerService customerService;
     @GetMapping("/getAll")
     public ResponseObject<?> doGetCustomer(

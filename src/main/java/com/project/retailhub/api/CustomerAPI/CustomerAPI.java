@@ -1,4 +1,4 @@
-package com.project.retailhub.api;
+package com.project.retailhub.api.CustomerAPI;
 
 import com.project.retailhub.data.dto.request.CustomerRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
