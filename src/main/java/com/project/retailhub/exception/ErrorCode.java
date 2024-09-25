@@ -30,6 +30,7 @@ public enum ErrorCode {
 
     // Sửa lại HTTP status code từ "UNAUTHORIZED" thành "FORBIDDEN" để phù hợp hơn
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
+ // Roles
 
     // Đã tồn tại tên Thuế
     TAXNAME_ALREADY_EXIST(01,"Tax already exists", HttpStatus.BAD_REQUEST),
@@ -51,7 +52,19 @@ public enum ErrorCode {
 
 
     // Roles
-    ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND);
+    ROLE_NOT_FOUND(2000, "Role not found", HttpStatus.NOT_FOUND),
+
+    // Customer
+    CUSTOMER_NOT_FOUND(3000, "Customer not found", HttpStatus.NOT_FOUND),
+    CUSTOMER_ALREADY_EXISTS(3001, "Customer already exists", HttpStatus.CONFLICT),
+    CUSTOMER_ALREADY_DELETED(3002, "Customer is already deleted", HttpStatus.CONFLICT),
+    INVALID_CUSTOMER_DATA(3003, "Invalid customer data", HttpStatus.BAD_REQUEST),
+    CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST),
+    // Product
+    PRODUCT_ALREADY_EXISTS(4000, "Product already exists", HttpStatus.CONFLICT),
+    PRODUCT_ID_NULL(4001,"Product ID can't be null", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(4002,"Product not found", HttpStatus.BAD_REQUEST),
+    NO_PRODUCTS_FOUND(4003, "No products found in the category", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

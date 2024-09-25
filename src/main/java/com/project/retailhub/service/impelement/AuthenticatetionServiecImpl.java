@@ -71,10 +71,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
                 .orElseThrow(
                         () -> new AppException(ErrorCode.INCORRECT_USERNAME_OR_PASSWORD)
                 );
-        //Kiểm tra user có bị xóa hoặc DeActive không
-        if (!user.getIsActive() || user.getIsDelete()) {
-            throw new AppException(ErrorCode.USER_IS_DISABLED);
-        }
+
 
         //Kiểm tra mật khẩu đã đúng hay chưa
         respone.setAuthenticated(passwordEncoder.matches(request.getPassword(), user.getPassword()));
@@ -157,6 +154,11 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
 
     //    Hàm tạo token và lưu vào bảng token
     private String genarateToken(User user) {
+        // Kiễm tra tính hợp lệ của user trước
+        //Kiểm tra user có bị xóa hoặc DeActive không
+        if (!user.getIsActive() || user.getIsDelete()) {
+            throw new AppException(ErrorCode.USER_IS_DISABLED);
+        }
         //Header khai báo cách mã hóa
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -169,7 +171,7 @@ public class AuthenticatetionServiecImpl implements AuthenticationService {
                         Instant.now().plus(EXPIRATION, ChronoUnit.SECONDS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
-                .claim("scope", user.getRole().getRoleId())
+                .claim("scope", user.getRoleId())
                 .build();
 
         //Gán vào payload

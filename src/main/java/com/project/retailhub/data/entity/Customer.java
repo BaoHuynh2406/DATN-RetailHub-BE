@@ -36,10 +36,4 @@ public class Customer {
     @Column(name = "is_delete", columnDefinition = "BIT", nullable = false)
     private Boolean isDelete;
 
-    @OneToMany(mappedBy = "customer")
-    private List<PointHistory> pointHistories;
-
-    @OneToMany(mappedBy = "customer")
-    private List<Invoice> invoices;
-
 }

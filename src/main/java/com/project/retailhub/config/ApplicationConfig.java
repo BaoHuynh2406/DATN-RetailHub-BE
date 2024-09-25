@@ -25,7 +25,7 @@ import java.time.LocalDate;
 public class ApplicationConfig {
 
     @NonFinal
-    static final String ADMIN_EMAIL = "admin@retailhub.com";
+    static final String ADMIN_EMAIL = "admin@123";
 
     @NonFinal
     static final String ADMIN_PASSWORD = "admin123";
@@ -52,7 +52,7 @@ public class ApplicationConfig {
                     (User.builder()
                             .email(ADMIN_EMAIL)
                             .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                            .role(roleRepository.findById("ADMIN").get())
+                            .roleId(roleRepository.findById("ADMIN").get().getRoleId())
                             .fullName("Quản lý")
                             .address("TP Hồ Chí Minh")
                             .phoneNumber("123456789")

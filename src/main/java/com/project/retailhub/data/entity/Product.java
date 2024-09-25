@@ -50,24 +50,17 @@ public class Product {
     @Column(name = "expiry_date", nullable = false)
     private Date expiryDate;
 
+    @Column(name = "is_active", columnDefinition = "BIT DEFAULT 1", nullable = false)
+    private Boolean isActive;
+
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
     private Boolean isDelete;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private int categoryId;
 
-    @ManyToOne
-    @JoinColumn(name = "tax_id")
-    private Tax tax;
+    @Column(name = "tax_id", length = 10)
+    private String taxId;
 
-    @OneToMany(mappedBy = "product")
-    private List<ReceivingDetail> receivingDetails;
 
-    @OneToMany(mappedBy = "product")
-    private List<InvoiceItem> invoiceItems;
-
-    @OneToMany(mappedBy = "product")
-    private List<StockCheckItem> stockCheckItems;
 }

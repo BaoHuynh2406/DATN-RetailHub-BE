@@ -24,10 +24,7 @@ public class StockCheck {
     private Date stockCheckDate;
 
     // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private long userId;
 
-    @OneToMany(mappedBy = "stockCheck")
-    private List<StockCheckItem> stockCheckItems;
+
 }

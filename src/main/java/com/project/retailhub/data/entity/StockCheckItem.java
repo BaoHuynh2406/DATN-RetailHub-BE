@@ -25,12 +25,7 @@ public class StockCheckItem {
     @Column(name = "note", columnDefinition = "NVARCHAR(50)")
     private String note;
 
-    // Khóa ngoại
-    @ManyToOne
-    @JoinColumn(name = "stock_check_id")
-    private StockCheck stockCheck;
+    private Long stockCheckId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 }

@@ -36,7 +36,4 @@ public class Supplier {
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
     private boolean isDelete;
 
-    // Khóa ngoại
-    @OneToMany(mappedBy = "supplier")
-    private List<Receiving> receivings;
 }
