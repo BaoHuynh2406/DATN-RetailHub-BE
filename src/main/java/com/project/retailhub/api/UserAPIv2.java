@@ -25,37 +25,5 @@ public class UserAPIv2 {
         return resultApi;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseObject<?> doGetEmployee(@PathVariable("userId") long userId) {
-        var resultApi = new ResponseObject<>();
-        resultApi.setData(userService.getUser(userId));
-        log.info("Get employee with ID " + userId);
-        return resultApi;
-    }
-
-    @GetMapping("/my-info")
-    public ResponseObject<?> doGetMyInfo() {
-        var resultApi = new ResponseObject<>();
-        resultApi.setData(userService.getMyInfo());
-        return resultApi;
-    }
-
-    @PostMapping("/create")
-    public ResponseObject<?> doPostCreateUser(@RequestBody UserRequest request) {
-        var resultApi = new ResponseObject<>();
-        userService.addNewUser(request);
-        resultApi.setMessage("Employee added successfully");
-        log.info("Added employee successfully");
-        return resultApi;
-    }
-
-    @PutMapping("/update")
-    public ResponseObject<?> doPostUpdateUser(@RequestBody UserRequest request) {
-        var resultApi = new ResponseObject<>();
-        userService.updateUser(request);
-        resultApi.setMessage("Employee updated successfully");
-        log.info("Updated employee with ID " + request.getUserId() + " successfully");
-        return resultApi;
-    }
-
+    
 }

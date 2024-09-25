@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         Sort sort = Sort.by("startDate").descending();
         Pageable pageable = PageRequest.of(page -1, size, sort);
 
-        var pageData = userRepository.findAllLimit(userId, pageable);
+        var pageData = userRepository.findAllLimit(pageable);
         return null;
     }
 
