@@ -16,8 +16,10 @@ import com.project.retailhub.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -137,14 +139,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    //Phân trang get all
     @Override
-    public PageResponse<UserResponse> findAllLimit(int page, int size) {
+    public PageResponse<UserResponse> getAllUserPageable(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<User> p  = userRepository.findAll(pageable);
+        return PageResponse.<UserResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
+                .build();
+    }
 
-        Sort sort = Sort.by("startDate").descending();
-        Pageable pageable = PageRequest.of(page -1, size, sort);
-
-        var pageData = userRepository.findAllLimit(pageable);
-        return null;
     public void toggleActiveUser(long idEmployee) {
         User user = userRepository.findById(idEmployee)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));

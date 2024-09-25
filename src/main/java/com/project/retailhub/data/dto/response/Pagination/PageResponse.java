@@ -13,10 +13,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class PageResponse<T> {
-    int page;
-    int size;
-    int totalpage;
-    long totalElement;
+    int currentPage;
+    int pareSize;
+    int totalPages;
+    long totalElements;
 
     @Builder.Default
     List<T> data = Collections.emptyList();

@@ -26,7 +26,7 @@ public interface UserService
 
     List<UserResponse> findAllUser();
 
-    PageResponse<UserResponse> findAllLimit(int page, int size);
+    PageResponse<UserResponse> getAllUserPageable(int page, int size);
     List<UserResponse> findAllAvailableUsers();
 
     List<UserResponse> findAllDeletedUsers();

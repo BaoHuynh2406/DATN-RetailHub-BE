@@ -15,7 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
-    Page<User> findAllLimit(Pageable pageable);
 
     // Tìm tất cả user có isDelete = false (Chưa bị xóa)
     List<User> findAllByIsDeleteFalse();
