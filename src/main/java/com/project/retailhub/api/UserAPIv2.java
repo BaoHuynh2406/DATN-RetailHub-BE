@@ -20,7 +20,7 @@ public class UserAPIv2 {
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(userService.getAllUserPageable(page, size));
+        resultApi.setData(userService.getAllUserPagination(page, size));
         log.info("Get ALL Users");
         return resultApi;
     }

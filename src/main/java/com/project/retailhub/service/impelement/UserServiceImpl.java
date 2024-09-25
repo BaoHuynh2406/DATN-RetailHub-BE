@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
 
     //Phân trang get all
     @Override
-    public PageResponse<UserResponse> getAllUserPageable(int page, int size) {
+    public PageResponse<UserResponse> getAllUserPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<User> p  = userRepository.findAll(pageable);
         return PageResponse.<UserResponse>builder()
