@@ -1,6 +1,7 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.UserRequest;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.mapper.UserMapper;
@@ -14,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -111,6 +114,17 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> findAllUser() {
         return userMapper.toUserResponseList(userRepository.findAll());
     }
+
+    @Override
+    public PageResponse<UserResponse> findAllLimit(int page, int size) {
+
+        Sort sort = Sort.by("startDate").descending();
+        Pageable pageable = PageRequest.of(page -1, size, sort);
+
+        var pageData = userRepository.findAllLimit(userId, pageable);
+        return null;
+    }
+
 
     @Override
     public UserResponse getByEmail(String email) {

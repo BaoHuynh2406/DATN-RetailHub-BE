@@ -25,7 +25,7 @@ public class CategoryAPI {
     }
 
     @GetMapping("/getAll")
-    public ResponseObject<?> doGetFindAllCategories() {
+    public ResponseObject<?> doGetFindAllCategories(){
         var resultApi = new ResponseObject<>();
         resultApi.setData(categoryService.findAllCategories());
         log.info("Get ALL Categories");
