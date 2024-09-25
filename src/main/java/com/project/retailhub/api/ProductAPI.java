@@ -111,11 +111,4 @@ public class ProductAPI {
         return resultApi;
     }
 
-    @ExceptionHandler(AppException.class)
-    public ResponseEntity<ResponseObject<?>> handleAppException(AppException ex) {
-        ResponseObject<?> response = new ResponseObject<>();
-        response.setCode(ex.getErrorCode().getCode());
-        response.setMessage(ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 }

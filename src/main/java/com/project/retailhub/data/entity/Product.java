@@ -29,7 +29,7 @@ public class Product {
     @Column(name = "product_description", columnDefinition = "NVARCHAR(500)", nullable = false)
     private String productDescription;
 
-    @Column(name = "image", columnDefinition = "NVARCHAR(500)", nullable = false)
+    @Column(name = "image", columnDefinition = "NVARCHAR(500)")
     private String image;
 
     @Column(name = "cost", precision = 18, scale = 2, nullable = false)
