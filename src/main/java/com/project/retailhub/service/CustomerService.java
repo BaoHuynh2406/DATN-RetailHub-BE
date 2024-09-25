@@ -2,6 +2,8 @@ package com.project.retailhub.service;
 
 import com.project.retailhub.data.dto.request.CustomerRequest;
 import com.project.retailhub.data.dto.response.CustomeResponse;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.UserResponse;
 
 import java.util.List;
 
@@ -21,4 +23,9 @@ public interface CustomerService {
     List<CustomeResponse> getAllActiveCustomers();
 
     List<CustomeResponse> getAllDeletedCustomers();
+
+    //Phân Trang
+    PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size);
+    PageResponse<CustomeResponse> getAllDeletedCustomerPagination(int page, int size);
+
 }

@@ -18,7 +18,7 @@ public interface CustomerMapper {
     CustomeResponse toCustomerResponse(Customer customer);
 
     // Phương thức chuyển đổi danh sách Customer entities thành danh sách CustomeResponse
-    List<CustomeResponse> toCustomerResponseList(List<Customer> customers);
+   public List<CustomeResponse> toCustomerResponseList(List<Customer> customers);
 
     // Phương thức chuyển đổi danh sách CustomerRequest thành danh sách Customer entities
     List<Customer> toCustomerList(List<CustomerRequest> requests);
