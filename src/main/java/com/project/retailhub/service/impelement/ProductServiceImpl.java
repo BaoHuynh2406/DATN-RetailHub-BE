@@ -1,10 +1,13 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Category;
 import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.entity.Tax;
+import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.mapper.ProductMapper;
 import com.project.retailhub.data.repository.CategoryRepository;
 import com.project.retailhub.data.repository.ProductRepository;
@@ -17,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -139,5 +145,44 @@ public class ProductServiceImpl implements ProductService {
 
         // Chuyển đổi danh sách sản phẩm thành danh sách ProductResponse và trả về
         return productMapper.toProductResponseList(products, categoryRepository, taxRepository);
+    }
+
+    @Override
+    public PageResponse<ProductResponse> findAllProductPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> p  = productRepository.findAll(pageable);
+        return PageResponse.<ProductResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .build();
+    }
+
+    @Override
+    public PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> p  = productRepository.findAllByIsDeleteFalse(pageable);
+        return PageResponse.<ProductResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .build();
+    }
+
+    @Override
+    public PageResponse<ProductResponse> findAllProductPaginationDeleted(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> p  = productRepository.findAllByIsDeleteTrue(pageable);
+        return PageResponse.<ProductResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .build();
     }
 }

@@ -1,10 +1,9 @@
-package com.project.retailhub.api;
+package com.project.retailhub.api.ProductAPI;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.exception.AppException;
-import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
