@@ -22,8 +22,8 @@ public class Tax {
     @Column(name = "tax_name", columnDefinition = "NVARCHAR(50)")
     private String taxName;
 
-    @Column(name = "tax_rate", precision = 5, scale = 2)
-    private BigDecimal taxRate;
+    @Column(name = "tax_rate")
+    private double taxRate;
 
     @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0", nullable = false)
      private Boolean isDelete;

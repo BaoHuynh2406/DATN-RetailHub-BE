@@ -13,6 +13,6 @@ import java.math.BigDecimal;
 public class TaxRequest {
     String taxId;
     String taxName;
-    BigDecimal taxRate;
+    double taxRate;
     Boolean isDelete;
 }

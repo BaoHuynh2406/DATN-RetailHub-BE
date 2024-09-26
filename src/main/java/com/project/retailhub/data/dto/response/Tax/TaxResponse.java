@@ -14,5 +14,5 @@ import java.math.BigDecimal;
 public class TaxResponse {
     String taxId;
     String taxName;
-    BigDecimal taxRate;
+    double taxRate;
 }
