@@ -25,5 +25,25 @@ public class UserAPIv2 {
         return resultApi;
     }
 
-    
+    @GetMapping("/getAll-available-users")
+    public ResponseObject<?> doGetFindAllAvaliable(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(userService.getAllAvailableUsersPagination(page, size));
+        log.info("Get ALL Available Users");
+        return resultApi;
+    }
+
+    @GetMapping("/getAll-deleted-users")
+    public ResponseObject<?> doGetFindAllDeleted(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(userService.getAllDeletedUsersPagination(page, size));
+        log.info("Get ALL Deleted Users");
+        return resultApi;
+    }
 }

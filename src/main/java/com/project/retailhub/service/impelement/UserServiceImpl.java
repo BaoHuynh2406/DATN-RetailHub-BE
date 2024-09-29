@@ -153,6 +153,32 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
+    public PageResponse<UserResponse> getAllAvailableUsersPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<User> p  = userRepository.findAllByIsDeleteFalse(pageable);
+        return PageResponse.<UserResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
+                .build();
+    }
+
+    @Override
+    public PageResponse<UserResponse> getAllDeletedUsersPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<User> p  = userRepository.findAllByIsDeleteTrue(pageable);
+        return PageResponse.<UserResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pareSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
+                .build();
+    }
+
     public void toggleActiveUser(long idEmployee) {
         User user = userRepository.findById(idEmployee)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
