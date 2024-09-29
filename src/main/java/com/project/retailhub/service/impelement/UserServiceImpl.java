@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         Page<User> p  = userRepository.findAll(pageable);
         return PageResponse.<UserResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
         Page<User> p  = userRepository.findAllByIsDeleteFalse(pageable);
         return PageResponse.<UserResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
         Page<User> p  = userRepository.findAllByIsDeleteTrue(pageable);
         return PageResponse.<UserResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(user -> userMapper.toUserResponse(user, roleRepository)).toList())
