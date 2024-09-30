@@ -153,7 +153,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> p  = productRepository.findAll(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
@@ -166,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> p  = productRepository.findAllByIsDeleteFalse(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
@@ -179,7 +179,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> p  = productRepository.findAllByIsDeleteTrue(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())

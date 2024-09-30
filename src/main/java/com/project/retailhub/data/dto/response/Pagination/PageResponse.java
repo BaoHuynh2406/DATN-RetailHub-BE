@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class PageResponse<T> {
     int currentPage;
-    int pareSize;
+    int pageSize;
     int totalPages;
     long totalElements;
 

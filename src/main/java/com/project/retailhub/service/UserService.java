@@ -27,6 +27,13 @@ public interface UserService
     List<UserResponse> findAllUser();
 
     PageResponse<UserResponse> getAllUserPagination(int page, int size);
+
+    // Phân trang theo trạng thái có sẵn của user
+    PageResponse<UserResponse> getAllAvailableUsersPagination(int page, int size);
+
+    // Phân trang theo trạng thái có đã xóa của user
+    PageResponse<UserResponse> getAllDeletedUsersPagination(int page, int size);
+
     List<UserResponse> findAllAvailableUsers();
 
     List<UserResponse> findAllDeletedUsers();

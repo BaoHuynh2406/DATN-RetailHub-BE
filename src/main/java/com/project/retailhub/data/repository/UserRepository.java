@@ -1,5 +1,6 @@
 package com.project.retailhub.data.repository;
 
+import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Tìm tất cả user có isDelete = true (Đã bị xóa)
     List<User> findAllByIsDeleteTrue();
+
+    // Tìm tất cả nhan vien có isDelete = false( chưa bị xóa) có tham số
+    Page<User> findAllByIsDeleteFalse(Pageable pageable);
+
+    // Tìm tất cả nhan vien có isDelete = true( đã bị xóa) có tham số
+    Page<User> findAllByIsDeleteTrue(Pageable pageable);
 }
