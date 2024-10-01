@@ -124,7 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
         // Trả về PageResponse với data được map từ danh sách customerResponseList
         return PageResponse.<CustomeResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(customerResponseList) // Sử dụng danh sách đã map
@@ -145,7 +145,7 @@ public class CustomerServiceImpl implements CustomerService {
         // Trả về PageResponse với data được map từ danh sách customerResponseList
         return PageResponse.<CustomeResponse>builder()
                 .totalPages(p.getTotalPages())
-                .pareSize(p.getSize())
+                .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
                 .data(customerResponseList) // Sử dụng danh sách đã map
