@@ -20,6 +20,7 @@ public interface UserMapper {
 
     // Chuyển đổi từ User entity sang UserResponse
     @Mapping(source = "roleId", target = "role", qualifiedByName = "roleToRoleRespone")
+    @Mapping(source = "imageName", target = "image")
     UserResponse toUserResponse(User user, @Context RoleRepository roleRepository);
 
 

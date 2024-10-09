@@ -55,12 +55,11 @@ public class UserAPI {
     }
 
     @PutMapping("/update")
-    public ResponseObject<?> doPutUpdateUser(@RequestBody UserRequest request) throws InterruptedException {
+    public ResponseObject<?> doPutUpdateUser(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
         userService.updateUser(request);
         resultApi.setMessage("Employee updated successfully");
         log.info("Updated employee with ID " + request.getUserId() + " successfully");
-        Thread.sleep(2000);
         return resultApi;
     }
 
