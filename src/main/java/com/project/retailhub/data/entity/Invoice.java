@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name ="invoices")
+@Table(name = "invoices")
 @Getter
 @Setter
 @Builder
@@ -27,6 +27,9 @@ public class Invoice {
     private BigDecimal totalAmount;
 
     private BigDecimal totalPayment;
+
+    @Column(name = "status", length = 10)
+    private String status;
 
     // Khóa ngoại
     private Long userId;

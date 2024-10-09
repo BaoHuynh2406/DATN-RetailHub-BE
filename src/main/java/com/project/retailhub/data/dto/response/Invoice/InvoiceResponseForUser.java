@@ -1,0 +1,23 @@
+package com.project.retailhub.data.dto.response.Invoice;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+public class InvoiceResponseForUser {
+    Long invoiceId;
+    Long customerId;
+    BigDecimal totalTax;
+    BigDecimal totalAmount;
+    BigDecimal totalPayment;
+    String status;
+    List<InvoiceItemResponse> listItem;
+}

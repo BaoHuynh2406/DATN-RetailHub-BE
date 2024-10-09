@@ -67,8 +67,7 @@ CREATE TABLE taxes
 (
     tax_id VARCHAR(10) PRIMARY KEY,
     tax_name NVARCHAR(50),
-    tax_rate DECIMAL(5, 2),
-	is_delete BIT DEFAULT 0 NOT NULL
+    tax_rate DECIMAL(5, 2)
 );
 
 
@@ -97,8 +96,7 @@ CREATE TABLE products
     unit NVARCHAR(10) NOT NULL,
     location NVARCHAR(255),
     expiry_date DATE NOT NULL,
-    is_active BIT DEFAULT 1,
-    is_delete BIT DEFAULT 0,
+    is_delete BIT DEFAULT 0 NOT NULL,
     category_id INT,
     tax_id VARCHAR(10),
     CONSTRAINT FK_products_categories FOREIGN KEY (category_id) REFERENCES categories(category_id),
@@ -163,6 +161,7 @@ CREATE TABLE invoices
     total_tax DECIMAL(18, 2) NOT NULL,
     total_amount DECIMAL(18, 2) NOT NULL,
     total_payment DECIMAL(18, 2) NOT NULL,
+    status VARCHAR(10) DEFAULT 'PENDING' NOT NULL,
     CONSTRAINT FK_invoices_users FOREIGN KEY (user_id) REFERENCES users(user_id),
     CONSTRAINT FK_invoices_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
@@ -234,3 +233,26 @@ GO
 
 
 --------------------------------------------------------------------------------------
+
+select * from categories
+select * from taxes
+insert into taxes VALUES ('THUE', N'Thuế mặc định', 0.1, 0)
+
+select * from products
+
+insert into products VALUES ('1234', N'Hàng Hóa', N'Hàng hóa khác', null, 100, 120, 2, N'Cái', 'B1','2019-1-1', 0, 1,  'THUE', 1)
+
+INSERT into categories VALUES ('Hang Khac', 0)
+
+select * from customers
+
+select * from users
+
+
+SELECT * from invoice_items
+
+insert into invoices VALUES (100000, 1000, '2024-1-1', 1, 1, 1)
+
+insert into invoice_items VALUES (2, 100005, 1, 100, 1)
+
+update products set [image] = 'https://i.ibb.co/JBVj7L5/Product-Image-anhchupmanhinh2024-09-25230854-png.png'
