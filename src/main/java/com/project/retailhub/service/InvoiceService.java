@@ -1,6 +1,7 @@
 package com.project.retailhub.service;
 
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 
 import java.util.List;
@@ -20,4 +21,10 @@ public interface InvoiceService {
     // viết sau
     //Hoàn trả
     // viết sau
+
+    //Tạo Hóa đơn mới
+    InvoiceResponseForUser createNewInvoice(InvoiceRequestCreate request);
+
+    //Hủy hóa đơn
+    void canceledInvoice(Long invoiceId);
 }

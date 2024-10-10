@@ -1,13 +1,11 @@
 package com.project.retailhub.api.InvoiceAPI;
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -44,4 +42,27 @@ public class invoiceAPIv1 {
         log.info("Get ALL Invoice");
         return resultApi;
     }
+
+    @PostMapping("/create")
+    public ResponseObject<?> postCreate(
+            @RequestBody InvoiceRequestCreate request
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.createNewInvoice(request));
+        log.info("Create new invoice for user id: " + request.getUserId());
+
+        return resultApi;
+    }
+
+    @DeleteMapping("/cancel-invoice/{invoiceId}")
+    public ResponseObject<?> cancelInvoice(
+            @PathVariable("invoiceId") Long invoiceId
+    ) {
+        var resultApi = new ResponseObject<>();
+        invoiceService.canceledInvoice(invoiceId);
+        log.info("Cancel Invoice with id: " + invoiceId);
+        return resultApi;
+    }
+
+
 }

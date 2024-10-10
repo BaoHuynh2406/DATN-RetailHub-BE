@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Builder
 public class InvoiceItemResponse {
      Long invoiceItemId;
+     String productName;
      Integer quantity;
      BigDecimal unitPrice;
      BigDecimal taxAmount;
