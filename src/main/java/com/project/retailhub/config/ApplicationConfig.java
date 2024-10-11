@@ -1,13 +1,7 @@
 package com.project.retailhub.config;
 
-import com.project.retailhub.data.entity.Category;
-import com.project.retailhub.data.entity.Tax;
-import com.project.retailhub.data.entity.User;
-import com.project.retailhub.data.entity.Role;
-import com.project.retailhub.data.repository.CategoryRepository;
-import com.project.retailhub.data.repository.TaxRepository;
-import com.project.retailhub.data.repository.UserRepository;
-import com.project.retailhub.data.repository.RoleRepository;
+import com.project.retailhub.data.entity.*;
+import com.project.retailhub.data.repository.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -38,7 +32,8 @@ public class ApplicationConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository,
                                         RoleRepository roleRepository,
                                         CategoryRepository categoryRepository,
-                                        TaxRepository taxRepository) {
+                                        TaxRepository taxRepository,
+                                        CustomerRepository customerRepository) {
         log.info("Initializing application.....");
         return args ->
         {
@@ -70,7 +65,20 @@ public class ApplicationConfig {
                 log.info("Application initialization completed ...OK");
             }
 
-            if(roleRepository.findAll().isEmpty()) {
+            if (customerRepository.findAll().isEmpty()) {
+                customerRepository.save(
+                        Customer.builder()
+                                .fullName("KHACH LE")
+                                .phoneNumber("0000000000")
+                                .isActive(true)
+                                .points(0)
+                                .isDelete(false)
+                                .build()
+                );
+                log.info("Create customer default...OK");
+            }
+
+            if (categoryRepository.findAll().isEmpty()) {
                 categoryRepository.save(
                         Category.builder()
                                 .categoryName("Loai hang 1")
@@ -80,7 +88,7 @@ public class ApplicationConfig {
                 log.info("Create caterory default...OK");
             }
 
-            if(taxRepository.findAll().isEmpty()){
+            if (taxRepository.findAll().isEmpty()) {
                 taxRepository.save(
                         Tax.builder()
                                 .taxId("THUE")
@@ -90,6 +98,7 @@ public class ApplicationConfig {
                                 .build()
                 );
             }
+
 
         };
     }

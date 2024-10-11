@@ -1,18 +1,13 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
-import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.entity.Invoice;
-import com.project.retailhub.data.entity.InvoiceItem;
 import com.project.retailhub.data.mapper.InvoiceItemMapper;
-import com.project.retailhub.data.mapper.ProductMapper;
+import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceItemRepository;
 import com.project.retailhub.data.repository.InvoiceRepository;
 import com.project.retailhub.data.repository.ProductRepository;
-import com.project.retailhub.data.repository.UserRepository;
-import com.project.retailhub.exception.AppException;
-import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.InvoiceService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,27 +25,64 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceItemRepository invoiceItemRepository;
     InvoiceRepository invoiceRepository;
     InvoiceItemMapper invoiceItemMapper;
+    InvoiceMapper invoiceMapper;
     ProductRepository productRepository;
 
+    /**
+     * Retrieves a list of all invoices associated with a specific user.
+     *
+     * @param userId The unique identifier of the user.
+     * @return A list of {@link InvoiceResponseForUser} objects representing the invoices.
+     */
     @Override
     public List<InvoiceResponseForUser> getAllListInvoiceByUserId(Long userId) {
         List<Invoice> listInvoice = invoiceRepository.findByUserId(userId);
-        return mapInvoicesToResponses(listInvoice);
+        return invoiceMapper.toInvoiceResponseForUserList(
+                listInvoice,
+                invoiceItemRepository,
+                productRepository,
+                invoiceItemMapper);
     }
 
+    /**
+     * Retrieves a list of pending invoices associated with a specific user.
+     *
+     * @param userId The unique identifier of the user.
+     * @return A list of {@link InvoiceResponseForUser} objects representing the pending invoices.
+     */
     @Override
     public List<InvoiceResponseForUser> getPendingListInvoiceByUserId(Long userId) {
-        // Ví dụ: lọc các hóa đơn ở trạng thái 'Pending'
         List<Invoice> pendingInvoices = invoiceRepository.findByUserIdAndStatus(userId, "PENDING");
-        return mapInvoicesToResponses(pendingInvoices);
+        return invoiceMapper.toInvoiceResponseForUserList(
+                pendingInvoices,
+                invoiceItemRepository,
+                productRepository,
+                invoiceItemMapper);
     }
 
+    /**
+     * Retrieves a list of paid invoices associated with a specific user.
+     *
+     * @param userId The unique identifier of the user.
+     * @return A list of {@link InvoiceResponseForUser} objects representing the paid invoices.
+     */
     @Override
     public List<InvoiceResponseForUser> getPaidListInvoiceByUserId(Long userId) {
         List<Invoice> paidInvoices = invoiceRepository.findByUserIdAndStatus(userId, "PAID");
-        return mapInvoicesToResponses(paidInvoices);
+        return invoiceMapper.toInvoiceResponseForUserList(
+                paidInvoices,
+                invoiceItemRepository,
+                productRepository,
+                invoiceItemMapper);
     }
 
+    /**
+     * Creates a new invoice for a specific user.
+     *
+     * @param request The {@link InvoiceRequestCreate} object containing the necessary information for creating the invoice.
+     * @return The {@link InvoiceResponseForUser} object representing the newly created invoice.
+     * @throws RuntimeException If the invoice could not be created.
+     */
     @Override
     public InvoiceResponseForUser createNewInvoice(InvoiceRequestCreate request) {
 
@@ -69,50 +100,24 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new RuntimeException("Khong the tao hoa don moi");
         }
 
-        return mapInvoiceToResponse(invoice);
+        return invoiceMapper.toInvoiceResponseForUser(
+                invoice,
+                invoiceItemRepository,
+                productRepository,
+                invoiceItemMapper);
     }
 
+    /**
+     * Cancels an existing invoice.
+     *
+     * @param invoiceId The unique identifier of the invoice to be canceled.
+     * @throws RuntimeException If the invoice could not be found.
+     */
     @Override
     public void canceledInvoice(Long invoiceId) {
         Invoice i = invoiceRepository.findById(invoiceId)
-                .orElseThrow( () -> new RuntimeException("Khong tim thay hoa don"));
-        i.setStatus("CANCELLED");
-        invoiceRepository.save(i);
-        // Xóa tất cả invoiceItem liên quan đến invoiceId
-        //Làm sau
-    }
-
-
-    //Mapper
-    private List<InvoiceResponseForUser> mapInvoicesToResponses(List<Invoice> invoices) {
-        return invoices.stream()
-                .map(this::mapInvoiceToResponse)
-                .toList();
-    }
-
-    private InvoiceResponseForUser mapInvoiceToResponse(Invoice invoice) {
-        List<InvoiceItemResponse> listItem = invoiceItemMapper
-                .toListInvoiceResponse(invoiceItemRepository.findByInvoiceId(invoice.getInvoiceId()));
-        // Lặp qua từng InvoiceItemResponse và bổ sung productName
-        listItem.forEach(item -> {
-            // Lấy productId từ InvoiceItemResponse
-            Long productId = item.getProductId();
-
-            // Tìm sản phẩm từ ProductRepository
-            var product = productRepository.findById(productId)
-                    .orElseThrow(() -> new AppException(ErrorCode.NO_PRODUCTS_FOUND));
-
-            // Bổ sung productName vào InvoiceItemResponse
-            item.setProductName(product.getProductName());
-        });
-        return InvoiceResponseForUser.builder()
-                .invoiceId(invoice.getInvoiceId())
-                .customerId(invoice.getCustomerId())
-                .totalTax(invoice.getTotalTax())
-                .totalPayment(invoice.getTotalPayment())
-                .totalAmount(invoice.getTotalAmount())
-                .listItem(listItem)
-                .status(invoice.getStatus())
-                .build();
+                .orElseThrow(() -> new RuntimeException("Khong tim thay hoa don"));
+        invoiceItemRepository.deleteByInvoiceId(invoiceId);
+        invoiceRepository.delete(i);
     }
 }
