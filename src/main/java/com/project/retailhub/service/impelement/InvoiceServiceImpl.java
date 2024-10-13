@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -114,6 +115,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @throws RuntimeException If the invoice could not be found.
      */
     @Override
+    @Transactional
     public void canceledInvoice(Long invoiceId) {
         Invoice i = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new RuntimeException("Khong tim thay hoa don"));
