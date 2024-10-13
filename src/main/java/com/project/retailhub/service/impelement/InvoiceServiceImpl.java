@@ -3,6 +3,7 @@ package com.project.retailhub.service.impelement;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.entity.Invoice;
+import com.project.retailhub.data.entity.InvoiceItem;
 import com.project.retailhub.data.mapper.InvoiceItemMapper;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceItemRepository;
@@ -124,17 +125,20 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void increaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount) {
+    public void updateQuantity(Long invoiceId, Long invoiceItemId, Integer quantity) {
+        var invoiceItem = invoiceItemRepository.findById(invoiceItemId)
+                .orElseThrow(() -> new RuntimeException("Invoice item not found"));
 
-    }
-
-    @Override
-    public void decreaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount) {
-
+        if (quantity <= 0) {
+            invoiceItemRepository.delete(invoiceItem); // Nếu quantity <= 0 thì xóa sản phẩm
+        } else {
+            invoiceItem.setQuantity(quantity); // Cập nhật số lượng mới
+            invoiceItemRepository.save(invoiceItem); // Lưu thay đổi
+        }
     }
 
     @Override
     public void removeItem(Long invoiceId, Long invoiceItemId) {
-
+        invoiceItemRepository.deleteById(invoiceItemId); // Xóa sản phẩm khỏi hóa đơn
     }
 }

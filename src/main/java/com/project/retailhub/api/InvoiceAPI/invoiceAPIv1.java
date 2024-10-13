@@ -64,5 +64,29 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PostMapping("/update-quantity")
+    public ResponseObject<?> updateQuantity(
+            @RequestParam("invoiceId") Long invoiceId,
+            @RequestParam("invoiceItemId") Long invoiceItemId,
+            @RequestParam("quantity") Integer quantity // Số lượng cần cập nhật
+    ) {
+        var resultApi = new ResponseObject<>();
+        invoiceService.updateQuantity(invoiceId, invoiceItemId, quantity);
+        log.info("Updated quantity for item: " + invoiceItemId + " in invoice: " + invoiceId + " to " + quantity);
+        resultApi.setMessage("Quantity updated successfully.");
+        return resultApi;
+    }
+
+    @DeleteMapping("/remove-item")
+    public ResponseObject<?> removeItem(
+            @RequestParam("invoiceId") Long invoiceId,
+            @RequestParam("invoiceItemId") Long invoiceItemId
+    ) {
+        var resultApi = new ResponseObject<>();
+        invoiceService.removeItem(invoiceId, invoiceItemId);
+        log.info("Removed item: " + invoiceItemId + " from invoice: " + invoiceId);
+        resultApi.setMessage("Item removed successfully.");
+        return resultApi;
+    }
 
 }
