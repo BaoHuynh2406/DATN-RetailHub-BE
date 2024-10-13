@@ -27,4 +27,13 @@ public interface InvoiceService {
 
     //Hủy hóa đơn
     void canceledInvoice(Long invoiceId);
+
+    // Tăng số lượng sản phẩm trong hóa đơn
+    void increaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount);
+
+    // Giảm số lượng sản phẩm trong hóa đơn
+    void decreaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount);
+
+    // Xóa sản phẩm khỏi hóa đơn
+    void removeItem(Long invoiceId, Long invoiceItemId);
 }

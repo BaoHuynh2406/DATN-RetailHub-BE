@@ -120,4 +120,19 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceItemRepository.deleteByInvoiceId(invoiceId);
         invoiceRepository.delete(i);
     }
+
+    @Override
+    public void increaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount) {
+
+    }
+
+    @Override
+    public void decreaseQuantity(Long invoiceId, Long invoiceItemId, Integer amount) {
+
+    }
+
+    @Override
+    public void removeItem(Long invoiceId, Long invoiceItemId) {
+
+    }
 }
