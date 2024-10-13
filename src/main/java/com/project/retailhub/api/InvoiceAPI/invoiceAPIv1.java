@@ -68,7 +68,7 @@ public class invoiceAPIv1 {
     public ResponseObject<?> updateQuantity(
             @RequestParam("invoiceId") Long invoiceId,
             @RequestParam("invoiceItemId") Long invoiceItemId,
-            @RequestParam("quantity") Integer quantity // Số lượng cần cập nhật
+            @RequestParam("quantity") Integer quantity
     ) {
         var resultApi = new ResponseObject<>();
         invoiceService.updateQuantity(invoiceId, invoiceItemId, quantity);
@@ -88,5 +88,6 @@ public class invoiceAPIv1 {
         resultApi.setMessage("Item removed successfully.");
         return resultApi;
     }
+
 
 }
