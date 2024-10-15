@@ -30,25 +30,25 @@ public enum ErrorCode {
 
     // Sửa lại HTTP status code từ "UNAUTHORIZED" thành "FORBIDDEN" để phù hợp hơn
     USER_IS_DISABLED(1010, "User has already been disabled", HttpStatus.FORBIDDEN),
- // Roles
+    // Roles
 
     // Đã tồn tại tên Thuế
-    TAXNAME_ALREADY_EXIST(01,"Tax already exists", HttpStatus.BAD_REQUEST),
+    TAXNAME_ALREADY_EXIST(01, "Tax already exists", HttpStatus.BAD_REQUEST),
 
     // TaxID Không thể là null
-    TAX_ID_NULL(02,"Tax ID can't be null", HttpStatus.BAD_REQUEST),
+    TAX_ID_NULL(02, "Tax ID can't be null", HttpStatus.BAD_REQUEST),
 
     // Không tìm thấy Thuế
-    TAX_NOT_FOUND(03,"Tax not found", HttpStatus.BAD_REQUEST),
+    TAX_NOT_FOUND(03, "Tax not found", HttpStatus.BAD_REQUEST),
 
     // Đã tồn tại tên loại hàng
-    CATEGORY_NAME_ALREADY_EXIST(11,"CATEGORY already exists", HttpStatus.BAD_REQUEST),
+    CATEGORY_NAME_ALREADY_EXIST(11, "CATEGORY already exists", HttpStatus.BAD_REQUEST),
 
     // CATEGORY_ID không thể là null
-    CATEGORY_ID_NULL(12,"CATEGORY ID can't be null", HttpStatus.BAD_REQUEST),
+    CATEGORY_ID_NULL(12, "CATEGORY ID can't be null", HttpStatus.BAD_REQUEST),
 
     // Không tìm thấy CATEGORY
-    CATEGORY_NOT_FOUND(13,"CATEGORY not found", HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_FOUND(13, "CATEGORY not found", HttpStatus.BAD_REQUEST),
 
 
     // Roles
@@ -60,11 +60,25 @@ public enum ErrorCode {
     CUSTOMER_ALREADY_DELETED(3002, "Customer is already deleted", HttpStatus.CONFLICT),
     INVALID_CUSTOMER_DATA(3003, "Invalid customer data", HttpStatus.BAD_REQUEST),
     CUSTOMER_ID_NULL(3004, "Customer ID can't be null", HttpStatus.BAD_REQUEST),
+
     // Product
     PRODUCT_ALREADY_EXISTS(4000, "Product already exists", HttpStatus.CONFLICT),
-    PRODUCT_ID_NULL(4001,"Product ID can't be null", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_FOUND(4002,"Product not found", HttpStatus.BAD_REQUEST),
-    NO_PRODUCTS_FOUND(4003, "No products found in the category", HttpStatus.NOT_FOUND);
+    PRODUCT_ID_NULL(4001, "Product ID can't be null", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(4002, "Product not found", HttpStatus.BAD_REQUEST),
+    NO_PRODUCTS_FOUND(4003, "No products found in the category", HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_AVAILABLE(4004, "Product not available", HttpStatus.BAD_REQUEST),
+
+
+    //Hoa don
+    ORDER_NOT_FOUND(5000, "Order not found", HttpStatus.NOT_FOUND),
+
+    ORDER_ALREADY_EXISTS(5001, "Order already exists", HttpStatus.CONFLICT),
+
+    ORDER_ALREADY_CANCELED(5002, "Order is already canceled", HttpStatus.CONFLICT),
+
+    ORDER_ID_NULL(5003, "Order ID can't be null", HttpStatus.BAD_REQUEST),
+
+    ORDER_INVALID_STATUS(5004, "Invalid order status", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

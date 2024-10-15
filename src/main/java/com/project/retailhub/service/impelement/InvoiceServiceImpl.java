@@ -6,11 +6,16 @@ import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.entity.Invoice;
 import com.project.retailhub.data.entity.InvoiceItem;
+import com.project.retailhub.data.entity.Product;
+import com.project.retailhub.data.entity.Tax;
 import com.project.retailhub.data.mapper.InvoiceItemMapper;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceItemRepository;
 import com.project.retailhub.data.repository.InvoiceRepository;
 import com.project.retailhub.data.repository.ProductRepository;
+import com.project.retailhub.data.repository.TaxRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.InvoiceService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +37,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceItemMapper invoiceItemMapper;
     InvoiceMapper invoiceMapper;
     ProductRepository productRepository;
+    TaxRepository taxRepository;
 
     /**
      * Retrieves a list of all invoices associated with a specific user.
@@ -146,18 +153,47 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceItemResponse createNewInvoiceItem(InvoiceItemRequest createRequest) {
-        productRepository.findById(createRequest.getProductId())
-                .orElseThrow(() -> new RuntimeException("San pham khong ton tai"));
+        Invoice invoice = invoiceRepository.findById(createRequest.getInvoiceId())
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        //Hóa đơn phải đang ở pending
+        if (!Objects.equals(invoice.getStatus(), "PENDING")) {
+            throw new AppException(ErrorCode.ORDER_ALREADY_CANCELED);
+        }
+
+        Product product = productRepository.findById(createRequest.getProductId())
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        if (!product.getIsActive() || product.getIsDelete()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_AVAILABLE);
+        }
+
+        List<InvoiceItem> ls = invoiceItemRepository.findByInvoiceIdAndProductId(createRequest.getInvoiceId(), createRequest.getProductId());
+
+        //Kiem tra xem san pham da co trong hoa don chua
+        if (!ls.isEmpty()) {
+            ls.getFirst().setQuantity(ls.getFirst().getQuantity() + 1);
+            updateQuantity(createRequest.getInvoiceId(), ls.getFirst().getInvoiceItemId(), ls.getFirst().getQuantity());
+            return invoiceItemMapper.toInvoiceItemResponse(ls.getFirst());
+        }
+        //Tinh tien cho san pham
+
+        Tax tax = taxRepository.findById(product.getTaxId())
+                .orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
+
 
         var invoiceItem = invoiceItemRepository.save(InvoiceItem
                 .builder()
                 .invoiceId(createRequest.getInvoiceId())
-                .productId(createRequest.getProductId())
-                .taxAmount(BigDecimal.valueOf(0))
-                .unitPrice(BigDecimal.valueOf(0))
+                .productId(product.getProductId())
+                .taxRate(tax.getTaxRate())
+                .unitPrice(product.getPrice())
                 .quantity(1)
                 .build()
         );
+
+        //Tinh toan lai hoa don co id
+
         return invoiceItemMapper.toInvoiceItemResponse(invoiceItem);
     }
 }

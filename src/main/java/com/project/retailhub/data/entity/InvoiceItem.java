@@ -22,7 +22,7 @@ public class InvoiceItem {
 
     private BigDecimal unitPrice;
 
-    private BigDecimal taxAmount;
+    private double taxRate;
 
     // Khóa ngoại
     private Long invoiceId;
