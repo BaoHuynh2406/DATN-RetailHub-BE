@@ -1,6 +1,8 @@
 package com.project.retailhub.service.impelement;
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.entity.Invoice;
 import com.project.retailhub.data.entity.InvoiceItem;
@@ -140,5 +142,22 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public void removeItem(Long invoiceId, Long invoiceItemId) {
         invoiceItemRepository.deleteById(invoiceItemId); // Xóa sản phẩm khỏi hóa đơn
+    }
+
+    @Override
+    public InvoiceItemResponse createNewInvoiceItem(InvoiceItemRequest createRequest) {
+        productRepository.findById(createRequest.getProductId())
+                .orElseThrow(() -> new RuntimeException("San pham khong ton tai"));
+
+        var invoiceItem = invoiceItemRepository.save(InvoiceItem
+                .builder()
+                .invoiceId(createRequest.getInvoiceId())
+                .productId(createRequest.getProductId())
+                .taxAmount(BigDecimal.valueOf(0))
+                .unitPrice(BigDecimal.valueOf(0))
+                .quantity(1)
+                .build()
+        );
+        return invoiceItemMapper.toInvoiceItemResponse(invoiceItem);
     }
 }

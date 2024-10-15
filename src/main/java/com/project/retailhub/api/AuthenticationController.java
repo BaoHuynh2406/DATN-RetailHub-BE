@@ -42,6 +42,7 @@ public class AuthenticationController {
     public ResponseObject<?> doPostAuthentication(@RequestBody AuthenticationRequest request) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(authenticationService.authenticate(request));
+        log.info("Login successful, user Email: " + request.getEmail());
         return resultApi;
     }
 
@@ -56,7 +57,7 @@ public class AuthenticationController {
             throw new RuntimeException("Lỗi bất đinh: " + e.getMessage());
         }
 
-        return  resultApi;
+        return resultApi;
     }
 
     @PostMapping("/verify")

@@ -1,5 +1,6 @@
 package com.project.retailhub.api.InvoiceAPI;
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.InvoiceService;
@@ -86,6 +87,16 @@ public class invoiceAPIv1 {
         invoiceService.removeItem(invoiceId, invoiceItemId);
         log.info("Removed item: " + invoiceItemId + " from invoice: " + invoiceId);
         resultApi.setMessage("Item removed successfully.");
+        return resultApi;
+    }
+
+    @PostMapping("/add-new-item")
+    public ResponseObject<?> addNewItem(
+            @RequestBody InvoiceItemRequest request
+            ){
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.createNewInvoiceItem(request));
+        log.info("Added new item to invoice: " + request.getInvoiceId());
         return resultApi;
     }
 

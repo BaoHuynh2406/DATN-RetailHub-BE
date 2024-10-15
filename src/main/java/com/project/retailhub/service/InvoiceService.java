@@ -1,8 +1,11 @@
 package com.project.retailhub.service;
 
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
+import com.project.retailhub.data.entity.InvoiceItem;
 
 import java.util.List;
 
@@ -33,4 +36,7 @@ public interface InvoiceService {
 
     // Xóa sản phẩm khỏi hóa đơn
     void removeItem(Long invoiceId, Long invoiceItemId);
+
+    //Thêm mới sản phẩm vào hóa đơn
+    InvoiceItemResponse createNewInvoiceItem(InvoiceItemRequest createRequest);
 }
