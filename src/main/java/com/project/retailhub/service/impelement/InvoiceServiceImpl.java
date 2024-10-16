@@ -11,6 +11,8 @@ import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceItemRepository;
 import com.project.retailhub.data.repository.InvoiceRepository;
 import com.project.retailhub.data.repository.ProductRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.InvoiceService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceItemMapper invoiceItemMapper;
     InvoiceMapper invoiceMapper;
     ProductRepository productRepository;
+
+    @Override
+    public InvoiceResponseForUser getInvoiceById(Long invoiceId) {
+        return invoiceMapper.toInvoiceResponseForUser(invoiceRepository.findById(invoiceId)
+                .orElseThrow(() => new AppException(ErrorCode.INV)) );
+    }
 
     /**
      * Retrieves a list of all invoices associated with a specific user.
@@ -160,4 +168,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         );
         return invoiceItemMapper.toInvoiceItemResponse(invoiceItem);
     }
+
+
 }
