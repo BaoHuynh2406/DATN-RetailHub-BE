@@ -42,7 +42,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public InvoiceResponseForUser getInvoiceById(Long invoiceId) {
         return invoiceMapper.toInvoiceResponseForUser(invoiceRepository.findById(invoiceId)
-                .orElseThrow(() => new AppException(ErrorCode.INV)) );
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)), invoiceItemRepository, productRepository, invoiceItemMapper);
     }
 
     /**
@@ -150,11 +150,13 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceItem.setQuantity(quantity); // Cập nhật số lượng mới
             invoiceItemRepository.save(invoiceItem); // Lưu thay đổi
         }
+        handleRecalculate(invoiceId);
     }
 
     @Override
     public void removeItem(Long invoiceId, Long invoiceItemId) {
         invoiceItemRepository.deleteById(invoiceItemId); // Xóa sản phẩm khỏi hóa đơn
+        handleRecalculate(invoiceId);
     }
 
     @Override
@@ -199,9 +201,45 @@ public class InvoiceServiceImpl implements InvoiceService {
         );
 
         //Tinh toan lai hoa don co id
+        handleRecalculate(createRequest.getInvoiceId());
 
         return invoiceItemMapper.toInvoiceItemResponse(invoiceItem);
     }
 
+    // Hàm tính toán lại hóa đơn
+    public InvoiceResponseForUser handleRecalculate(Long invoiceId ) {
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        if (!Objects.equals(invoice.getStatus(), "PENDING")) {
+            throw new AppException(ErrorCode.ORDER_ALREADY_CANCELED);
+        }
+        List<InvoiceItem> listInvoiceItem = invoiceItemRepository.findByInvoiceId(invoiceId);
+
+        BigDecimal TotalTax = BigDecimal.valueOf(0);
+        BigDecimal TotalAmount = BigDecimal.valueOf(0);
+
+        for (InvoiceItem invoiceItem : listInvoiceItem) {
+            // Tính tax sử dụng BigDecimal
+            BigDecimal tax = BigDecimal.valueOf(invoiceItem.getQuantity())
+                    .multiply(invoiceItem.getUnitPrice())
+                    .multiply(BigDecimal.valueOf(invoiceItem.getTaxRate()));
+
+            // Tính amount sử dụng BigDecimal
+            BigDecimal amount = BigDecimal.valueOf(invoiceItem.getQuantity())
+                    .multiply(invoiceItem.getUnitPrice());
+
+            // Cộng giá trị tax và amount vào tổng
+            TotalTax = TotalTax.add(tax);
+            TotalAmount = TotalAmount.add(amount);
+        }
+        invoice.setTotalAmount(TotalAmount);
+        invoice.setTotalTax(TotalTax);
+        if (invoice.getTotalPayment().compareTo(invoice.getTotalAmount()) >= 0) {
+            invoice.setStatus("PAID");
+        }
+        invoiceRepository.save(invoice);
+        return getInvoiceById(invoiceId);
+    }
 
 }
