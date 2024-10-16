@@ -231,7 +231,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
             // Cộng giá trị tax và amount vào tổng
             TotalTax = TotalTax.add(tax);
-            TotalAmount = TotalAmount.add(amount);
+            TotalAmount = TotalAmount.add(amount.add(tax));
         }
         invoice.setTotalAmount(TotalAmount);
         invoice.setTotalTax(TotalTax);

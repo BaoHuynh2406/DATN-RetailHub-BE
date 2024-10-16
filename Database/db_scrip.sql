@@ -270,7 +270,7 @@ from invoices
 
 
 
-UPDATE invoices set status = 'PENDING'
+UPDATE invoices set total_payment = 100000
 
 insert into invoices
 VALUES
