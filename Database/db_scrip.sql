@@ -174,7 +174,7 @@ CREATE TABLE invoice_items
     product_id BIGINT,
     quantity INT NOT NULL,
     unit_price DECIMAL(18, 2) NOT NULL,
-    tax_amount DECIMAL(10, 2) NOT NULL,
+    tax_rate DECIMAL(5, 2) NOT NULL,
     CONSTRAINT FK_invoice_items_invoices FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
     CONSTRAINT FK_invoice_items_products FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
@@ -205,7 +205,8 @@ AFTER INSERT
 AS
 BEGIN
     DECLARE @RowCount INT;
-    SET @RowCount = (SELECT COUNT(*) FROM token);
+    SET @RowCount = (SELECT COUNT(*)
+    FROM token);
 
     IF @RowCount > 100
     BEGIN
@@ -221,7 +222,8 @@ AFTER INSERT
 AS
 BEGIN
     DECLARE @RowCount INT;
-    SET @RowCount = (SELECT COUNT(*) FROM invalidate_token);
+    SET @RowCount = (SELECT COUNT(*)
+    FROM invalidate_token);
 
     IF @RowCount > 100
     BEGIN
@@ -234,25 +236,48 @@ GO
 
 --------------------------------------------------------------------------------------
 
-select * from categories
-select * from taxes
-insert into taxes VALUES ('THUE', N'Thuế mặc định', 0.1, 0)
+select *
+from categories
+select *
+from taxes
+insert into taxes
+VALUES
+    ('THUE', N'Thuế mặc định', 0.1, 0)
 
-select * from products
+select *
+from products
 
-insert into products VALUES ('1234', N'Hàng Hóa', N'Hàng hóa khác', null, 100, 120, 2, N'Cái', 'B1','2019-1-1', 0, 1,  'THUE', 1)
+insert into products
+VALUES
+    ('1234', N'Bảo', N'Hàng hóa khác', null, 100, 120, 2, N'Cái', 'B1', '2019-1-1', 0, 1, 'THUE', 1)
 
-INSERT into categories VALUES ('Hang Khac', 0)
+INSERT into categories
+VALUES
+    ('Hang Khac', 0)
 
-select * from customers
+select *
+from customers
 
-select * from users
+select *
+from users
 
 
-SELECT * from invoice_items
+SELECT *
+from invoice_items
 
-insert into invoices VALUES (100000, 1000, '2024-1-1', 1, 1, 1)
+select *
+from invoices
 
-insert into invoice_items VALUES (2, 100005, 1, 100, 1)
+
+
+UPDATE invoices set status = 'PENDING'
+
+insert into invoices
+VALUES
+    (100000, 1000, '2024-1-1', 1, 1, 1)
+
+insert into invoice_items
+VALUES
+    (288, 100005, 1, 100, 1)
 
 update products set [image] = 'https://i.ibb.co/JBVj7L5/Product-Image-anhchupmanhinh2024-09-25230854-png.png'
