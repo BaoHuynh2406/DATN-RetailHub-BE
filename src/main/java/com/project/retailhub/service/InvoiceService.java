@@ -11,6 +11,9 @@ import java.util.List;
 
 public interface InvoiceService {
 
+    // Lấy hóa đơn theo Id
+    InvoiceResponseForUser getInvoiceById(Long invoiceId);
+
     //Lấy tất cả
     List<InvoiceResponseForUser> getAllListInvoiceByUserId(Long userId);
 
