@@ -16,6 +16,6 @@ public class InvoiceItemResponse {
      String productName;
      Integer quantity;
      BigDecimal unitPrice;
-     BigDecimal taxAmount;
+     double taxRate;
      Long productId;
 }

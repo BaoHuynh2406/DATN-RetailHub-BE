@@ -11,4 +11,6 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> 
     List<InvoiceItem> findByInvoiceId(Long invoiceId);
 
     void deleteByInvoiceId(Long invoiceId);
+
+    List<InvoiceItem> findByInvoiceIdAndProductId(Long invoiceId, Long productId);
 }
