@@ -182,7 +182,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (!ls.isEmpty()) {
             ls.getFirst().setQuantity(ls.getFirst().getQuantity() + 1);
             updateQuantity(createRequest.getInvoiceId(), ls.getFirst().getInvoiceItemId(), ls.getFirst().getQuantity());
-            return invoiceItemMapper.toInvoiceItemResponse(ls.getFirst());
+            return invoiceItemMapper.toInvoiceItemResponse(ls.getFirst(), productRepository);
         }
         //Tinh tien cho san pham
 
@@ -203,11 +203,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         //Tinh toan lai hoa don co id
         handleRecalculate(createRequest.getInvoiceId());
 
-        return invoiceItemMapper.toInvoiceItemResponse(invoiceItem);
+        return invoiceItemMapper.toInvoiceItemResponse(invoiceItem, productRepository);
     }
 
     // Hàm tính toán lại hóa đơn
-    public InvoiceResponseForUser handleRecalculate(Long invoiceId ) {
+    public InvoiceResponseForUser handleRecalculate(Long invoiceId) {
         Invoice invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 

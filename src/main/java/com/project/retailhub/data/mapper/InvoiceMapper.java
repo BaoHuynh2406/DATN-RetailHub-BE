@@ -30,7 +30,7 @@ public abstract class InvoiceMapper {
         // Ánh xạ InvoiceItem sang InvoiceItemResponse và bổ sung productName
         List<InvoiceItemResponse> listItem = invoiceItems.stream()
                 .map(item -> {
-                    InvoiceItemResponse itemResponse = invoiceItemMapper.toInvoiceItemResponse(item);
+                    InvoiceItemResponse itemResponse = invoiceItemMapper.toInvoiceItemResponse(item, productRepository);
 
                     // Lấy productId từ item và tìm product
                     var product = productRepository.findById(itemResponse.getProductId())
