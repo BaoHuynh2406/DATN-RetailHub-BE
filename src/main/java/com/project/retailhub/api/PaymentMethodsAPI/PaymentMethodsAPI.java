@@ -1,4 +1,4 @@
-package com.project.retailhub.api.PaymentAPI;
+package com.project.retailhub.api.PaymentMethodsAPI;
 
 import com.project.retailhub.data.dto.request.PaymentMethodsRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
