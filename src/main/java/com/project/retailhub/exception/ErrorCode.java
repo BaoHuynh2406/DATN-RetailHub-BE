@@ -78,8 +78,11 @@ public enum ErrorCode {
 
     ORDER_ID_NULL(5003, "Order ID can't be null", HttpStatus.BAD_REQUEST),
 
-    ORDER_INVALID_STATUS(5004, "Invalid order status", HttpStatus.BAD_REQUEST);
+    ORDER_INVALID_STATUS(5004, "Invalid order status", HttpStatus.BAD_REQUEST),
 
+    //Payment
+
+    PAYMENT_REJECT(6000,"The status of invoice must be pending!",HttpStatus.CONFLICT);
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;

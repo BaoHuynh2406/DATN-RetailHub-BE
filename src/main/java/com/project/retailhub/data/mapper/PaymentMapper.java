@@ -1,5 +1,6 @@
 package com.project.retailhub.data.mapper;
 
+import com.project.retailhub.data.dto.request.Payment.HandlePaymentRequest;
 import com.project.retailhub.data.dto.request.Payment.PaymentRequest;
 import com.project.retailhub.data.dto.response.Payment.PaymentResponse;
 import com.project.retailhub.data.entity.Payment;
@@ -9,6 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
+    //Chuyển từ HandlePaymentRequest sang Entity
+    Payment toPayment(HandlePaymentRequest request);
+
     //Chuyển từ request sang entity
     Payment toPayment(PaymentRequest request);
 
