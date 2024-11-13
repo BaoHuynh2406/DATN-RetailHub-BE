@@ -26,6 +26,8 @@ public class Invoice {
 
     private BigDecimal totalAmount;
 
+    //thiếu giảm giá
+
     private BigDecimal totalPayment;
 
     @Column(name = "status", length = 10)

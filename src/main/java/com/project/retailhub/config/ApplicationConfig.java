@@ -81,7 +81,7 @@ public class ApplicationConfig {
             if (categoryRepository.findAll().isEmpty()) {
                 categoryRepository.save(
                         Category.builder()
-                                .categoryName("Loai hang 1")
+                                .categoryName("Chưa phân loại")
                                 .isDelete(false)
                                 .build()
                 );
@@ -91,9 +91,9 @@ public class ApplicationConfig {
             if (taxRepository.findAll().isEmpty()) {
                 taxRepository.save(
                         Tax.builder()
-                                .taxId("THUE")
-                                .taxName("THUE")
-                                .taxRate(0.1)
+                                .taxId("NO-THUE")
+                                .taxName("NO-THUE")
+                                .taxRate(0.0)
                                 .isDelete(false)
                                 .build()
                 );
