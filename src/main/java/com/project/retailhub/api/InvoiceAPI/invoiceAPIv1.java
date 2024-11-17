@@ -24,6 +24,15 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @GetMapping("/get/{invoiceId}")
+    public ResponseObject<?> getInvoiceById(
+            @PathVariable("invoiceId") long invoiceId) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.getInvoiceById(invoiceId));
+        log.info("Get Invoice ID:" + invoiceId);
+        return resultApi;
+    }
+
     @GetMapping("/getPendingListInvoiceByUserId")
     public ResponseObject<?> getPendingListInvoiceByUserId(
             @RequestParam(value = "userId", required = true) Long userId) {
@@ -93,7 +102,7 @@ public class invoiceAPIv1 {
     @PostMapping("/add-new-item")
     public ResponseObject<?> addNewItem(
             @RequestBody InvoiceItemRequest request
-            ){
+    ) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(invoiceService.createNewInvoiceItem(request));
         log.info("Added new item to invoice: " + request.getInvoiceId());

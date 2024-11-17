@@ -33,7 +33,8 @@ public class ApplicationConfig {
                                         RoleRepository roleRepository,
                                         CategoryRepository categoryRepository,
                                         TaxRepository taxRepository,
-                                        CustomerRepository customerRepository) {
+                                        CustomerRepository customerRepository,
+                                        PaymentMethodsRepository paymentMethodsRepository) {
         log.info("Initializing application.....");
         return args ->
         {
@@ -95,6 +96,15 @@ public class ApplicationConfig {
                                 .taxName("NO-THUE")
                                 .taxRate(0.0)
                                 .isDelete(false)
+                                .build()
+                );
+            }
+
+            if (paymentMethodsRepository.findAll().isEmpty()) {
+                paymentMethodsRepository.save(
+                        PaymentMethod.builder()
+                                .image("NO-Image")
+                                .paymentName("CASH")
                                 .build()
                 );
             }
