@@ -28,14 +28,15 @@ public class CustomerAPIv2 {
         return resultApi;
     }
 
+    // API để lấy tất cả khách hàng đã bị xóa với phân trang
     @GetMapping("/deleted")
     public ResponseObject<?> doGetAllDeletedCustomers(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(customerService.getAllDeletedCustomerPagination(page,size));
-        log.info("Fetched all deleted customers");
+        resultApi.setData(customerService.getAllDeletedCustomerPagination(page, size));
+        log.info("Fetched all deleted customers"); // Ghi log khi lấy danh sách khách hàng đã bị xóa thành công
         return resultApi;
     }
 }
