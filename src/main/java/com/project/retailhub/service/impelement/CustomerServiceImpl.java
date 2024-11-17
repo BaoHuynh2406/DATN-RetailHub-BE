@@ -127,22 +127,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public PageResponse<CustomeResponse> getAllDeletedCustomerPagination(int page, int size) {
-        // Tạo Pageable object
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        // Lấy danh sách Page<Customer> từ repository
         Page<Customer> p  = customerRepository.findAll(pageable);
 
-        // Gọi phương thức toCustomerResponseList từ instance của CustomerMapper
         List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
 
-        // Trả về PageResponse với data được map từ danh sách customerResponseList
         return PageResponse.<CustomeResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
-                .data(customerResponseList) // Sử dụng danh sách đã map
+                .data(customerResponseList)
                 .build();
     }
 
