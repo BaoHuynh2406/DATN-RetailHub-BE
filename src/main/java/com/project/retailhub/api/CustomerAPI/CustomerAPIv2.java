@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v2/customer")
 public class CustomerAPIv2 {
     final CustomerService customerService;
+
+    // API để lấy tất cả khách hàng đang hoạt động với phân trang
     @GetMapping("/getAll")
     public ResponseObject<?> doGetCustomer(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(customerService.getAllCustomerPagination(page,size));
-        log.info("Fetched all active customers");
+        resultApi.setData(customerService.getAllCustomerPagination(page, size));
+        log.info("Fetched all active customers"); // Ghi log khi lấy danh sách khách hàng thành công
         return resultApi;
     }
 
