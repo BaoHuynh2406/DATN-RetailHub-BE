@@ -4,6 +4,7 @@ import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.repository.CategoryRepository;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface ProductService
     List<ProductResponse> findAllAvailableProduct();
 
     List<ProductResponse> findAllDeletedProduct();
+
+    List<ProductResponse> findByProductNameContaining(String keyword);
 
     ProductResponse getByName(String productName);
 

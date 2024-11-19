@@ -74,13 +74,24 @@ public class ProductAPI {
         return resultApi;
     }
 
-    @GetMapping("/productName/{productName}")
-    public ResponseObject<ProductResponse> doGetProductByName(@PathVariable("productName") String productName) {
-        var resultApi = new ResponseObject<ProductResponse>();
-        resultApi.setData(productService.getByName(productName));
-        log.info("Get product with name " + productName);
+    @GetMapping("/search")
+    public ResponseObject<List<ProductResponse>> doSearchProductByName(@RequestParam("keyword") String keyword) {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
+        resultApi.setData(productService.findByProductNameContaining(keyword));  // Gọi service tìm kiếm sản phẩm theo tên
+        log.info("Search products with keyword: " + keyword);
         return resultApi;
     }
+
+
+    @GetMapping("/productName/{productName}")
+    public ResponseObject<List<ProductResponse>> doGetProductByName(@PathVariable("productName") String productName) {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
+        // Gọi phương thức service để tìm sản phẩm theo tên
+        resultApi.setData(productService.findByProductNameContaining(productName));
+        log.info("Get products with name containing " + productName);
+        return resultApi;
+    }
+
 
     @PostMapping("/create")
     public ResponseObject<Void> doPostCreateProduct(@RequestBody ProductRequest request) {

@@ -25,7 +25,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +126,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> findAllDeletedProduct() {
         return productMapper.toProductResponseList(productRepository.findAllByIsDeleteTrue(), categoryRepository, taxRepository);
+    }
+
+    @Override
+    public List<ProductResponse> findByProductNameContaining(String keyword) {
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(keyword);
+        return products.stream()
+                .map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -17,6 +17,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     Optional<Product> findByProductName(String productName);
 
+
+    List<Product> findByProductNameContainingIgnoreCase(String keyword);
+
     // Tìm tất cả sản phẩm có isDelete = false( chưa bị xóa)
     List<Product> findAllByIsDeleteFalse();
 
