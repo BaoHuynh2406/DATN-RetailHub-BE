@@ -82,13 +82,12 @@ public class ProductAPI {
         return resultApi;
     }
 
-
     @GetMapping("/productName/{productName}")
-    public ResponseObject<List<ProductResponse>> doGetProductByName(@PathVariable("productName") String productName) {
-        var resultApi = new ResponseObject<List<ProductResponse>>();
+    public ResponseObject<ProductResponse> doGetProductByName(@PathVariable("productName") String productName) {
+        var resultApi = new ResponseObject<ProductResponse>();
         // Gọi phương thức service để tìm sản phẩm theo tên
-        resultApi.setData(productService.findByProductNameContaining(productName));
-        log.info("Get products with name containing " + productName);
+        resultApi.setData(productService.getByName(productName));
+        log.info("Get product with name: " + productName);
         return resultApi;
     }
 

@@ -138,10 +138,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getByName(String productName) {
-        Product product = productRepository.findByProductName(productName)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NAME_NULL));
+        // Tìm tất cả sản phẩm có tên gần đúng với tên người dùng nhập vào
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(productName);
+
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NAME_NULL);
+        }
+
+        // Giả sử bạn muốn lấy sản phẩm đầu tiên trong danh sách gần đúng
+        Product product = products.get(0);  // Lấy sản phẩm đầu tiên hoặc bạn có thể chọn theo một tiêu chí nào đó.
+
         return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
+
 
 
     @Override
