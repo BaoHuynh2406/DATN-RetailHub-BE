@@ -74,6 +74,14 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @GetMapping("/productName/{productName}")
+    public ResponseObject<ProductResponse> doGetProductByName(@PathVariable("productName") String productName) {
+        var resultApi = new ResponseObject<ProductResponse>();
+        resultApi.setData(productService.getByName(productName));
+        log.info("Get product with name " + productName);
+        return resultApi;
+    }
+
     @PostMapping("/create")
     public ResponseObject<Void> doPostCreateProduct(@RequestBody ProductRequest request) {
         var resultApi = new ResponseObject<Void>();

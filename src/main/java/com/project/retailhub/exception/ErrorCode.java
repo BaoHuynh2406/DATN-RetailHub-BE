@@ -64,6 +64,7 @@ public enum ErrorCode {
     // Product
     PRODUCT_ALREADY_EXISTS(4000, "Product already exists", HttpStatus.CONFLICT),
     PRODUCT_ID_NULL(4001, "Product ID can't be null", HttpStatus.BAD_REQUEST),
+    PRODUCT_NAME_NULL(4001, "Product NAME can't be null", HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_FOUND(4002, "Product not found", HttpStatus.BAD_REQUEST),
     NO_PRODUCTS_FOUND(4003, "No products found in the category", HttpStatus.NOT_FOUND),
     PRODUCT_NOT_AVAILABLE(4004, "Product not available", HttpStatus.BAD_REQUEST),

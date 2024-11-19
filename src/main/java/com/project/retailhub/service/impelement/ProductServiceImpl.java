@@ -127,6 +127,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse getByName(String productName) {
+        Product product = productRepository.findByProductName(productName)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NAME_NULL));
+        return productMapper.toProductResponse(product, categoryRepository, taxRepository);
+    }
+
+
+    @Override
     public ProductResponse getByBarcode(String barcode) {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));

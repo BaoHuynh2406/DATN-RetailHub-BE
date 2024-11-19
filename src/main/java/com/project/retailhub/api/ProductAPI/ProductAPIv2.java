@@ -52,4 +52,5 @@ public class ProductAPIv2 {
         log.info("Get all deleted products");
         return resultApi;
     }
+
 }

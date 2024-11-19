@@ -15,6 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     Optional<Product> findByBarcode(String barcode);
     boolean existsByBarcode(String barcode);
 
+    Optional<Product> findByProductName(String productName);
+
     // Tìm tất cả sản phẩm có isDelete = false( chưa bị xóa)
     List<Product> findAllByIsDeleteFalse();
 
