@@ -32,4 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     // Tìm tất cả sản phẩm có isDelete = true( đã bị xóa) có tham số
     Page<Product> findAllByIsDeleteTrue(Pageable pageable);
+
+    Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
+
 }

@@ -137,6 +137,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public PageResponse<ProductResponse> findProductsByNameContainingWithPagination(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // Chuyển đổi page thành index bắt đầu từ 0
+        Page<Product> productPage = productRepository.findByProductNameContainingIgnoreCase(keyword, pageable);
+
+        return PageResponse.<ProductResponse>builder()
+                .totalPages(productPage.getTotalPages())
+                .pageSize(productPage.getSize())
+                .currentPage(page)
+                .totalElements(productPage.getTotalElements())
+                .data(productPage.getContent().stream()
+                        .map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .build();
+    }
+
+
+    @Override
     public ProductResponse getByName(String productName) {
         // Tìm tất cả sản phẩm có tên gần đúng với tên người dùng nhập vào
         List<Product> products = productRepository.findByProductNameContainingIgnoreCase(productName);

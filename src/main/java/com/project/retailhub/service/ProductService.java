@@ -40,4 +40,7 @@ public interface ProductService
     PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size);
 
     PageResponse<ProductResponse> findAllProductPaginationDeleted(int page, int size);
+
+    PageResponse<ProductResponse> findProductsByNameContainingWithPagination(String keyword, int page, int size);
+
 }

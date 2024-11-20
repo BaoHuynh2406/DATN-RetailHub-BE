@@ -1,6 +1,7 @@
 package com.project.retailhub.api.ProductAPI;
 
 import com.project.retailhub.data.dto.request.product.ProductRequest;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.exception.AppException;
@@ -52,5 +53,23 @@ public class ProductAPIv2 {
         log.info("Get all deleted products");
         return resultApi;
     }
+
+    @GetMapping("/search")
+    public ResponseObject<PageResponse<ProductResponse>> searchProducts(
+            @RequestParam String keyword,
+            @RequestParam int page,
+            @RequestParam int size) {
+        var resultApi = new ResponseObject<PageResponse<ProductResponse>>();
+        try {
+            resultApi.setData(productService.findProductsByNameContainingWithPagination(keyword, page, size));
+            resultApi.setMessage("Products retrieved successfully");
+        } catch (AppException e) {
+            resultApi.setCode(e.getErrorCode().getCode());
+            resultApi.setMessage(e.getMessage());
+        }
+        log.info("Search products with keyword: {}", keyword);
+        return resultApi;
+    }
+
 
 }
