@@ -66,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Cập nhật các thông tin cần thiết
         product.setBarcode(request.getBarcode());
+        product.setCategoryId(request.getCategoryId());
         product.setProductName(request.getProductName());
         product.setProductDescription(request.getProductDescription());
         product.setImage(request.getImage());

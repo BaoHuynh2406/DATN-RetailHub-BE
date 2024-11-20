@@ -42,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryId <= 0) {
             throw new AppException(ErrorCode.CATEGORY_ID_NULL);
         }
+
         // Tìm kiếm Category theo ID
         Category Category = CategoryRepository.findById(categoryId)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
