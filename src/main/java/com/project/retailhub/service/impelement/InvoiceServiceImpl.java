@@ -235,7 +235,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         invoice.setTotalAmount(TotalAmount);
         invoice.setTotalTax(TotalTax);
-        if (invoice.getTotalPayment().compareTo(invoice.getTotalAmount()) >= 0) {
+        if (invoice.getTotalPayment().compareTo(invoice.getTotalAmount()) >= 0
+                && invoice.getTotalPayment().compareTo(BigDecimal.valueOf(0)) != 0) {
             invoice.setStatus("PAID");
         }
         invoiceRepository.save(invoice);

@@ -281,3 +281,7 @@ VALUES
     (288, 100005, 1, 100, 1)
 
 update products set [image] = 'https://i.ibb.co/JBVj7L5/Product-Image-anhchupmanhinh2024-09-25230854-png.png'
+
+select * from payment_methods
+
+SELECT * FROM invoices
