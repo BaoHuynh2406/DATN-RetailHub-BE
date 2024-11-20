@@ -27,7 +27,7 @@ public interface ProductService
 
     List<ProductResponse> findAllDeletedProduct();
 
-    List<ProductResponse> findByProductNameContaining(String keyword);
+    ProductResponse findById(Long productId);
 
     ProductResponse getByName(String productName);
 

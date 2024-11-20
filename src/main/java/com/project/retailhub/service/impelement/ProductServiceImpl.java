@@ -129,11 +129,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> findByProductNameContaining(String keyword) {
-        List<Product> products = productRepository.findByProductNameContainingIgnoreCase(keyword);
-        return products.stream()
-                .map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository))
-                .collect(Collectors.toList());
+    public ProductResponse findById(Long productId) {
+        // Tìm tất cả id gần đúng nhat
+        List<Product> products = productRepository.findByProductId(productId);
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_ID_NULL);
+        }
+        Product product = products.get(0);  // Lấy id đầu tiên
+        return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
 
     @Override
@@ -154,19 +157,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getByName(String productName) {
-        // Tìm tất cả sản phẩm có tên gần đúng với tên người dùng nhập vào
+        // Tìm tất cả sản phẩm có tên gần đúng
         List<Product> products = productRepository.findByProductNameContainingIgnoreCase(productName);
-
         if (products.isEmpty()) {
             throw new AppException(ErrorCode.PRODUCT_NAME_NULL);
         }
-
-        // Giả sử bạn muốn lấy sản phẩm đầu tiên trong danh sách gần đúng
-        Product product = products.get(0);  // Lấy sản phẩm đầu tiên hoặc bạn có thể chọn theo một tiêu chí nào đó.
-
+        Product product = products.get(0);  // Lấy sản phẩm đầu tiên
         return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
-
 
 
     @Override

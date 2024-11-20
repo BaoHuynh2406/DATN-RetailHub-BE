@@ -1,6 +1,5 @@
 package com.project.retailhub.data.repository;
 
-import com.project.retailhub.data.entity.Category;
 import com.project.retailhub.data.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +14,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     Optional<Product> findByBarcode(String barcode);
     boolean existsByBarcode(String barcode);
 
-    Optional<Product> findByProductName(String productName);
-
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
+
+    List<Product> findByProductId(Long productId);
 
     // Tìm tất cả sản phẩm có isDelete = false( chưa bị xóa)
     List<Product> findAllByIsDeleteFalse();
