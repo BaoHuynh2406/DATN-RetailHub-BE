@@ -28,4 +28,3 @@ public class Payment
     private int paymentMethodId;
 
 }
-
