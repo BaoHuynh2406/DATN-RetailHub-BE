@@ -103,10 +103,17 @@ public class ApplicationConfig {
             if (paymentMethodsRepository.findAll().isEmpty()) {
                 paymentMethodsRepository.save(
                         PaymentMethod.builder()
-                                .image("NO-Image")
-                                .paymentName("CASH")
+                                .paymentMethodId("CASH")
+                                .paymentName("Tiền mặt")
                                 .build()
                 );
+                paymentMethodsRepository.save(
+                        PaymentMethod.builder()
+                                .paymentMethodId("BANKING")
+                                .paymentName("Chuyển khoản")
+                                .build()
+                );
+
             }
 
 
