@@ -49,6 +49,8 @@ public abstract class InvoiceMapper {
                 .totalTax(invoice.getTotalTax())
                 .totalPayment(invoice.getTotalPayment())
                 .totalAmount(invoice.getTotalAmount())
+                .discountAmount(invoice.getDiscountAmount())
+                .finalTotal(invoice.getFinalTotal())
                 .listItem(listItem)
                 .status(invoice.getStatus())
                 .build();

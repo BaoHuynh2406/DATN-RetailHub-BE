@@ -22,7 +22,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TaxServiceImpl implements TaxService {
 
-    private static final Logger log = LoggerFactory.getLogger(TaxServiceImpl.class);
     TaxRepository taxRepository;
     TaxMapper taxMapper;
 
@@ -33,6 +32,7 @@ public class TaxServiceImpl implements TaxService {
 
         // Thực hiện chuyển đổi request thành entity
         Tax tax = taxMapper.toTax(request);
+        tax.setTaxRate(request.getTaxRate()/100);
         taxRepository.save(tax);
     }
 
@@ -48,7 +48,7 @@ public class TaxServiceImpl implements TaxService {
 
         // Cập nhật thông tin tax
         tax.setTaxName(request.getTaxName());
-        tax.setTaxRate(request.getTaxRate());
+        tax.setTaxRate(request.getTaxRate()/100);
 
         // Lưu thông tin tax đã cập nhật
         taxRepository.save(tax);
@@ -58,8 +58,7 @@ public class TaxServiceImpl implements TaxService {
     public void deleteTax(String taxId) {
         Tax tax = taxRepository.findById(taxId)  // Không cần chuyển kiểu dữ liệu
                 .orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
-        tax.setIsDelete(true);
-        taxRepository.save(tax);
+        taxRepository.delete(tax);
     }
 
     @Override

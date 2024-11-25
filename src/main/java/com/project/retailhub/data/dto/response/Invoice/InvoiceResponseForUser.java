@@ -18,6 +18,8 @@ public class InvoiceResponseForUser {
     BigDecimal totalTax;
     BigDecimal totalAmount;
     BigDecimal totalPayment;
+    BigDecimal discountAmount;
+    BigDecimal finalTotal;
     String status;
     List<InvoiceItemResponse> listItem;
 }

@@ -286,3 +286,5 @@ update products set [image] = 'https://i.ibb.co/JBVj7L5/Product-Image-anhchupman
 select * from payment_methods
 
 SELECT * FROM invoices
+
+SELECT * FROM taxes
