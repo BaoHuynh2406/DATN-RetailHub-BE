@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PaymentMethodsRepository extends JpaRepository<PaymentMethod, Integer> {
+public interface PaymentMethodsRepository extends JpaRepository<PaymentMethod, String> {
 
-    Optional<PaymentMethod> findByPaymentMethodId(int paymentMethodId);
-    boolean existsByPaymentMethodId(int paymentMethodId);
+    Optional<PaymentMethod> findByPaymentMethodId(String paymentMethodId);
+    boolean existsByPaymentMethodId(String paymentMethodId);
 
 }

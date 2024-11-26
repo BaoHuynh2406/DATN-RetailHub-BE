@@ -110,6 +110,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .invoiceDate(new Date())
                 .totalAmount(BigDecimal.valueOf(0))
                 .totalPayment(BigDecimal.valueOf(0))
+                .discountAmount(BigDecimal.valueOf(0))
+                .finalTotal(BigDecimal.valueOf(0))
                 .totalTax(BigDecimal.valueOf(0))
                 .build()
         );
@@ -231,11 +233,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 
             // Cộng giá trị tax và amount vào tổng
             TotalTax = TotalTax.add(tax);
-            TotalAmount = TotalAmount.add(amount.add(tax));
+            TotalAmount = TotalAmount.add(amount);
         }
         invoice.setTotalAmount(TotalAmount);
         invoice.setTotalTax(TotalTax);
-        if (invoice.getTotalPayment().compareTo(invoice.getTotalAmount()) >= 0) {
+        invoice.setFinalTotal(
+                invoice.getTotalAmount()
+                        .add(invoice.getTotalTax())
+                        .subtract(invoice.getDiscountAmount())
+        );
+
+        if (invoice.getTotalPayment().compareTo(invoice.getFinalTotal()) >= 0
+                && invoice.getTotalPayment().compareTo(BigDecimal.valueOf(0)) != 0) {
             invoice.setStatus("PAID");
         }
         invoiceRepository.save(invoice);

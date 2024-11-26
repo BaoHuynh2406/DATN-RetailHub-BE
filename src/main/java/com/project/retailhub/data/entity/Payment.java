@@ -25,7 +25,7 @@ public class Payment
     // Khóa ngoại
     private Long invoiceId;
 
-    private int paymentMethodId;
+    @Column(name = "payment_method_id", length = 10, columnDefinition = "VARCHAR(10)")
+    private String paymentMethodId;
 
 }
-

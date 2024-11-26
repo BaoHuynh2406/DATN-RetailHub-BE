@@ -83,7 +83,12 @@ public enum ErrorCode {
 
     //Payment
 
-    PAYMENT_REJECT(6000,"The status of invoice must be pending!",HttpStatus.CONFLICT);
+    PAYMENT_REJECT(6000, "The status of invoice must be pending!", HttpStatus.CONFLICT),
+
+
+    //Barcode lookup
+    BARCODE_NOT_FOUND(7000, "Sorry, we couldn't find this barcode.", HttpStatus.NOT_FOUND);
+
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;

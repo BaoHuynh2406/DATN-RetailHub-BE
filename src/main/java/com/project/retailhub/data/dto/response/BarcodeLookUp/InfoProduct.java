@@ -1,4 +1,4 @@
-package com.project.retailhub.data.dto.response;
+package com.project.retailhub.data.dto.response.BarcodeLookUp;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,8 +9,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class PaymentMethodsResponse {
-    int paymentMethodId;
-    String paymentName;
-    String image;
+public class InfoProduct {
+    String productName;
+    String imageUrl;
+    Double price;
 }

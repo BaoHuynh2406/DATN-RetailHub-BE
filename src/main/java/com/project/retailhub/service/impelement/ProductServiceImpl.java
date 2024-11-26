@@ -68,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Cập nhật các thông tin cần thiết
         product.setBarcode(request.getBarcode());
+        product.setCategoryId(request.getCategoryId());
         product.setProductName(request.getProductName());
         product.setProductDescription(request.getProductDescription());
         product.setImage(request.getImage());
@@ -79,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
         product.setExpiryDate(request.getExpiryDate());
         product.setIsActive(request.getIsActive());
         product.setIsDelete(request.getIsDelete());
-
+        product.setTaxId(request.getTaxId());
         // Cập nhật các trường khác nếu cần
 
         // Lưu thông tin khi cập nhật thành công

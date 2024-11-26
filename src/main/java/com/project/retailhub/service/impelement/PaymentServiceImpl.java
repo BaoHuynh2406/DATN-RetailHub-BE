@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
         //cập nhật số tiền payment trong hoa don
         invoice.setTotalPayment(invoice.getTotalPayment().add(request.getAmount()));
         //Kiễm tra số tiền đã thanh toán nếu >= số tiền hóa đơn thì  cập nhật trạng thái hóa đơn PAID
-        if(invoice.getTotalPayment().compareTo(invoice.getTotalAmount())<0){
+        if(invoice.getTotalPayment().compareTo(invoice.getFinalTotal())<0){
             invoice.setStatus("PENDING");
         }else{
             invoice.setStatus("PAID");
