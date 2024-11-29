@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/point-history")
+@RequestMapping("/api/v1/point-history")
 public class PointHistoryAPI {
 
     final PointHistoryService pointHistoryService;
@@ -41,24 +41,13 @@ public class PointHistoryAPI {
     }
 
     // API để tạo mới một lịch sử điểm
-    @PostMapping("/history")
-    public ResponseObject<?> doCreateHistory(@RequestBody HistoryRequest request) {
+    @PostMapping("/exchange")
+    public ResponseObject<?> doCreateExchange(@RequestBody HistoryRequest request) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(pointHistoryService.createHistory(request));
         log.info("Created new point history for user ID {} and customer ID {}", request.getUserId(), request.getCustomerId());
         return resultApi;
     }
 
-    // API để thực hiện giao dịch đổi điểm
-    @PostMapping("/exchange")
-    public ResponseObject<?> doExchangePoints(
-            @RequestParam Long customerId,
-            @RequestParam int points,
-            @RequestParam String description
-    ) {
-        var resultApi = new ResponseObject<>();
-        resultApi.setData(pointHistoryService.exchangePoints(customerId, points, description));
-        log.info("Exchanged {} points for customer ID {} with description: {}", points, customerId, description);
-        return resultApi;
-    }
+
 }

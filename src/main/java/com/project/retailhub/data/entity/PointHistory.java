@@ -26,15 +26,13 @@ public class PointHistory {
     private int points;
 
     @Nationalized
-    @Column(name = "transaction_type", columnDefinition = "NVARCHAR(20)", nullable = false)
-    private String transactionType;
-
-    @Nationalized
     @Column(name = "description", columnDefinition = "NVARCHAR(100)", nullable = false)
     private String description;
 
     // Khóa ngoại
     private long userId;
 
-    private Long customerId;
+    private long customerId;
+
+    private long invoiceId;
 }

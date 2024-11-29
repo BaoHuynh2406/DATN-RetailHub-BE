@@ -11,11 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HistoryRequest {
-    Long historyId;          // ID lịch sử (nullable khi tạo mới)
-    Date transactionDate;    // Ngày giao dịch
-    int points;              // Số điểm giao dịch
-    String transactionType;  // Loại giao dịch ("Tích điểm", "Đổi điểm")
-    String description;      // Mô tả giao dịch
-    Long userId;             // ID người thực hiện giao dịch
-    Long customerId;         // ID khách hàng
+    int points;
+    String description;
+    long userId;
+    long customerId;
+    long invoiceId;
 }

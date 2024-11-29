@@ -39,26 +39,5 @@ public class PointHistoryServiceImpl implements PointHistoryService {
         return mapper.toResponse(savedEntity);
     }
 
-    @Override
-    public HistoryResponse exchangePoints(Long customerId, int pointsToExchange, String description) {
-        // Kiểm tra điều kiện đổi điểm
-        if (pointsToExchange <= 0) {
-            throw new IllegalArgumentException("Số điểm đổi phải lớn hơn 0.");
-        }
 
-        // Tạo giao dịch đổi điểm
-        PointHistory exchangeTransaction = PointHistory.builder()
-                .customerId(customerId)
-                .points(-pointsToExchange) // Điểm trừ
-                .transactionType("EXCHANGE")
-                .description(description)
-                .transactionDate(new Date())
-                .build();
-
-        // Lưu vào cơ sở dữ liệu
-        PointHistory savedTransaction = repository.save(exchangeTransaction);
-
-        // Chuyển đổi thành DTO Response
-        return mapper.toResponse(savedTransaction);
-    }
 }

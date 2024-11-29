@@ -11,11 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HistoryResponse {
-    Long historyId;          // ID lịch sử
-    Date transactionDate;    // Ngày giao dịch
-    int points;              // Số điểm giao dịch
-    String transactionType;  // Loại giao dịch ("Tích điểm", "Đổi điểm")
-    String description;      // Mô tả giao dịch
-    Long userId;             // ID người thực hiện giao dịch
-    Long customerId;         // ID khách hàng
+    Long historyId;
+    Date transactionDate;
+    int points;
+    String description;
+    long userId;
+    long customerId;
+    long invoiceId;
 }
