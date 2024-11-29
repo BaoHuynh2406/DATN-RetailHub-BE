@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class invoiceAPIv1 {
     final InvoiceService invoiceService;
 
+    // api cho quan ly
     @GetMapping("/getAllListInvoiceByUserId")
     public ResponseObject<?> getAllListInvoiceByUserId(
             @RequestParam(value = "userId", required = true) Long userId) {
@@ -23,6 +24,11 @@ public class invoiceAPIv1 {
         log.info("Get ALL Invoice");
         return resultApi;
     }
+
+    //api cho user
+    //get bang token...
+
+
 
     @GetMapping("/get/{invoiceId}")
     public ResponseObject<?> getInvoiceById(
