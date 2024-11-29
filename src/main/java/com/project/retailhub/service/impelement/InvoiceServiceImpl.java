@@ -3,7 +3,10 @@ package com.project.retailhub.service.impelement;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.entity.Invoice;
 import com.project.retailhub.data.entity.InvoiceItem;
 import com.project.retailhub.data.entity.Product;
@@ -20,6 +23,10 @@ import com.project.retailhub.service.InvoiceService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,6 +100,25 @@ public class InvoiceServiceImpl implements InvoiceService {
                 invoiceItemMapper);
     }
 
+    @Override
+    public PageResponse<InvoiceResponse> getInvoices(Date start, Date end, int page, int size) {
+        // Đặt giá trị mặc định cho size
+        if (size <= 0) {
+            size = 20;
+        }
+
+        Pageable pageable = PageRequest.of(0, size);
+        Page<Invoice> p = invoiceRepository.findInvoicesBetweenDates(start, end, pageable);
+
+        return PageResponse.<InvoiceResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pageSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(invoiceMapper.toInvoiceResponseList(p.getContent()))
+                .build();
+    }
+
     /**
      * Creates a new invoice for a specific user.
      *
@@ -110,6 +136,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .invoiceDate(new Date())
                 .totalAmount(BigDecimal.valueOf(0))
                 .totalPayment(BigDecimal.valueOf(0))
+                .discountAmount(BigDecimal.valueOf(0))
+                .finalTotal(BigDecimal.valueOf(0))
                 .totalTax(BigDecimal.valueOf(0))
                 .build()
         );
@@ -231,11 +259,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 
             // Cộng giá trị tax và amount vào tổng
             TotalTax = TotalTax.add(tax);
-            TotalAmount = TotalAmount.add(amount.add(tax));
+            TotalAmount = TotalAmount.add(amount);
         }
         invoice.setTotalAmount(TotalAmount);
         invoice.setTotalTax(TotalTax);
-        if (invoice.getTotalPayment().compareTo(invoice.getTotalAmount()) >= 0
+        invoice.setFinalTotal(
+                invoice.getTotalAmount()
+                        .add(invoice.getTotalTax())
+                        .subtract(invoice.getDiscountAmount())
+        );
+
+        if (invoice.getTotalPayment().compareTo(invoice.getFinalTotal()) >= 0
                 && invoice.getTotalPayment().compareTo(BigDecimal.valueOf(0)) != 0) {
             invoice.setStatus("PAID");
         }

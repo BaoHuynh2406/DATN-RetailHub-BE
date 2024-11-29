@@ -22,12 +22,20 @@ public class Invoice {
 
     private Date invoiceDate;
 
+    //Tổng tiền thuế
     private BigDecimal totalTax;
 
+    //Tổng tiền hàng
     private BigDecimal totalAmount;
 
-    //thiếu giảm giá
+    //giảm giá
+    @Column(name = "discount_amount")
+    private BigDecimal discountAmount;
 
+    //Tong tiền cuối cùng
+    private BigDecimal finalTotal;
+
+    //Tổng tiền đã thanh toán
     private BigDecimal totalPayment;
 
     @Column(name = "status", length = 10)

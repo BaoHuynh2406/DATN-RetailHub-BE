@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         product.setExpiryDate(request.getExpiryDate());
         product.setIsActive(request.getIsActive());
         product.setIsDelete(request.getIsDelete());
-
+        product.setTaxId(request.getTaxId());
         // Cập nhật các trường khác nếu cần
 
         // Lưu thông tin khi cập nhật thành công
