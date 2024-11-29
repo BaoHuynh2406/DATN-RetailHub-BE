@@ -34,7 +34,9 @@ public class PointHistoryServiceImpl implements PointHistoryService {
 
     @Override
     public HistoryResponse createHistory(HistoryRequest request) {
+        Date today = new Date();
         PointHistory entity = mapper.toEntity(request);
+        entity.setTransactionDate(today);
         PointHistory savedEntity = repository.save(entity);
         return mapper.toResponse(savedEntity);
     }
