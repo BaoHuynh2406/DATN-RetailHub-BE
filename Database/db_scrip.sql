@@ -2,9 +2,9 @@ CREATE DATABASE db_retailhub;
 GO
 use db_retailhub;
 
--- USE master
--- GO
--- DROP DATABASE db_retailhub;
+USE master
+GO
+DROP DATABASE db_retailhub;
 
 CREATE TABLE roles
 (
@@ -154,13 +154,15 @@ CREATE TABLE stock_check_item
 
 CREATE TABLE invoices
 (
-    invoice_id BIGINT PRIMARY KEY IDENTITY(1, 1),
+    invoice_id BIGINT PRIMARY KEY IDENTITY(100000, 1),
     user_id BIGINT NOT NULL,
     customer_id BIGINT NOT NULL,
     invoice_date DATETIME NOT NULL,
     total_tax DECIMAL(18, 2) NOT NULL,
     total_amount DECIMAL(18, 2) NOT NULL,
+    discount_amount DECIMAL(18, 2),
     total_payment DECIMAL(18, 2) NOT NULL,
+    final_Total DECIMAL(18, 2) NOT NULL,
     status VARCHAR(10) DEFAULT 'PENDING' NOT NULL,
     CONSTRAINT FK_invoices_users FOREIGN KEY (user_id) REFERENCES users(user_id),
     CONSTRAINT FK_invoices_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
@@ -181,16 +183,15 @@ CREATE TABLE invoice_items
 
 CREATE TABLE payment_methods
 (
-    payment_method_id INT PRIMARY KEY IDENTITY(1, 1),
+    payment_method_id VARCHAR(10) PRIMARY KEY,
     payment_name NVARCHAR(50) NOT NULL,
-    image VARCHAR(100)
 );
 
 CREATE TABLE payments
 (
     payment_id BIGINT IDENTITY(1, 1) PRIMARY KEY,
     invoice_id BIGINT,
-    payment_method_id INT,
+    payment_method_id VARCHAR(10),
     amount DECIMAL(18, 2) NOT NULL,
     payment_date DATETIME NOT NULL,
     CONSTRAINT FK_payments_invoices FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
@@ -285,3 +286,5 @@ update products set [image] = 'https://i.ibb.co/JBVj7L5/Product-Image-anhchupman
 select * from payment_methods
 
 SELECT * FROM invoices
+
+SELECT * FROM taxes

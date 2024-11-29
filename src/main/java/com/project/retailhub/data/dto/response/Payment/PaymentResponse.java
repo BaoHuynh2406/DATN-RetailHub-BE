@@ -15,5 +15,5 @@ public class PaymentResponse {
     BigDecimal amount;
     Date paymentDate;
     Long invoiceId;
-    int paymentMethodId;
+    String paymentMethodId;
 }

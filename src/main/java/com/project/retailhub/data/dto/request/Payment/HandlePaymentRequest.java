@@ -13,5 +13,5 @@ import java.util.Date;
 public class HandlePaymentRequest {
     BigDecimal amount;
     Long invoiceId;
-    int paymentMethodId;
+    String paymentMethodId;
 }
