@@ -20,9 +20,9 @@ public class invoiceAPIv2 {
 
     @GetMapping("/list")
     public ResponseObject<?> getInvoiceList(
-            @RequestParam(value = "startDate", required = true)
+            @RequestParam(value = "startDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-            @RequestParam(value = "endDate", required = true)
+            @RequestParam(value = "endDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
             @RequestParam(value = "status", required = false, defaultValue = "ALL") String status,
             @RequestParam(value = "sort", required = false, defaultValue = "desc") String sort,
