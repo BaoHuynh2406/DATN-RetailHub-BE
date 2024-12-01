@@ -26,6 +26,7 @@ public interface CustomerService {
 
     //Phân Trang
     PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size);
+    PageResponse<CustomeResponse> getAllActiveCustomerPagination(int page, int size);
     PageResponse<CustomeResponse> getAllDeletedCustomerPagination(int page, int size);
 
 }

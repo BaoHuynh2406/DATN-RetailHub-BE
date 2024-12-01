@@ -1,6 +1,8 @@
 package com.project.retailhub.data.repository;
 
 import com.project.retailhub.data.entity.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     // Tìm tất cả khách hàng có isDelete là true (khách hàng đã bị xóa)
     List<Customer> findAllByIsDeleteTrue();
+
     //Tìm kiếm bằng số điện thoại
     boolean existsByPhoneNumber(String phoneNumber);
+
+    Page<Customer> findAllByIsDeleteFalse(Pageable pageable);
+
+    Page<Customer> findAllByIsDeleteTrue(Pageable pageable);
+
 }
