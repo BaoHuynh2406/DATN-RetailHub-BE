@@ -107,6 +107,18 @@ public class InvoiceServiceImpl implements InvoiceService {
             size = 20;
         }
 
+        //Validate startDate and endDate
+        Date today = new Date();
+        if (start == null) {
+            start = today;
+        }
+        if (end == null) {
+            end = today;
+        }
+        if (end.before(start)) {
+            throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
+        }
+
         Pageable pageable = PageRequest.of(0, size);
         Page<Invoice> p = invoiceRepository.findInvoicesBetweenDates(start, end, pageable);
 
