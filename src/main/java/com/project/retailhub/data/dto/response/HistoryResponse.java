@@ -3,6 +3,7 @@ package com.project.retailhub.data.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Data
@@ -12,7 +13,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HistoryResponse {
     Long historyId;
-    Date transactionDate;
+    OffsetDateTime transactionDate;
     int points;
     String description;
     long userId;

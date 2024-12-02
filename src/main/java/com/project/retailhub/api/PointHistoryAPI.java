@@ -48,6 +48,4 @@ public class PointHistoryAPI {
         log.info("Created new point history for user ID {} and customer ID {}", request.getUserId(), request.getCustomerId());
         return resultApi;
     }
-
-
 }

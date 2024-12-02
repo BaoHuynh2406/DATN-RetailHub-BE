@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Service
@@ -34,12 +35,13 @@ public class PointHistoryServiceImpl implements PointHistoryService {
 
     @Override
     public HistoryResponse createHistory(HistoryRequest request) {
-        Date today = new Date();
+        OffsetDateTime now = OffsetDateTime.now(); // Lấy ngày giờ hiện tại với múi giờ
         PointHistory entity = mapper.toEntity(request);
-        entity.setTransactionDate(today);
+        entity.setTransactionDate(now); // Gán ngày giờ với múi giờ vào
         PointHistory savedEntity = repository.save(entity);
         return mapper.toResponse(savedEntity);
     }
+
 
 
 }

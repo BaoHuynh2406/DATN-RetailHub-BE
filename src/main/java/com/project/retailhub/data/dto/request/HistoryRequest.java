@@ -3,6 +3,7 @@ package com.project.retailhub.data.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Data
@@ -16,4 +17,6 @@ public class HistoryRequest {
     long userId;
     long customerId;
     long invoiceId;
+    OffsetDateTime transactionDate;
+
 }

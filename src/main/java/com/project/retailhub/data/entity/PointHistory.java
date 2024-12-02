@@ -3,6 +3,8 @@ package com.project.retailhub.data.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Nationalized;
+
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,8 +21,9 @@ public class PointHistory {
     @Column(name = "history_id", columnDefinition = "BIGINT")
     private Long historyId;
 
-    @Column(name = "transaction_date", columnDefinition = "DATE", nullable = false)
-    private Date transactionDate;
+    @Column(name = "transaction_date")
+    private OffsetDateTime transactionDate; // Sử dụng OffsetDateTime để lưu trữ ngày giờ với múi giờ
+
 
     @Column(name = "points", columnDefinition = "INT", nullable = false)
     private int points;

@@ -291,3 +291,4 @@ select * from payment_methods
 SELECT * FROM invoices
 
 SELECT * FROM taxes
+SELECT * FROM point_history
