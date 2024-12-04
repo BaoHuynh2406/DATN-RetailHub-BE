@@ -28,4 +28,14 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("statuses") List<String> statuses,
             Pageable pageable
     );
+
+    @Query("SELECT i FROM Invoice i " +
+            "WHERE i.invoiceDate BETWEEN :start AND :end " +
+            "AND (:statuses IS NULL OR i.status IN :statuses) " +
+            "ORDER BY i.invoiceDate ASC")
+    List<Invoice> findInvoicesBetweenDatesAndStatuses(
+            @Param("start") Date start,
+            @Param("end") Date end,
+            @Param("statuses") List<String> statuses
+    );
 }

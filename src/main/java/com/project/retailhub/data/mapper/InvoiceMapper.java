@@ -1,5 +1,6 @@
 package com.project.retailhub.data.mapper;
 
+import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
@@ -71,4 +72,9 @@ public abstract class InvoiceMapper {
     public abstract InvoiceResponse toInvoiceResponse(Invoice invoice);
 
     public abstract List<InvoiceResponse> toInvoiceResponseList(List<Invoice> invoices);
+
+    public abstract InvoiceChartDataResponse toInvoiceChartDataResponse(Invoice invoice);
+
+    public abstract List<InvoiceChartDataResponse> toInvoiceChartDataResponseList(List<Invoice> invoices);
+
 }

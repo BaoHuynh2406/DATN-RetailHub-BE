@@ -3,6 +3,7 @@ package com.project.retailhub.service;
 
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
@@ -35,6 +36,8 @@ public interface InvoiceService {
     //--------------PHỤC VỤ CHO VIỆC THÔNG KÊ--------------------------------------------------
     // Lấy hóa đơn từ ngày A -> B
     PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size);
+    //Dữ liệu cho chart
+    List<InvoiceChartDataResponse> getInvoiceChartData(Date start, Date end, String status);
 
     //-----------------------------------------------------------------------------------------
 

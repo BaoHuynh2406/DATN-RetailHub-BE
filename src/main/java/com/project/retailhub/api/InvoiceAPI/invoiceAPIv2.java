@@ -35,5 +35,19 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
+    @GetMapping("/chart-data")
+    public ResponseObject<?> getChartData(
+            @RequestParam(value = "startDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "status", required = false) String status
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.getInvoiceChartData(startDate, endDate, status));
+        log.info("Get ChartData [" + startDate + "|" + endDate + "]");
+        return resultApi;
+    }
+
 
 }

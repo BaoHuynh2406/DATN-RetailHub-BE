@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -13,13 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class InvoiceResponse {
+public class InvoiceChartDataResponse {
     Long invoiceId;
-    String fullName;
-    Long userId;
-    String userFullName;
-    Long customerId;
-    String phoneNumber;
     Date invoiceDate;
     BigDecimal finalTotal;
     String status;

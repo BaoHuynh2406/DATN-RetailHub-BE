@@ -2,6 +2,7 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
@@ -100,49 +101,83 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public PageResponse<InvoiceResponse> getInvoices(Date start,
-                                                     Date end,
-                                                     String status,
-                                                     String sort,
-                                                     int page,
-                                                     int size) {
+    public PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size) {
+        // Chuẩn hóa ngày bắt đầu và kết thúc
+        start = normalizeStartDate(start);
+        end = normalizeEndDate(end);
 
-        //Validate startDate and endDate
-        Date today = new Date();
-        if (start == null) start = today;
-        if (end == null) end = today;
         if (end.before(start)) {
             throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
         }
+        // Phân tách trạng thái thành danh sách
+        List<String> statusList = parseStatusList(status);
 
-        Calendar calendar = Calendar.getInstance();
-        if (start.equals(end)) {
-            calendar.setTime(end);
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 59);
-            calendar.set(Calendar.SECOND, 59);
-            calendar.set(Calendar.MILLISECOND, 999);
-            end = calendar.getTime();
-        }
-
-        // Phân tách chuỗi trạng thái thành danh sách
-        List<String> statusList = status != null && !status.isEmpty()
-                ? Arrays.asList(status.split(","))
-                : null;
-
-        Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        // Xác định sắp xếp
+        Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(direction, "invoiceDate"));
 
-        Page<Invoice> p = invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList, pageable);
+        // Truy vấn dữ liệu
+        Page<Invoice> invoicePage = invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList, pageable);
 
+        // Trả về phản hồi
         return PageResponse.<InvoiceResponse>builder()
-                .totalPages(p.getTotalPages())
-                .pageSize(p.getSize())
+                .totalPages(invoicePage.getTotalPages())
+                .pageSize(invoicePage.getSize())
                 .currentPage(page)
-                .totalElements(p.getTotalElements())
-                .data(invoiceMapper.toInvoiceResponseList(p.getContent()))
+                .totalElements(invoicePage.getTotalElements())
+                .data(invoiceMapper.toInvoiceResponseList(invoicePage.getContent()))
                 .build();
     }
+
+    @Override
+    public List<InvoiceChartDataResponse> getInvoiceChartData(Date start, Date end, String status) {
+        // Chuẩn hóa ngày bắt đầu và kết thúc
+        start = normalizeStartDate(start);
+        end = normalizeEndDate(end);
+
+        if (end.before(start)) {
+            throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
+        }
+        // Phân tách trạng thái thành danh sách
+        List<String> statusList = parseStatusList(status);
+
+        // Truy vấn dữ liệu và ánh xạ kết quả
+        return invoiceMapper.toInvoiceChartDataResponseList(
+                invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList)
+        );
+    }
+
+    /**
+     * Chuẩn hóa ngày bắt đầu (nếu null, gán giá trị là ngày hiện tại).
+     */
+    private Date normalizeStartDate(Date start) {
+        return start != null ? start : new Date();
+    }
+
+    /**
+     * Chuẩn hóa ngày kết thúc, đặt giờ phút giây tối đa trong ngày.
+     */
+    private Date normalizeEndDate(Date end) {
+        if (end == null) end = new Date();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(end);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    /**
+     * Phân tách trạng thái từ chuỗi thành danh sách.
+     */
+    private List<String> parseStatusList(String status) {
+        return (status != null && !status.isEmpty())
+                ? Arrays.asList(status.split(","))
+                : null;
+    }
+
 
     /**
      * Creates a new invoice for a specific user.
