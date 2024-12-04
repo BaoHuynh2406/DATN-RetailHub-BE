@@ -32,10 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -109,10 +106,6 @@ public class InvoiceServiceImpl implements InvoiceService {
                                                      String sort,
                                                      int page,
                                                      int size) {
-        // Đặt giá trị mặc định cho size
-        if (size <= 0) {
-            size = 20;
-        }
 
         //Validate startDate and endDate
         Date today = new Date();
@@ -120,6 +113,16 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (end == null) end = today;
         if (end.before(start)) {
             throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        if (start.equals(end)) {
+            calendar.setTime(end);
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            calendar.set(Calendar.MILLISECOND, 999);
+            end = calendar.getTime();
         }
 
         // Phân tách chuỗi trạng thái thành danh sách

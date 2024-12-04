@@ -20,6 +20,6 @@ public class InvoiceResponse {
     Long customerId;
     String phoneNumber;
     Date invoiceDate;
-    BigDecimal totalAmount;
+    BigDecimal finalTotal;
     String status;
 }
