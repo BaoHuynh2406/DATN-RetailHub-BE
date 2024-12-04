@@ -27,10 +27,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -101,7 +103,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public PageResponse<InvoiceResponse> getInvoices(Date start, Date end, int page, int size) {
+    public PageResponse<InvoiceResponse> getInvoices(Date start,
+                                                     Date end,
+                                                     String status,
+                                                     String sort,
+                                                     int page,
+                                                     int size) {
         // Đặt giá trị mặc định cho size
         if (size <= 0) {
             size = 20;
@@ -109,18 +116,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         //Validate startDate and endDate
         Date today = new Date();
-        if (start == null) {
-            start = today;
-        }
-        if (end == null) {
-            end = today;
-        }
+        if (start == null) start = today;
+        if (end == null) end = today;
         if (end.before(start)) {
             throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
         }
 
-        Pageable pageable = PageRequest.of(0, size);
-        Page<Invoice> p = invoiceRepository.findInvoicesBetweenDates(start, end, pageable);
+        // Phân tách chuỗi trạng thái thành danh sách
+        List<String> statusList = status != null && !status.isEmpty()
+                ? Arrays.asList(status.split(","))
+                : null;
+
+        Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(direction, "invoiceDate"));
+
+        Page<Invoice> p = invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList, pageable);
 
         return PageResponse.<InvoiceResponse>builder()
                 .totalPages(p.getTotalPages())

@@ -34,7 +34,7 @@ public interface InvoiceService {
 
     //--------------PHỤC VỤ CHO VIỆC THÔNG KÊ--------------------------------------------------
     // Lấy hóa đơn từ ngày A -> B
-    PageResponse<InvoiceResponse> getInvoices(Date start, Date end, int page, int size);
+    PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size);
 
     //-----------------------------------------------------------------------------------------
 

@@ -24,13 +24,13 @@ public class invoiceAPIv2 {
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam(value = "endDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
-            @RequestParam(value = "status", required = false, defaultValue = "ALL") String status,
+            @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "sort", required = false, defaultValue = "desc") String sort,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "20") int size
     ) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(invoiceService.getInvoices(startDate, endDate, page, size));
+        resultApi.setData(invoiceService.getInvoices(startDate, endDate, status, sort, page, size));
         log.info("Get Invoice [" + startDate + "|" + endDate + "]");
         return resultApi;
     }
