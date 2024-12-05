@@ -41,18 +41,6 @@ CREATE TABLE customers
 );
 
 
-CREATE TABLE point_history
-(
-    history_id BIGINT PRIMARY KEY IDENTITY(1, 1),
-    user_id BIGINT,
-    customer_id BIGINT,
-    transaction_date DATE NOT NULL,
-    points INT NOT NULL,
-    transaction_type NVARCHAR(20) NOT NULL,
-    description NVARCHAR(100) NOT NULL,
-    CONSTRAINT FK_point_history_users FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT FK_point_history_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-);
 
 
 CREATE TABLE categories
@@ -181,6 +169,21 @@ CREATE TABLE invoice_items
     CONSTRAINT FK_invoice_items_products FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
+
+CREATE TABLE point_history
+(
+    history_id BIGINT PRIMARY KEY IDENTITY(1, 1),
+    user_id BIGINT,
+    customer_id BIGINT,
+	invoice_id BIGINT,
+    transaction_date DATE NOT NULL,
+    points INT NOT NULL,
+    description NVARCHAR(100) NOT NULL,
+    CONSTRAINT FK_point_history_users FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT FK_point_history_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+	CONSTRAINT FK_point_history_invoice FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id)
+);
+
 CREATE TABLE payment_methods
 (
     payment_method_id VARCHAR(10) PRIMARY KEY,
@@ -288,3 +291,4 @@ select * from payment_methods
 SELECT * FROM invoices
 
 SELECT * FROM taxes
+SELECT * FROM point_history

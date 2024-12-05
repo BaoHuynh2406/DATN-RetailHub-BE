@@ -114,7 +114,22 @@ public class CustomerServiceImpl implements CustomerService {
     public PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size) {
         // Tạo Pageable object
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Customer> p  = customerRepository.findAll(pageable);
+        Page<Customer> p = customerRepository.findAll(pageable);
+        List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
+        return PageResponse.<CustomeResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pageSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(customerResponseList) // Sử dụng danh sách đã map
+                .build();
+    }
+
+    @Override
+    public PageResponse<CustomeResponse> getAllActiveCustomerPagination(int page, int size) {
+        // Tạo Pageable object
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Customer> p = customerRepository.findAllByIsDeleteFalse(pageable);
         List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
         return PageResponse.<CustomeResponse>builder()
                 .totalPages(p.getTotalPages())
@@ -129,7 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
     public PageResponse<CustomeResponse> getAllDeletedCustomerPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Customer> p  = customerRepository.findAll(pageable);
+        Page<Customer> p = customerRepository.findAllByIsDeleteTrue(pageable);
 
         List<CustomeResponse> customerResponseList = customerMapper.toCustomerResponseList(p.getContent());
 

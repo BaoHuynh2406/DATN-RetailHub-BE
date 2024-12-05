@@ -75,7 +75,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
-        @GetMapping("/deleted")
+    @GetMapping("/deleted")
     public ResponseObject<?> doGetAllDeletedCustomers() {
         var resultApi = new ResponseObject<>();
         resultApi.setData(customerService.getAllDeletedCustomers());

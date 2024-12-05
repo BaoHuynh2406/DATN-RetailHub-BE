@@ -1,6 +1,8 @@
 package com.project.retailhub.data.mapper;
 
+import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
+import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.entity.Invoice;
 import com.project.retailhub.data.entity.InvoiceItem;
@@ -65,4 +67,14 @@ public abstract class InvoiceMapper {
                 .map(invoice -> toInvoiceResponseForUser(invoice, invoiceItemRepository, productRepository, invoiceItemMapper))
                 .collect(Collectors.toList());
     }
+
+    // Phương thức để chuyển đổi Invoice sang InvoiceResponse
+    public abstract InvoiceResponse toInvoiceResponse(Invoice invoice);
+
+    public abstract List<InvoiceResponse> toInvoiceResponseList(List<Invoice> invoices);
+
+    public abstract InvoiceChartDataResponse toInvoiceChartDataResponse(Invoice invoice);
+
+    public abstract List<InvoiceChartDataResponse> toInvoiceChartDataResponseList(List<Invoice> invoices);
+
 }
