@@ -51,7 +51,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-
     @Override
     public void updateProduct(ProductRequest request) {
         long productId = request.getProductId();
@@ -87,7 +86,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-
     @Override
     public ProductResponse getProduct(long productId) {
         Product product = productRepository.findById(productId)
@@ -96,7 +94,6 @@ public class ProductServiceImpl implements ProductService {
         log.info("ProductResponse: {}", response);
         return response;
     }
-
 
     @Override
     public void deleteProduct(long productId) {
@@ -141,21 +138,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResponse<ProductResponse> findProductsByNameContainingWithPagination(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size); // Chuyển đổi page thành index bắt đầu từ 0
-        Page<Product> productPage = productRepository.findByProductNameContainingIgnoreCase(keyword, pageable);
-
-        return PageResponse.<ProductResponse>builder()
-                .totalPages(productPage.getTotalPages())
-                .pageSize(productPage.getSize())
-                .currentPage(page)
-                .totalElements(productPage.getTotalElements())
-                .data(productPage.getContent().stream()
-                        .map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
-                .build();
-    }
-
-    @Override
     public PageResponse<ProductResponse> findProductsByKeywordWithPagination(String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size); // Chuyển đổi page thành index bắt đầu từ 0
         Page<Product> productPage = productRepository.findByKeyword(keyword, pageable);
@@ -176,7 +158,6 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
-
     @Override
     public ProductResponse getByName(String productName) {
         // Tìm tất cả sản phẩm có tên gần đúng
@@ -187,7 +168,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = products.get(0);  // Lấy sản phẩm đầu tiên
         return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
-
 
     @Override
     public ProductResponse getByBarcode(String barcode) {
