@@ -226,6 +226,16 @@ public class ProductServiceImpl implements ProductService {
         return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
     }
 
+    @Override
+    public List<ProductResponse> findByProductBarcodeLike(String barcode) {
+        List<Product> products = productRepository.findByProductBarCodeLike(barcode);
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+        Product product = products.get(0);
+        return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
+    }
+
 
     @Override
     public PageResponse<ProductResponse> findAllProductPagination(int page, int size) {

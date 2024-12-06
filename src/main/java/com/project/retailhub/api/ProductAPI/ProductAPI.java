@@ -62,6 +62,10 @@ public class ProductAPI {
         return productService.findByProductNameLike(productName);
     }
 
+    @GetMapping("/searchByProductBarcodeLike")
+    public List<ProductResponse> searchProductByBarcodeContaining(@RequestParam String barcode) {
+        return productService.findByProductBarcodeLike(barcode);
+    }
 
     @GetMapping("/category/{categoryId}")
     public ResponseObject<List<ProductResponse>> getAllByCategoryId(@PathVariable int categoryId) {

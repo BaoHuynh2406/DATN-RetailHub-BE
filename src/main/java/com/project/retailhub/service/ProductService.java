@@ -39,6 +39,8 @@ public interface ProductService
 
     List<ProductResponse> findByProductNameLike(String productName);
 
+    List<ProductResponse> findByProductBarcodeLike(String barcode);
+
     PageResponse<ProductResponse> findAllProductPagination(int page, int size);
 
     PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size);
