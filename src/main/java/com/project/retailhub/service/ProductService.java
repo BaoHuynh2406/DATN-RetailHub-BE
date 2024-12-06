@@ -35,6 +35,8 @@ public interface ProductService
 
     List<ProductResponse> getAllByCategoryId(int categoryId);
 
+    List<ProductResponse> findProductsByProductIdLike(Long productId);
+
     PageResponse<ProductResponse> findAllProductPagination(int page, int size);
 
     PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size);

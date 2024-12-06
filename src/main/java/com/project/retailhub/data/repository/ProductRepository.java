@@ -4,6 +4,8 @@ import com.project.retailhub.data.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,5 +35,11 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     Page<Product> findAllByIsDeleteTrue(Pageable pageable);
 
     Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
+
+    // Chỉnh sửa phương thức tìm kiếm gần đúng sản phẩm theo productId
+    @Query("SELECT p FROM Product p WHERE CAST(p.productId AS string) LIKE %:productId%")
+    List<Product> findByProductIdLike(@Param("productId") String productId);
+
+
 
 }

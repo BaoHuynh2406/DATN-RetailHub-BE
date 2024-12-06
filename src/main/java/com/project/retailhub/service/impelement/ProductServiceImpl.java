@@ -190,6 +190,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> findProductsByProductIdLike(Long productId) {
+        // Chuyển productId thành chuỗi
+        String productIdStr = String.valueOf(productId);
+
+        // Tìm tất cả các sản phẩm có id gần giống productId
+        List<Product> products = productRepository.findByProductIdLike(productIdStr);
+
+        // Kiểm tra xem danh sách sản phẩm có rỗng không
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_ID_NULL);
+        }
+
+        // Lấy sản phẩm đầu tiên trong danh sách
+        Product product = products.get(0);
+
+        // Chuyển sản phẩm đầu tiên thành ProductResponse và trả về trong danh sách
+        return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
+    }
+
+
+
+
+    @Override
     public PageResponse<ProductResponse> findAllProductPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Product> p  = productRepository.findAll(pageable);

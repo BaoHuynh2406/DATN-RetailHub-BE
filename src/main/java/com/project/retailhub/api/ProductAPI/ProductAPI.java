@@ -52,6 +52,12 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @GetMapping("/searchByProductIdLike")
+    public List<ProductResponse> searchProductByIdLike(@RequestParam Long productId) {
+        return productService.findProductsByProductIdLike(productId);
+    }
+
+
     @GetMapping("/category/{categoryId}")
     public ResponseObject<List<ProductResponse>> getAllByCategoryId(@PathVariable int categoryId) {
         var resultApi = new ResponseObject<List<ProductResponse>>();
