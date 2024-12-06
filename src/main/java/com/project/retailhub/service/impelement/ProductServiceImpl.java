@@ -136,7 +136,7 @@ public class ProductServiceImpl implements ProductService {
         if (products.isEmpty()) {
             throw new AppException(ErrorCode.PRODUCT_ID_NULL);
         }
-        Product product = products.get(0);  // Lấy id đầu tiên
+        Product product = products.get(0);
         return productMapper.toProductResponse(product, categoryRepository, taxRepository);
     }
 
@@ -209,7 +209,22 @@ public class ProductServiceImpl implements ProductService {
         return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
     }
 
+    @Override
+    public List<ProductResponse> findByProductNameLike(String productName) {
+        // Tìm tất cả các sản phẩm có tên gần giống productName
+        List<Product> products = productRepository.findByProductNameLike(productName);
 
+        // Kiểm tra xem danh sách sản phẩm có rỗng không
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NAME_NULL);
+        }
+
+        // Lấy sản phẩm đầu tiên trong danh sách
+        Product product = products.get(0);
+
+        // Chuyển sản phẩm đầu tiên thành ProductResponse và trả về trong danh sách
+        return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
+    }
 
 
     @Override

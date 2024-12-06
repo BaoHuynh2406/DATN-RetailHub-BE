@@ -36,10 +36,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
 
-    // Chỉnh sửa phương thức tìm kiếm gần đúng sản phẩm theo productId
+    // phương thức tìm kiếm gần đúng sản phẩm theo productId
     @Query("SELECT p FROM Product p WHERE CAST(p.productId AS string) LIKE %:productId%")
     List<Product> findByProductIdLike(@Param("productId") String productId);
 
+    @Query("SELECT p FROM Product p WHERE p.productName LIKE %:productName%")
+    List<Product> findByProductNameLike(@Param("productName") String productName);
 
 
 }
