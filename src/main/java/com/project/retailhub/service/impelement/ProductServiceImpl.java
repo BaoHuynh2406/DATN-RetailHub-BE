@@ -155,6 +155,27 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    @Override
+    public PageResponse<ProductResponse> findProductsByKeywordWithPagination(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // Chuyển đổi page thành index bắt đầu từ 0
+        Page<Product> productPage = productRepository.findByKeyword(keyword, pageable);
+
+        // Kiểm tra nếu danh sách trống
+        if (productPage.isEmpty()) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+
+        // Xây dựng kết quả trả về
+        return PageResponse.<ProductResponse>builder()
+                .totalPages(productPage.getTotalPages())
+                .pageSize(productPage.getSize())
+                .currentPage(page)
+                .totalElements(productPage.getTotalElements())
+                .data(productPage.getContent().stream()
+                        .map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .build();
+    }
+
 
     @Override
     public ProductResponse getByName(String productName) {
@@ -235,7 +256,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = products.get(0);
         return List.of(productMapper.toProductResponse(product, categoryRepository, taxRepository));
     }
-
 
     @Override
     public PageResponse<ProductResponse> findAllProductPagination(int page, int size) {

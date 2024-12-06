@@ -54,6 +54,22 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
+//    @GetMapping("/search")
+//    public ResponseObject<PageResponse<ProductResponse>> searchProducts(
+//            @RequestParam String keyword,
+//            @RequestParam int page,
+//            @RequestParam int size) {
+//        var resultApi = new ResponseObject<PageResponse<ProductResponse>>();
+//        try {
+//            resultApi.setData(productService.findProductsByNameContainingWithPagination(keyword, page, size));
+//            resultApi.setMessage("Products retrieved successfully");
+//        } catch (AppException e) {
+//            resultApi.setCode(e.getErrorCode().getCode());
+//            resultApi.setMessage(e.getMessage());
+//        }
+//        log.info("Search products with keyword: {}", keyword);
+//        return resultApi;
+//    }
     @GetMapping("/search")
     public ResponseObject<PageResponse<ProductResponse>> searchProducts(
             @RequestParam String keyword,
@@ -61,7 +77,7 @@ public class ProductAPIv2 {
             @RequestParam int size) {
         var resultApi = new ResponseObject<PageResponse<ProductResponse>>();
         try {
-            resultApi.setData(productService.findProductsByNameContainingWithPagination(keyword, page, size));
+            resultApi.setData(productService.findProductsByKeywordWithPagination(keyword, page, size));
             resultApi.setMessage("Products retrieved successfully");
         } catch (AppException e) {
             resultApi.setCode(e.getErrorCode().getCode());
@@ -70,6 +86,7 @@ public class ProductAPIv2 {
         log.info("Search products with keyword: {}", keyword);
         return resultApi;
     }
+
 
 
 }

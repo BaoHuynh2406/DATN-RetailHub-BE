@@ -1,5 +1,7 @@
 package com.project.retailhub.data.repository;
 
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     Page<Product> findAllByIsDeleteTrue(Pageable pageable);
 
     Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE " +
+            "LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "CAST(p.productId AS string) LIKE CONCAT('%', :keyword, '%') OR " +
+            "LOWER(p.barcode) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Product> findByKeyword(String keyword, Pageable pageable);
 
     // phương thức tìm kiếm gần đúng sản phẩm theo productId
     @Query("SELECT p FROM Product p WHERE CAST(p.productId AS string) LIKE %:productId%")

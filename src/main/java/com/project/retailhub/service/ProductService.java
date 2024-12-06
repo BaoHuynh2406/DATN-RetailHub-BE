@@ -49,4 +49,6 @@ public interface ProductService
 
     PageResponse<ProductResponse> findProductsByNameContainingWithPagination(String keyword, int page, int size);
 
+    PageResponse<ProductResponse> findProductsByKeywordWithPagination(String keyword, int page, int size);
+
 }
