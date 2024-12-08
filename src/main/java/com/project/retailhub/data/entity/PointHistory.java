@@ -22,7 +22,7 @@ public class PointHistory {
     private Long historyId;
 
     @Column(name = "transaction_date")
-    private OffsetDateTime transactionDate; // Sử dụng OffsetDateTime để lưu trữ ngày giờ với múi giờ
+    private OffsetDateTime transactionDate;
 
 
     @Column(name = "points", columnDefinition = "INT", nullable = false)

@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.*;
 
 @Service
@@ -188,7 +189,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      */
     @Override
     public InvoiceResponseForUser createNewInvoice(InvoiceRequestCreate request) {
-
         Invoice invoice = invoiceRepository.save(Invoice.builder()
                 .userId(request.getUserId())
                 .customerId(request.getCustomerId())

@@ -7,4 +7,5 @@ import com.project.retailhub.data.entity.Payment;
 public interface PaymentService {
     void handlePaymentCash(HandlePaymentRequest request);
 
+
 }

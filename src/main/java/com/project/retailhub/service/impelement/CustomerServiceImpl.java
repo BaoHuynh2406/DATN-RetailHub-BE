@@ -111,6 +111,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public List<CustomeResponse> findCustomerByPhoneNumber(String phone) {
+        return customerMapper.toCustomerResponseList(customerRepository.findByPhoneNumber(phone).stream().toList());
+    }
+
+    @Override
     public PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size) {
         // Tạo Pageable object
         Pageable pageable = PageRequest.of(page - 1, size);

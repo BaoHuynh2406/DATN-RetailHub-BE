@@ -1,6 +1,6 @@
 package com.project.retailhub.api;
 
-import com.project.retailhub.data.dto.request.HistoryRequest;
+import com.project.retailhub.data.dto.request.TransactionRequest;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.PointHistoryService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +42,9 @@ public class PointHistoryAPI {
 
     // API để tạo mới một lịch sử điểm
     @PostMapping("/exchange")
-    public ResponseObject<?> doCreateExchange(@RequestBody HistoryRequest request) {
+    public ResponseObject<?> doCreateExchange(@RequestBody TransactionRequest request) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(pointHistoryService.createHistory(request));
+        resultApi.setData(pointHistoryService.createTransaction(request));
         log.info("Created new point history for user ID {} and customer ID {}", request.getUserId(), request.getCustomerId());
         return resultApi;
     }

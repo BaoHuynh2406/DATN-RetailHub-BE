@@ -4,6 +4,8 @@ import com.project.retailhub.data.entity.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +28,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Page<Customer> findAllByIsDeleteFalse(Pageable pageable);
 
     Page<Customer> findAllByIsDeleteTrue(Pageable pageable);
+
+    @Query("SELECT c FROM Customer c WHERE c.phoneNumber LIKE %:phoneSuffix")
+    List<Customer> findByPhoneNumberSuffix(@Param("phoneSuffix") String phoneSuffix);
 
 }

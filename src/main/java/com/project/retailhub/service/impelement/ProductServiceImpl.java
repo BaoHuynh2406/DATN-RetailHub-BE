@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -159,6 +160,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public BigDecimal getCurrentQuantity(Long productId) {
+        return productRepository
+                .findById(productId).orElseThrow(() -> new RuntimeException("Product Not found"))
+                .getInventoryCount();
+    }
+
+    @Override
+    public void subtractQuantity(Long productId, int quantity) {
+        Product product = productRepository
+                .findById(productId).orElseThrow(() -> new RuntimeException("Product Not found"));
+        product.setInventoryCount(product.getInventoryCount().subtract(BigDecimal.valueOf(quantity)));
+
+        //Để thành hết hàng nếu bằng 0
+        if(product.getInventoryCount().compareTo(BigDecimal.valueOf(0.0)) <= 0){
+            product.setIsActive(false);
+        }
+        productRepository.save(product);
+    }
+
+    @Override
     public ProductResponse getByName(String productName) {
         // Tìm tất cả sản phẩm có tên gần đúng
         List<Product> products = productRepository.findByProductNameContainingIgnoreCase(productName);
@@ -240,7 +261,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageResponse<ProductResponse> findAllProductPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> p  = productRepository.findAll(pageable);
+        Page<Product> p = productRepository.findAll(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())
@@ -253,7 +274,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> p  = productRepository.findAllByIsDeleteFalse(pageable);
+        Page<Product> p = productRepository.findAllByIsDeleteFalse(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())
@@ -266,7 +287,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageResponse<ProductResponse> findAllProductPaginationDeleted(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> p  = productRepository.findAllByIsDeleteTrue(pageable);
+        Page<Product> p = productRepository.findAllByIsDeleteTrue(pageable);
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())

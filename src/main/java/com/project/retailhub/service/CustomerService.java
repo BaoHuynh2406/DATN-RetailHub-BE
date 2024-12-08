@@ -24,6 +24,9 @@ public interface CustomerService {
 
     List<CustomeResponse> getAllDeletedCustomers();
 
+    //Tìm khách hàng theo số điện thoại
+    List<CustomeResponse> findCustomerByPhoneNumber(String phone);
+
     //Phân Trang
     PageResponse<CustomeResponse> getAllCustomerPagination(int page, int size);
     PageResponse<CustomeResponse> getAllActiveCustomerPagination(int page, int size);

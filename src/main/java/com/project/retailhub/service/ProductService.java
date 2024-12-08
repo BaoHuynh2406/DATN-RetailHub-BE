@@ -7,6 +7,7 @@ import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.repository.CategoryRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService
@@ -49,4 +50,7 @@ public interface ProductService
 
     PageResponse<ProductResponse> findProductsByKeywordWithPagination(String keyword, int page, int size);
 
+    BigDecimal getCurrentQuantity (Long productId);
+
+    void subtractQuantity(Long productId, int quantity);
 }
