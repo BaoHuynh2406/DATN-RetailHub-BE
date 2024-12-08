@@ -1,7 +1,6 @@
 package com.project.retailhub.api;
 
 import com.project.retailhub.service.SendEmailService;
-import com.project.retailhub.service.impelement.SendEmailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api-public/auth")
 @RequiredArgsConstructor
 public class SendEmailAPI {
 
