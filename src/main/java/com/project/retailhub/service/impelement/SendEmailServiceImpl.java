@@ -85,7 +85,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         Random random = new Random();
         int otpCode = 100000 + random.nextInt(900000);
 
-        // Debugging: Kiểm tra thông tin OTP và email
+        // Kiểm tra thông tin OTP và email
         System.out.println("Generated OTP: " + otpCode);
         System.out.println("Email chuẩn hóa: " + email);
 
@@ -99,7 +99,7 @@ public class SendEmailServiceImpl implements SendEmailService {
             return -1;
         }
 
-        // Debugging: Kiểm tra OTP đã lưu trong bộ nhớ
+        // Kiểm tra OTP đã lưu trong bộ nhớ
         System.out.println("Stored OTP in otpStorage: " + otpStorage.get(email));
 
         return otpCode;

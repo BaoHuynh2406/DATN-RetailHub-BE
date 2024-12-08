@@ -19,7 +19,7 @@ public class SendEmailAPI {
     public ResponseEntity<?> sendOtp(@RequestBody Map<String, String> request) {
         String email = request.get("email");
 
-        // Debugging email nhận từ client
+        // Email nhận từ client
         System.out.println("Received email from client: '" + email + "'");
 
         if (email == null || email.isEmpty()) {
@@ -42,7 +42,7 @@ public class SendEmailAPI {
         String otpStr = request.get("otp");
         String newPassword = request.get("newPassword");
 
-        // Debugging: Kiểm tra dữ liệu request
+        // Kiểm tra dữ liệu request
         System.out.println("Request email: " + email);
         System.out.println("Request OTP: " + otpStr);
         System.out.println("Request newPassword: " + newPassword);
