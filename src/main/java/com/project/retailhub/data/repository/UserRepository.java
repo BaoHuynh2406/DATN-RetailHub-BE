@@ -28,4 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Tìm tất cả nhan vien có isDelete = true( đã bị xóa) có tham số
     Page<User> findAllByIsDeleteTrue(Pageable pageable);
+
+
 }
