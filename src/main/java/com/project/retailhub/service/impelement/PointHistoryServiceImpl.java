@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,10 +82,13 @@ public class PointHistoryServiceImpl implements PointHistoryService {
         //Check khách hàng
         Customer customer = customerRepository.findById(entity.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
-        if(customer.getIsActive() == false || customer.getIsDelete() == true) {
+        if (!customer.getIsActive() || customer.getIsDelete()) {
             throw new RuntimeException("Customer is not active or deleted");
         }
 
+        if(customer.getCustomerId() == 1000){
+           return null;
+        }
 
         //Check Nhân viên
         User user = userRepository.findById(entity.getUserId())
@@ -99,12 +103,12 @@ public class PointHistoryServiceImpl implements PointHistoryService {
             //Tich diem
             customer.setPoints(customer.getPoints() + entity.getPoints());
         } else {
-            //Doi diem
             if (customer.getPoints() >= Math.abs(entity.getPoints())) {
                 customer.setPoints(customer.getPoints() + entity.getPoints());
                 //Tru tien trong hoa don
-
-
+                invoice.setDiscountAmount(BigDecimal.valueOf(Math.abs(entity.getPoints())));
+                //Tính toán lại finalTotal
+                invoice.setFinalTotal(invoice.getFinalTotal().subtract(invoice.getDiscountAmount()));
             } else {
                 throw new RuntimeException("Not enough points");
             }

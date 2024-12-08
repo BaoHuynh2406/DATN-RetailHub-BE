@@ -1,7 +1,9 @@
 package com.project.retailhub.api.InvoiceAPI;
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.ExChangePoinstRq;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.request.InvoiceRequest.UpdateCustomerInvoiceRq;
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
@@ -115,5 +117,29 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+
+    //Cập nhật khách hàng cho hóa đơn
+    @PutMapping("/update-custom-invoice")
+    public ResponseObject<?> updateCustomer(
+            @RequestBody UpdateCustomerInvoiceRq request
+    ) {
+        var resultApi = new ResponseObject<>();
+        invoiceService.updateCustomer(request);
+        resultApi.setData("success");
+        log.info("Updated invoice: " + request.getInvoiceId());
+        return resultApi;
+    }
+
+    //Đổi điểm
+    @PutMapping("/exchange-points")
+    public ResponseObject<?> exchangePoints(
+            @RequestBody ExChangePoinstRq request
+    ) {
+        var resultApi = new ResponseObject<>();
+        invoiceService.exchangePoints(request);
+        resultApi.setData("success");
+        log.info("Exchange points of customerId:" + request.getCustomerId());
+        return resultApi;
+    }
 
 }

@@ -112,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomeResponse> findCustomerByPhoneNumber(String phone) {
-        return customerMapper.toCustomerResponseList(customerRepository.findByPhoneNumber(phone).stream().toList());
+        return customerMapper.toCustomerResponseList(customerRepository.findByPhoneNumberSuffix(phone).stream().toList());
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.project.retailhub.service;
 
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.ExChangePoinstRq;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.request.InvoiceRequest.UpdateCustomerInvoiceRq;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
@@ -56,4 +58,12 @@ public interface InvoiceService {
 
     //Thêm mới sản phẩm vào hóa đơn
     InvoiceItemResponse createNewInvoiceItem(InvoiceItemRequest createRequest);
+
+    //Thay đổi khách hàng cho hóa đơn
+    void updateCustomer(UpdateCustomerInvoiceRq rq);
+
+    //Đổi điểm
+    void exchangePoints(ExChangePoinstRq exchangePointsRequest);
+
+
 }

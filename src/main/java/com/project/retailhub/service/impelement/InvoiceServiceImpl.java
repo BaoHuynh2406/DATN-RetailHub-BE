@@ -1,26 +1,24 @@
 package com.project.retailhub.service.impelement;
 
+import com.project.retailhub.data.dto.request.InvoiceRequest.ExChangePoinstRq;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceItemRequest;
 import com.project.retailhub.data.dto.request.InvoiceRequest.InvoiceRequestCreate;
+import com.project.retailhub.data.dto.request.InvoiceRequest.UpdateCustomerInvoiceRq;
+import com.project.retailhub.data.dto.request.TransactionRequest;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceItemResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
-import com.project.retailhub.data.dto.response.UserResponse;
-import com.project.retailhub.data.entity.Invoice;
-import com.project.retailhub.data.entity.InvoiceItem;
-import com.project.retailhub.data.entity.Product;
-import com.project.retailhub.data.entity.Tax;
+
+import com.project.retailhub.data.entity.*;
 import com.project.retailhub.data.mapper.InvoiceItemMapper;
 import com.project.retailhub.data.mapper.InvoiceMapper;
-import com.project.retailhub.data.repository.InvoiceItemRepository;
-import com.project.retailhub.data.repository.InvoiceRepository;
-import com.project.retailhub.data.repository.ProductRepository;
-import com.project.retailhub.data.repository.TaxRepository;
+import com.project.retailhub.data.repository.*;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.InvoiceService;
+import com.project.retailhub.service.PointHistoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,7 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+
 import java.util.*;
 
 @Service
@@ -46,6 +44,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceMapper invoiceMapper;
     ProductRepository productRepository;
     TaxRepository taxRepository;
+    PointHistoryService pointHistoryService;
+    private final CustomerRepository customerRepository;
 
     @Override
     public InvoiceResponseForUser getInvoiceById(Long invoiceId) {
@@ -292,6 +292,46 @@ public class InvoiceServiceImpl implements InvoiceService {
         handleRecalculate(createRequest.getInvoiceId());
 
         return invoiceItemMapper.toInvoiceItemResponse(invoiceItem, productRepository);
+    }
+
+    @Override
+    public void updateCustomer(UpdateCustomerInvoiceRq rq) {
+        Invoice invoice = invoiceRepository.findById(rq.getInvoiceId())
+                .orElseThrow(() -> new RuntimeException("Not found invoice"));
+
+        Customer customer = customerRepository.findById(rq.getCustomerId())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        invoice.setCustomerId(rq.getCustomerId());
+        invoiceRepository.save(invoice);
+    }
+
+    @Override
+    public void exchangePoints(ExChangePoinstRq exchangePointsRequest) {
+        Invoice invoice = invoiceRepository.findById(exchangePointsRequest.getInvoiceId())
+                .orElseThrow(() -> new RuntimeException("Not found invoice"));
+
+        Customer customer = customerRepository.findById(invoice.getCustomerId())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        int transictionPoint = customer.getPoints();
+
+        if(transictionPoint <= 0){
+            throw new RuntimeException("Không có điểm để đổi");
+        }
+
+        if (invoice.getFinalTotal().intValue() < transictionPoint) {
+            transictionPoint = invoice.getFinalTotal().intValue();
+        }
+        TransactionRequest transactionRequest = new TransactionRequest();
+        transactionRequest.setInvoiceId(invoice.getInvoiceId());
+        transactionRequest.setCustomerId(invoice.getCustomerId());
+        // Đổi lại thành âm
+        transactionRequest.setPoints(-transictionPoint);
+        transactionRequest.setDescription("Đổi " + transactionRequest.getPoints() + "điểm cho hóa đơn:" + invoice.getInvoiceId());
+        transactionRequest.setUserId(invoice.getUserId());
+
+        pointHistoryService.createTransaction(transactionRequest);
     }
 
     // Hàm tính toán lại hóa đơn

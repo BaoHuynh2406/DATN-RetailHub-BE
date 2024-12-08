@@ -82,4 +82,12 @@ public class CustomerAPI {
         log.info("Fetched all deleted customers");
         return resultApi;
     }
+
+    @GetMapping("/find")
+    public ResponseObject<?> doFindCustomerByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(customerService.findCustomerByPhoneNumber(phoneNumber));
+        log.info("Fetched customers with phone number " + phoneNumber);
+        return resultApi;
+    }
 }

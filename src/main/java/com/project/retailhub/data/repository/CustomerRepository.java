@@ -29,7 +29,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Page<Customer> findAllByIsDeleteTrue(Pageable pageable);
 
-    @Query("SELECT c FROM Customer c WHERE c.phoneNumber LIKE %:phoneSuffix")
+    @Query("SELECT c FROM Customer c WHERE c.phoneNumber LIKE %:phoneSuffix% AND c.isDelete = false AND c.isActive = true")
     List<Customer> findByPhoneNumberSuffix(@Param("phoneSuffix") String phoneSuffix);
 
 }
