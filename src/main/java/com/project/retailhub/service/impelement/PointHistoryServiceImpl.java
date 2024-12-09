@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,7 +40,7 @@ public class PointHistoryServiceImpl implements PointHistoryService {
     @Override
     public PageResponse<HistoryResponse> getAllHistories(int page, int size) {
         // Tạo Pageable object
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "transactionDate"));
         Page<PointHistory> p = repository.findAll(pageable); // Lấy tất cả lịch sử từ repository
         List<HistoryResponse> historyResponseList = p.getContent().stream()
                 .map(mapper::toResponse) // Ánh xạ từ History sang HistoryResponse
@@ -58,7 +59,7 @@ public class PointHistoryServiceImpl implements PointHistoryService {
     @Override
     public PageResponse<HistoryResponse> getHistoriesByCustomerId(Long customerId, int page, int size) {
         // Tạo Pageable object
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "transactionDate"));
         Page<PointHistory> p = repository.findByCustomerId(customerId, pageable); // Lọc theo customerId
         List<HistoryResponse> historyResponseList = p.getContent().stream()
                 .map(mapper::toResponse) // Ánh xạ từ History sang HistoryResponse
