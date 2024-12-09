@@ -35,6 +35,19 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
+    @GetMapping("/list-for-user-current-all")
+    public ResponseObject<?> getListForUserAll(
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "sort", required = false, defaultValue = "desc") String sort,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.getAllForUserCurrent(status, sort, page, size));
+        log.info("Get getListForUserAll");
+        return resultApi;
+    }
+
     @GetMapping("/chart-data")
     public ResponseObject<?> getChartData(
             @RequestParam(value = "startDate", required = false)

@@ -30,6 +30,14 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     );
 
     @Query("SELECT i FROM Invoice i " +
+            "WHERE (:statuses IS NULL OR i.status IN :statuses) AND (i.userId = :userId)")
+    Page<Invoice> findInvoicesForUserAndStatus(
+            @Param("userId") Long userId,
+            @Param("statuses") List<String> statuses,
+            Pageable pageable
+    );
+
+    @Query("SELECT i FROM Invoice i " +
             "WHERE i.invoiceDate BETWEEN :start AND :end " +
             "AND (:statuses IS NULL OR i.status IN :statuses) " +
             "ORDER BY i.invoiceDate ASC")

@@ -40,7 +40,7 @@ public interface InvoiceService {
     PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size);
     //Dữ liệu cho chart
     List<InvoiceChartDataResponse> getInvoiceChartData(Date start, Date end, String status);
-
+    PageResponse<InvoiceResponse> getAllForUserCurrent( String status, String sort, int page, int size);
     //-----------------------------------------------------------------------------------------
 
 

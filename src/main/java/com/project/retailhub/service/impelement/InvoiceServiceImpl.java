@@ -27,6 +27,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -146,6 +148,36 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceMapper.toInvoiceChartDataResponseList(
                 invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList)
         );
+    }
+
+    @Override
+    public PageResponse<InvoiceResponse> getAllForUserCurrent(String status, String sort, int page, int size) {
+        // Phân tách trạng thái thành danh sách
+        List<String> statusList = parseStatusList(status);
+
+        //Lấy userID từ token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        long userId = Long.parseLong(authentication.getName());
+
+
+        // Xác định sắp xếp
+        Sort.Direction direction = "asc".equalsIgnoreCase(sort) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(direction, "invoiceDate"));
+
+        // Truy vấn dữ liệu
+        Page<Invoice> invoicePage = invoiceRepository.findInvoicesForUserAndStatus(userId, statusList, pageable);
+
+        // Trả về phản hồi
+        return PageResponse.<InvoiceResponse>builder()
+                .totalPages(invoicePage.getTotalPages())
+                .pageSize(invoicePage.getSize())
+                .currentPage(page)
+                .totalElements(invoicePage.getTotalElements())
+                .data(invoiceMapper.toInvoiceResponseList(invoicePage.getContent()))
+                .build();
     }
 
     /**
