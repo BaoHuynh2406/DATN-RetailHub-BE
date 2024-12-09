@@ -31,6 +31,8 @@ public class SecurityConfig {
             "/api-public/auth/user-info",
             "/api-public/auth/logout",
             "/api-public/auth/refresh",
+            "/api-public/auth/send-otp",
+            "/api-public/auth/verify-otp",
     };
 
     @Bean
