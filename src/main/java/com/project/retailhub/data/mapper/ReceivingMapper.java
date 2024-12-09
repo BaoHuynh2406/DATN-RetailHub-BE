@@ -60,5 +60,7 @@ public interface ReceivingMapper {
                 .isDelete(e.getIsDelete())
                 .build();
     }
-    List<ReceivingResponse> toReceivingResponseList(List<Receiving> receivings, @Context SupplierRepository supplierRepository, @Context UserRepository userRepository);
+    List<ReceivingResponse> toReceivingResponseList(List<Receiving> receivings,
+                                                    @Context SupplierRepository supplierRepository,
+                                                    @Context UserRepository userRepository);
 }
