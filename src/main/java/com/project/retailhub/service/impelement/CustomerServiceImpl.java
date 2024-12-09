@@ -28,15 +28,21 @@ public class CustomerServiceImpl implements CustomerService {
     final CustomerMapper customerMapper;
 
     @Override
-    public void addCustomer(CustomerRequest request) {
+    public Customer addCustomer(CustomerRequest request) {
         // Kiểm tra khách hàng đã tồn tại dựa trên số điện thoại
         if (customerRepository.existsByPhoneNumber(request.getPhoneNumber())) {
             throw new AppException(ErrorCode.CUSTOMER_ALREADY_EXISTS);
         }
+        if(request.getIsActive() == null){
+            request.setIsActive(true);
+        }
+        if(request.getIsDelete() == null){
+            request.setIsDelete(false);
+        }
 
         // Nếu không tồn tại, tiến hành thêm khách hàng mới
         Customer customer = customerMapper.toCustomer(request);
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
 

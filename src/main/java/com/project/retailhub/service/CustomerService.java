@@ -4,11 +4,12 @@ import com.project.retailhub.data.dto.request.CustomerRequest;
 import com.project.retailhub.data.dto.response.CustomeResponse;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
+import com.project.retailhub.data.entity.Customer;
 
 import java.util.List;
 
 public interface CustomerService {
-    void addCustomer(CustomerRequest request);
+    Customer addCustomer(CustomerRequest request);
 
     void updateCustomer(CustomerRequest request);
 

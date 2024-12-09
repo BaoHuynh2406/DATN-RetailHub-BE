@@ -79,6 +79,12 @@ public class PointHistoryServiceImpl implements PointHistoryService {
         OffsetDateTime now = OffsetDateTime.now(); // Lấy ngày giờ hiện tại với múi giờ
         PointHistory entity = mapper.toEntity(request);
 
+
+        //Không thực hiện nếu giao dịch có điểm là 0
+        if (request.getPoints() == 0) {
+            throw new RuntimeException("No points");
+        }
+
         //Check khách hàng
         Customer customer = customerRepository.findById(entity.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
@@ -86,8 +92,8 @@ public class PointHistoryServiceImpl implements PointHistoryService {
             throw new RuntimeException("Customer is not active or deleted");
         }
 
-        if(customer.getCustomerId() == 1000){
-           return null;
+        if (customer.getCustomerId() == 1000) {
+            return null;
         }
 
         //Check Nhân viên
@@ -103,10 +109,15 @@ public class PointHistoryServiceImpl implements PointHistoryService {
             //Tich diem
             customer.setPoints(customer.getPoints() + entity.getPoints());
         } else {
+            //Đổi điểm
             if (customer.getPoints() >= Math.abs(entity.getPoints())) {
                 customer.setPoints(customer.getPoints() + entity.getPoints());
                 //Tru tien trong hoa don
-                invoice.setDiscountAmount(BigDecimal.valueOf(Math.abs(entity.getPoints())));
+                invoice.setDiscountAmount(
+                        invoice.getDiscountAmount()
+                                .add(
+                                        BigDecimal.valueOf(Math.abs(entity.getPoints()
+                                        ))));
                 //Tính toán lại finalTotal
                 invoice.setFinalTotal(invoice.getFinalTotal().subtract(invoice.getDiscountAmount()));
             } else {

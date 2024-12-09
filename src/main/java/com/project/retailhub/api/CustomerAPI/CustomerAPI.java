@@ -26,7 +26,7 @@ public class CustomerAPI {
     @PostMapping("/create")
     public ResponseObject<?> doPostCreateCustomer(@RequestBody CustomerRequest request) {
         var resultApi = new ResponseObject<>();
-        customerService.addCustomer(request);
+        resultApi.setData(customerService.addCustomer(request));
         resultApi.setMessage("Customer added successfully");
         log.info("Added customer successfully");
         return resultApi;

@@ -316,12 +316,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         int transictionPoint = customer.getPoints();
 
-        if(transictionPoint <= 0){
+        // Kiểm tra điểm sử dụng
+        if (transictionPoint <= 0) {
             throw new RuntimeException("Không có điểm để đổi");
         }
 
         if (invoice.getFinalTotal().intValue() < transictionPoint) {
             transictionPoint = invoice.getFinalTotal().intValue();
+            //Trường hơp hoá đơn 0 đồng
+            if (transictionPoint == 0) {
+                throw new RuntimeException("Hoá đơn đang ở giá trị tối thiểu!");
+            }
         }
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setInvoiceId(invoice.getInvoiceId());

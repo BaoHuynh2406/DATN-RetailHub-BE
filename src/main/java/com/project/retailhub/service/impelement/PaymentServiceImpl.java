@@ -71,11 +71,14 @@ public class PaymentServiceImpl implements PaymentService {
             tichDiem.setDescription("Tich Diem Cho Hoa Don " + invoice.getInvoiceId());
             BigDecimal points = invoice.getFinalTotal().multiply(BigDecimal.valueOf(0.01));
             tichDiem.setPoints(points.intValue());
-            pointHistoryService.createTransaction(tichDiem);
+            //Chỉ tích điểm khi điểm lớn hơn 0
+            if(tichDiem.getPoints() > 0){
+                pointHistoryService.createTransaction(tichDiem);
+            }
+            //Cap nhat lai hoa don
+            invoiceRepository.save(invoice);
         }
-        //Cap nhat lai hoa don
-        invoiceRepository.save(invoice);
-    }
+        }
 
 
     //Kiễm tra & trừ tồn kho
