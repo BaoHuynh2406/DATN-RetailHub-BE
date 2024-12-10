@@ -1,150 +1,140 @@
 package com.project.retailhub.service.impelement;
 
+import com.project.retailhub.config.MailConfig;
 import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.repository.UserRepository;
-import com.project.retailhub.data.mapper.UserMapper;
 import com.project.retailhub.service.SendEmailService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Implementation của SendEmailService
+ * Service này xử lý logic gửi OTP, xác thực OTP và logic gửi email.
+ */
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SendEmailServiceImpl implements SendEmailService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-
-    private final Map<String, Integer> otpStorage = new ConcurrentHashMap<>();
+    private final MailConfig mailConfig; // Cấu hình SMTP
+    private final UserRepository userRepository; // Dùng để tìm kiếm user trong DB
+    private Map<String, Integer> otpStorage = new ConcurrentHashMap<>(); // Lưu trữ OTP tạm thời
 
     @Override
     public boolean sendEmail(String email, String subject, String content) {
-        final String username = "lynguyenhoa102@gmail.com";
-        final String password = "ajxbvpfopcatttpr";
-
+        // Cấu hình thông tin SMTP và gửi email
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        properties.put("mail.debug", "true");
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new javax.mail.PasswordAuthentication(username, password);
+                return new PasswordAuthentication(mailConfig.getUsername(), mailConfig.getPassword());
             }
         });
 
         try {
-            Message mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress(username));
-            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            mimeMessage.setSubject(subject);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(mailConfig.getUsername()));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(subject);
+
+            MimeBodyPart bodyPart = new MimeBodyPart();
+            bodyPart.setText(content);
 
             Multipart multipart = new MimeMultipart();
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(content);
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(bodyPart);
 
-            mimeMessage.setContent(multipart);
-            Transport.send(mimeMessage);
+            message.setContent(multipart);
+            Transport.send(message);
 
-            System.out.println("Gửi email thành công!");
+            System.out.println("Email sent successfully to: " + email);
             return true;
         } catch (MessagingException e) {
-            System.err.println("Không thể gửi email: " + e.getMessage());
+            System.err.println("Failed to send email: " + e.getMessage());
             return false;
         }
     }
 
     @Override
     public int sendEmailOTP(String email) {
-        email = email.trim(); // Loại bỏ khoảng trắng hoặc ký tự không hợp lệ
-
-        // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+        // Kiểm tra xem email có tồn tại trong DB không
+        email = email.trim();
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty()) {
-            System.out.println("Email không tồn tại trong hệ thống.");
+            System.out.println("Email not found: " + email);
             return -1;
         }
 
-        Random random = new Random();
-        int otpCode = 100000 + random.nextInt(900000);
+        int otpCode = 100000 + new Random().nextInt(900000); // Tạo mã OTP ngẫu nhiên
+        otpStorage.put(email, otpCode); // Lưu OTP vào bộ nhớ tạm thời
 
-        // Kiểm tra thông tin OTP và email
-        System.out.println("Generated OTP: " + otpCode);
-        System.out.println("Email chuẩn hóa: " + email);
-
-        otpStorage.put(email, otpCode);
-
-        String subject = "Khôi phục tài khoản của bạn";
-        String content = "Vui lòng không chia sẻ mã này với ai: " + otpCode;
+        String subject = "Account Recovery Code";
+        String content = "Your OTP code is: " + otpCode;
 
         if (!sendEmail(email, subject, content)) {
-            System.err.println("Không thể gửi email OTP.");
+            otpStorage.remove(email);
             return -1;
         }
 
-        // Kiểm tra OTP đã lưu trong bộ nhớ
-        System.out.println("Stored OTP in otpStorage: " + otpStorage.get(email));
-
-        return otpCode;
+        return otpCode; // Trả về mã OTP
     }
-
 
     @Override
     public boolean verifyOTP(String email, int otp, String newPassword) {
-        email = email.trim(); // Chuẩn hóa email để tránh lỗi không cần thiết
-        Integer storedOtp = otpStorage.get(email);
-
-        // Debugging thông tin
-        System.out.println("Stored OTP: " + storedOtp);
-        System.out.println("Received OTP: " + otp);
+        email = email.trim();
+        Integer storedOtp = otpStorage.get(email); // Lấy mã OTP từ bộ nhớ
 
         if (storedOtp != null && storedOtp == otp) {
-            otpStorage.remove(email);
-
-            try {
-                Optional<User> userOpt = userRepository.findByEmail(email);
-
-                if (userOpt.isEmpty()) {
-                    System.err.println("Không tìm thấy thông tin tài khoản.");
-                    return false;
-                }
-
-                User user = userOpt.get();
-
-                // Mã hóa mật khẩu mới trước khi lưu
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-                user.setPassword(passwordEncoder.encode(newPassword));
-
-                userRepository.save(user);
-
-                System.out.println("Mật khẩu đã được cập nhật thành công.");
-                return true;
-            } catch (Exception e) {
-                System.err.println("Có lỗi xảy ra khi cập nhật mật khẩu: " + e.getMessage());
-                return false;
-            }
+            otpStorage.remove(email); // Xóa OTP sau khi xác thực thành công
+            return userRepository.findByEmail(email)
+                    .map(user -> {
+                        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+                        user.setPassword(encoder.encode(newPassword)); // Mã hóa mật khẩu mới
+                        userRepository.save(user);
+                        return true;
+                    })
+                    .orElse(false);
         }
 
-        System.err.println("OTP không chính xác hoặc đã hết hiệu lực.");
+        System.err.println("Invalid OTP or OTP expired.");
         return false;
     }
 
+    @Override
+    public String handleSendOtp(String email) {
+        // Gọi logic gửi OTP
+        try {
+            int otp = sendEmailOTP(email);
+            return "OTP sent successfully to email: " + email + ". OTP: " + otp;
+        } catch (Exception e) {
+            return "Failed to send OTP.";
+        }
+    }
 
+    @Override
+    public String handleVerifyOtp(String email, String otpStr, String newPassword) {
+        // Gọi logic xác thực OTP và xử lý mật khẩu mới
+        try {
+            int otp = Integer.parseInt(otpStr);
+            boolean isVerified = verifyOTP(email, otp, newPassword);
+            return isVerified ? "OTP verification successful and password updated." : "OTP verification failed.";
+        } catch (NumberFormatException e) {
+            return "Invalid OTP format.";
+        }
+    }
 }
