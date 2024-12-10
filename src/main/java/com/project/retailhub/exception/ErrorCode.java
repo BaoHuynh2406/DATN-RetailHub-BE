@@ -87,7 +87,11 @@ public enum ErrorCode {
 
 
     //Barcode lookup
-    BARCODE_NOT_FOUND(7000, "Sorry, we couldn't find this barcode.", HttpStatus.NOT_FOUND);
+    BARCODE_NOT_FOUND(7000, "Sorry, we couldn't find this barcode.", HttpStatus.NOT_FOUND),
+
+    // MAIL
+    EMAIL_NOT_FOUND(8000, "Email address does not exist in the database.", HttpStatus.NOT_FOUND);
+
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

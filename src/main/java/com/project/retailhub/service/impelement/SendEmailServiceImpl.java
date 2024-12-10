@@ -3,6 +3,8 @@ package com.project.retailhub.service.impelement;
 import com.project.retailhub.config.MailConfig;
 import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.repository.UserRepository;
+import com.project.retailhub.exception.AppException;
+import com.project.retailhub.exception.ErrorCode;
 import com.project.retailhub.service.SendEmailService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -76,8 +78,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty()) {
-            System.out.println("Email not found: " + email);
-            return -1;
+            throw new AppException(ErrorCode.EMAIL_NOT_FOUND); // Ném lỗi nếu email không tồn tại
         }
 
         int otpCode = 100000 + new Random().nextInt(900000); // Tạo mã OTP ngẫu nhiên
@@ -93,6 +94,7 @@ public class SendEmailServiceImpl implements SendEmailService {
 
         return otpCode; // Trả về mã OTP
     }
+
 
     @Override
     public boolean verifyOTP(String email, int otp, String newPassword) {
@@ -117,14 +119,10 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     @Override
     public String handleSendOtp(String email) {
-        // Gọi logic gửi OTP
-        try {
-            int otp = sendEmailOTP(email);
-            return "OTP sent successfully to email: " + email + ". OTP: " + otp;
-        } catch (Exception e) {
-            return "Failed to send OTP.";
-        }
+        int otp = sendEmailOTP(email); // Ném lỗi nếu email không tồn tại
+        return "OTP sent successfully to email: " + email + ". OTP: " + otp;
     }
+
 
     @Override
     public String handleVerifyOtp(String email, String otpStr, String newPassword) {
