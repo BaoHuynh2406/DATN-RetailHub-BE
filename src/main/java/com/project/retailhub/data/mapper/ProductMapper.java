@@ -40,7 +40,8 @@ public interface ProductMapper {
 
     @Named("taxToTaxResponse")
     default TaxResponse mapTaxToTaxResponse(String taxId, @Context TaxRepository taxRepository) {
-        Tax e = taxRepository.findById(taxId).orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
+        Tax e = taxRepository.findById(taxId)
+                .orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
         return TaxResponse.builder()
                 .taxId(e.getTaxId())
                 .taxName(e.getTaxName())
