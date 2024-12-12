@@ -52,6 +52,7 @@ public class ReceivingDetailsServiceImpl implements ReceivingDetailsService {
 
         receivingDetail.setQuantity(request.getQuantity());
         receivingDetail.setReceivingCost(request.getReceivingCost());
+        receivingDetail.setNote(request.getNote());
         receivingDetailRepository.save(receivingDetail);
         log.info("Updated ReceivingDetail with ID {}", receivingDetailId);
     }
