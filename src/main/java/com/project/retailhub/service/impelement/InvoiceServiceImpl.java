@@ -95,7 +95,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
 
-
     @Override
     public PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size) {
         // Chuẩn hóa ngày bắt đầu và kết thúc
@@ -166,13 +165,33 @@ public class InvoiceServiceImpl implements InvoiceService {
         // Truy vấn dữ liệu
         Page<Invoice> invoicePage = invoiceRepository.findInvoicesForUserAndStatus(userId, statusList, pageable);
 
+
+        //Mapping cấp 1
+        List<InvoiceResponse> invoiceResponses = invoiceMapper.toInvoiceResponseList(invoicePage.getContent());
+
+        //Mapping cấp 2
+        for (InvoiceResponse invoiceResponse : invoiceResponses) {
+            Customer customer = customerRepository.findById(invoiceResponse.getCustomerId()).orElseThrow(
+                    () -> new RuntimeException("Customer not found")
+            );
+
+            User user = userRepository.findById(invoiceResponse.getUserId()).orElseThrow(
+                    () -> new RuntimeException("User not found")
+            );
+
+            invoiceResponse.setFullName(customer.getFullName());
+            invoiceResponse.setPhoneNumber(customer.getPhoneNumber());
+
+            invoiceResponse.setUserFullName(user.getFullName());
+
+        }
         // Trả về phản hồi
         return PageResponse.<InvoiceResponse>builder()
                 .totalPages(invoicePage.getTotalPages())
                 .pageSize(invoicePage.getSize())
                 .currentPage(page)
                 .totalElements(invoicePage.getTotalElements())
-                .data(invoiceMapper.toInvoiceResponseList(invoicePage.getContent()))
+                .data(invoiceResponses)
                 .build();
     }
 
