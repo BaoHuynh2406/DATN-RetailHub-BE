@@ -25,6 +25,7 @@ public class ProductResponse {
     BigDecimal cost;
     BigDecimal price;
     BigDecimal inventoryCount;
+    double discountRate;
     String unit;
     String location;
     Date expiryDate;

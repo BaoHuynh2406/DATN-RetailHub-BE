@@ -38,7 +38,7 @@ public class ProductAPIv2 {
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(productService.findAllProductPaginationAvailable(page, size));
+        resultApi.setData(productService.findAllProductPaginationAvailableAndDiscount(page, size));
         log.info("Get all available products");
         return resultApi;
     }

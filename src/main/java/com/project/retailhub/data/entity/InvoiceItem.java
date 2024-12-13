@@ -24,6 +24,8 @@ public class InvoiceItem {
 
     private BigDecimal unitPrice;
 
+    private Double discountRate;
+
     private double taxRate;
 
     // Khóa ngoại

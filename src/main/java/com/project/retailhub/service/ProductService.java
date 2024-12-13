@@ -44,7 +44,7 @@ public interface ProductService
 
     PageResponse<ProductResponse> findAllProductPagination(int page, int size);
 
-    PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size);
+    PageResponse<ProductResponse> findAllProductPaginationAvailableAndDiscount(int page, int size);
 
     PageResponse<ProductResponse> findAllProductPaginationDeleted(int page, int size);
 

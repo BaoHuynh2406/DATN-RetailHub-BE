@@ -17,6 +17,7 @@ import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.*;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
+import com.project.retailhub.service.DiscountsService;
 import com.project.retailhub.service.InvoiceService;
 import com.project.retailhub.service.PointHistoryService;
 import lombok.AccessLevel;
@@ -49,6 +50,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     PointHistoryService pointHistoryService;
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
+    private final DiscountsService discountsService;
 
     @Override
     public InvoiceResponseForUser getInvoiceById(Long invoiceId) {
@@ -326,6 +328,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         Tax tax = taxRepository.findById(product.getTaxId())
                 .orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
 
+        //Nếu sản phẩm có giảm giá
+        Discounts discounts = discountsService.getDiscountByProductIdAvailable(product.getProductId());
+        double discountRate = 0;
+        if (discounts != null) {
+            discountRate = discounts.getDiscountRate();
+        }
+
 
         var invoiceItem = invoiceItemRepository.save(InvoiceItem
                 .builder()
@@ -334,6 +343,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .taxRate(tax.getTaxRate())
                 .unitPrice(product.getPrice())
                 .cost(product.getCost())
+                .discountRate(discountRate)
                 .quantity(1)
                 .build()
         );
@@ -389,54 +399,65 @@ public class InvoiceServiceImpl implements InvoiceService {
         pointHistoryService.createTransaction(transactionRequest);
     }
 
-    // Hàm tính toán lại hóa đơn
     public InvoiceResponseForUser handleRecalculate(Long invoiceId) {
         Invoice invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
-        if (!Objects.equals(invoice.getStatus(), "PENDING")) {
+        // Kiểm tra trạng thái của hóa đơn
+        if (!"PENDING".equals(invoice.getStatus())) {
             throw new AppException(ErrorCode.ORDER_ALREADY_CANCELED);
         }
+
         List<InvoiceItem> listInvoiceItem = invoiceItemRepository.findByInvoiceId(invoiceId);
 
-        BigDecimal TotalTax = BigDecimal.valueOf(0);
-        BigDecimal TotalAmount = BigDecimal.valueOf(0);
-        BigDecimal TotalCost = BigDecimal.valueOf(0);
+        // Khởi tạo các giá trị tổng
+        BigDecimal totalTax = BigDecimal.ZERO;
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal totalCost = BigDecimal.ZERO;
 
         for (InvoiceItem invoiceItem : listInvoiceItem) {
-            // Tính tax sử dụng BigDecimal
-            BigDecimal tax = BigDecimal.valueOf(invoiceItem.getQuantity())
-                    .multiply(invoiceItem.getUnitPrice())
-                    .multiply(BigDecimal.valueOf(invoiceItem.getTaxRate()));
+            BigDecimal quantity = BigDecimal.valueOf(invoiceItem.getQuantity());
+            BigDecimal unitPrice = invoiceItem.getUnitPrice();
+            BigDecimal taxRate = BigDecimal.valueOf(invoiceItem.getTaxRate());
+            BigDecimal cost = invoiceItem.getCost();
 
-            // Tính amount sử dụng BigDecimal
-            BigDecimal amount = BigDecimal.valueOf(invoiceItem.getQuantity())
-                    .multiply(invoiceItem.getUnitPrice());
 
-            // Tính cost sử dụng BigDecimal
-            BigDecimal cost = BigDecimal.valueOf(invoiceItem.getQuantity())
-                    .multiply(invoiceItem.getCost());
+            // Tính giá trị hàng hóa
+            BigDecimal amount = quantity.multiply(unitPrice);
 
-            // Cộng giá trị tax và amount vào tổng
-            TotalTax = TotalTax.add(tax);
-            TotalAmount = TotalAmount.add(amount);
-            TotalCost = TotalCost.add(cost);
+            // Tính giảm giá
+            if (invoiceItem.getDiscountRate() > 0) {
+                amount = amount.multiply(BigDecimal.valueOf(1 - invoiceItem.getDiscountRate()));
+            }
+
+            // Tính thuế
+            BigDecimal tax = amount.multiply(taxRate);
+            // Tính chi phí
+            BigDecimal itemCost = quantity.multiply(cost);
+
+            // Cộng vào tổng
+            totalTax = totalTax.add(tax);
+            totalAmount = totalAmount.add(amount);
+            totalCost = totalCost.add(itemCost);
         }
-        invoice.setTotalAmount(TotalAmount);
-        invoice.setTotalTax(TotalTax);
-        invoice.setTotalCost(TotalCost);
-        invoice.setFinalTotal(
-                invoice.getTotalAmount()
-                        .add(invoice.getTotalTax())
-                        .subtract(invoice.getDiscountAmount())
-        );
 
+        // Cập nhật các giá trị của invoice
+        invoice.setTotalAmount(totalAmount);
+        invoice.setTotalTax(totalTax);
+        invoice.setTotalCost(totalCost);
+        invoice.setFinalTotal(totalAmount.add(totalTax).subtract(invoice.getDiscountAmount()));
+
+        // Kiểm tra trạng thái thanh toán và cập nhật
         if (invoice.getTotalPayment().compareTo(invoice.getFinalTotal()) >= 0
-                && invoice.getTotalPayment().compareTo(BigDecimal.valueOf(0)) != 0) {
+                && invoice.getTotalPayment().compareTo(BigDecimal.ZERO) != 0) {
             invoice.setStatus("PAID");
         }
+
+        // Lưu lại hóa đơn đã cập nhật
         invoiceRepository.save(invoice);
+
         return getInvoiceById(invoiceId);
     }
+
 
 }

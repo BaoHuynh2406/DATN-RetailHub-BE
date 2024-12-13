@@ -4,16 +4,14 @@ import com.project.retailhub.data.dto.request.product.ProductRequest;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
-import com.project.retailhub.data.entity.Category;
-import com.project.retailhub.data.entity.Product;
-import com.project.retailhub.data.entity.Tax;
-import com.project.retailhub.data.entity.User;
+import com.project.retailhub.data.entity.*;
 import com.project.retailhub.data.mapper.ProductMapper;
 import com.project.retailhub.data.repository.CategoryRepository;
 import com.project.retailhub.data.repository.ProductRepository;
 import com.project.retailhub.data.repository.TaxRepository;
 import com.project.retailhub.exception.AppException;
 import com.project.retailhub.exception.ErrorCode;
+import com.project.retailhub.service.DiscountsService;
 import com.project.retailhub.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
     TaxRepository taxRepository;
     ProductMapper productMapper;
+    DiscountsService discountsService;
 
     @Override
     public void addProduct(ProductRequest request) {
@@ -174,7 +174,7 @@ public class ProductServiceImpl implements ProductService {
         product.setInventoryCount(product.getInventoryCount().subtract(BigDecimal.valueOf(quantity)));
 
         //Để thành hết hàng nếu bằng 0
-        if(product.getInventoryCount().compareTo(BigDecimal.valueOf(0.0)) <= 0){
+        if (product.getInventoryCount().compareTo(BigDecimal.valueOf(0.0)) <= 0) {
             product.setIsActive(false);
         }
         productRepository.save(product);
@@ -273,15 +273,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResponse<ProductResponse> findAllProductPaginationAvailable(int page, int size) {
+    public PageResponse<ProductResponse> findAllProductPaginationAvailableAndDiscount(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Product> p = productRepository.findAllByIsDeleteFalse(pageable);
+
+        List<ProductResponse> result = p.getContent()
+                .stream()
+                .map(product -> {
+                    // Chuyển đổi Product sang ProductResponse
+                    ProductResponse productResponse = productMapper
+                            .toProductResponse(product, categoryRepository, taxRepository);
+
+                    // Lấy Discount cho từng Product
+                    Discounts discount = discountsService.getDiscountByProductIdAvailable(product.getProductId());
+                    if (discount != null) {
+                        double discountPercent = discount.getDiscountRate();
+                        productResponse.setDiscountRate(discountPercent);
+                    }
+
+                    return productResponse;
+                })
+                .toList();
+
         return PageResponse.<ProductResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())
                 .currentPage(page)
                 .totalElements(p.getTotalElements())
-                .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
+                .data(result)
                 .build();
     }
 
@@ -297,6 +316,7 @@ public class ProductServiceImpl implements ProductService {
                 .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
                 .build();
     }
+
     @Override
     public List<ProductResponse> findProductsExpiringSoon() {
         // Tính toán ngày hết hạn sau 1 tháng từ ngày hiện tại

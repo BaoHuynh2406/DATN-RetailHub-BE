@@ -17,5 +17,6 @@ public class InvoiceItemResponse {
      Integer quantity;
      BigDecimal unitPrice;
      double taxRate;
+     Double discountRate;
      Long productId;
 }
