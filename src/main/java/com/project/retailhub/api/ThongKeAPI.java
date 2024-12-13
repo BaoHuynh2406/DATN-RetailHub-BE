@@ -42,6 +42,31 @@ public class ThongKeAPI {
         return resultApi;
     }
 
+    @GetMapping("/invoice-count-by-date-and-paid")
+    public ResponseObject<?> getInvoiceCountByDateAndStatus(
+            @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
 
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getInvoiceCountByDateAndStatus(invoiceDate));
+        log.info("Get invoice count for PAID status on date: " + invoiceDate);
+        return resultApi;
+    }
+    @GetMapping("/revenue-by-date-and-paid")
+    public ResponseObject<?> getRevenueByDateAndStatus(
+            @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
 
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getRevenueByDateAndStatus(invoiceDate));
+        log.info("Get revenue for PAID status on date: " + invoiceDate);
+        return resultApi;
+    }
+    @GetMapping("/revenue-by-month-and-paid")
+    public ResponseObject<?> getRevenueByMonthAndStatus(
+            @RequestParam("month") @DateTimeFormat(pattern = "yyyy-MM") Date month) {
+
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getRevenueByMonthAndStatus(month));
+        log.info("Get revenue for PAID status in month: " + month);
+        return resultApi;
+    }
 }
