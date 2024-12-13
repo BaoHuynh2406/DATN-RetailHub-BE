@@ -1,6 +1,7 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
+import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceRepository;
 import com.project.retailhub.service.ThongKeService;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,5 +69,29 @@ public class ThongKeSvImpl implements ThongKeService {
         );
     }
 
+    @Override
+    public List<SalesVolumeStatistics> getSalesVolumeStatistics(Date start, Date end, String sort, int page, int size) {
+        // Chuẩn hóa ngày bắt đầu và kết thúc
+        start = normalizeStartDate(start);
+        end = normalizeEndDate(end);
 
+        if (end.before(start)) {
+            throw new RuntimeException("Ngày kết thúc phải sau ngày bắt đầu");
+        }
+
+        // Trạng thái hóa đơn cần truy vấn
+        String status = "PAID";
+
+        // Truy vấn danh sách từ repository
+        List<Object[]> results = invoiceRepository.findSoldProductsBetweenDatesWithStatus(start, end, sort, page, size);
+
+        // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
+        return results.stream().map(result -> {
+            SalesVolumeStatistics stats = new SalesVolumeStatistics();
+            stats.setInvoiceId(((Number) result[0]).longValue());
+            stats.setProductName((String) result[1]);
+            stats.setQuantitySold(((Number) result[2]).intValue());
+            return stats;
+        }).collect(Collectors.toList());
+    }
 }
