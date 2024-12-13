@@ -46,4 +46,13 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("end") Date end,
             @Param("statuses") List<String> statuses
     );
+    // Đếm số lượng hóa đơn theo ngày và trạng thái
+    @Query("SELECT COUNT(i) FROM Invoice i " +
+            "WHERE i.invoiceDate = :invoiceDate " +
+            "AND i.status = :status")
+    Long countInvoicesByDateAndStatus(
+            @Param("invoiceDate") Date invoiceDate,
+            @Param("status") String status
+    );
+
 }

@@ -90,8 +90,10 @@ public enum ErrorCode {
     BARCODE_NOT_FOUND(7000, "Sorry, we couldn't find this barcode.", HttpStatus.NOT_FOUND),
 
     // MAIL
-    EMAIL_NOT_FOUND(8000, "Email address does not exist in the database.", HttpStatus.NOT_FOUND);
+    EMAIL_NOT_FOUND(8000, "Email address does not exist in the database.", HttpStatus.NOT_FOUND),
 
+    //Hạn sử dụng
+    NO_PRODUCTS_EXPIRING_SOON(9000, "No products match.", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

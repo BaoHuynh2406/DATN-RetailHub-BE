@@ -2,6 +2,7 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.mapper.InvoiceMapper;
+import com.project.retailhub.data.repository.CustomerRepository;  // Đảm bảo có CustomerRepository
 import com.project.retailhub.data.repository.InvoiceRepository;
 import com.project.retailhub.service.ThongKeService;
 import lombok.AccessLevel;
@@ -20,14 +21,12 @@ import java.util.List;
 public class ThongKeSvImpl implements ThongKeService {
     InvoiceMapper invoiceMapper;
     InvoiceRepository invoiceRepository;
+    CustomerRepository customerRepository;  // Thêm repository để truy vấn số lượng khách hàng
 
     private Date normalizeStartDate(Date start) {
         return start != null ? start : new Date();
     }
 
-    /**
-     * Chuẩn hóa ngày kết thúc, đặt giờ phút giây tối đa trong ngày.
-     */
     private Date normalizeEndDate(Date end) {
         if (end == null) end = new Date();
 
@@ -40,9 +39,6 @@ public class ThongKeSvImpl implements ThongKeService {
         return calendar.getTime();
     }
 
-    /**
-     * Phân tách trạng thái từ chuỗi thành danh sách.
-     */
     private List<String> parseStatusList(String status) {
         return (status != null && !status.isEmpty())
                 ? Arrays.asList(status.split(","))
@@ -51,21 +47,26 @@ public class ThongKeSvImpl implements ThongKeService {
 
     @Override
     public List<InvoiceChartDataResponse> getInvoiceChartDataStartToEnd(Date start, Date end, String status) {
-        // Chuẩn hóa ngày bắt đầu và kết thúc
         start = normalizeStartDate(start);
         end = normalizeEndDate(end);
 
         if (end.before(start)) {
             throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
         }
-        // Phân tách trạng thái thành danh sách
         List<String> statusList = parseStatusList(status);
 
-        // Truy vấn dữ liệu và ánh xạ kết quả
         return invoiceMapper.toInvoiceChartDataResponseList(
                 invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList)
         );
     }
 
+    @Override
+    public Long getActiveCustomerCount() {
+        return customerRepository.countByIsDeleteFalse();  // Đếm khách hàng đang hoạt động
+    }
 
+    @Override
+    public Long getInvoiceCountByDateAndStatus(Date invoiceDate, List<String> statuses) {
+        return invoiceRepository.countInvoicesByDateAndStatus(invoiceDate, statuses);  // Đếm số lượng hóa đơn theo ngày và trạng thái
+    }
 }

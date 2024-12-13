@@ -53,4 +53,6 @@ public interface ProductService
     BigDecimal getCurrentQuantity (Long productId);
 
     void subtractQuantity(Long productId, int quantity);
+
+    List<ProductResponse> findProductsExpiringSoon();
 }

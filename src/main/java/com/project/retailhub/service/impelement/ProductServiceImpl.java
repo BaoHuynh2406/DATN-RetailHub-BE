@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -296,4 +297,22 @@ public class ProductServiceImpl implements ProductService {
                 .data(p.getContent().stream().map(product -> productMapper.toProductResponse(product, categoryRepository, taxRepository)).toList())
                 .build();
     }
+    @Override
+    public List<ProductResponse> findProductsExpiringSoon() {
+        // Tính toán ngày hết hạn sau 1 tháng từ ngày hiện tại
+        LocalDate oneMonthLater = LocalDate.now().plusMonths(1);
+
+        // Truy vấn tất cả sản phẩm hợp lệ với trạng thái không bị xóa và còn hoạt động
+        List<Product> products = productRepository
+                .findByIsDeleteFalseAndIsActiveTrueAndExpiryDateBefore(oneMonthLater);
+
+        // Kiểm tra xem danh sách sản phẩm có rỗng không
+        if (products.isEmpty()) {
+            throw new AppException(ErrorCode.NO_PRODUCTS_EXPIRING_SOON);
+        }
+
+        // Chuyển đổi danh sách sản phẩm thành danh sách ProductResponse và trả về
+        return productMapper.toProductResponseList(products, categoryRepository, taxRepository);
+    }
+
 }
