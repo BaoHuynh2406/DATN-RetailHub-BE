@@ -142,4 +142,20 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @GetMapping("/expiring-soon")
+    public ResponseObject<List<ProductResponse>> getProductsExpiringSoon() {
+        var resultApi = new ResponseObject<List<ProductResponse>>();
+        try {
+            // Gọi phương thức trong service để lấy danh sách sản phẩm hết hạn trong 1 tháng
+            resultApi.setData(productService.findProductsExpiringSoon());
+            resultApi.setMessage("Retrieved products expiring within 1 month successfully");
+        } catch (AppException e) {
+            // Xử lý ngoại lệ nếu có lỗi xảy ra
+            resultApi.setCode(e.getErrorCode().getCode());
+            resultApi.setMessage(e.getMessage());
+        }
+        log.info("Retrieved products expiring within 1 month");
+        return resultApi;
+    }
+
 }

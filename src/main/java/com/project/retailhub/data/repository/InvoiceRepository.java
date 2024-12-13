@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -45,8 +46,24 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("end") Date end,
             @Param("statuses") List<String> statuses
     );
-
-
-    
+    // Đếm số lượng hóa đơn theo ngày từ 00:00 đến 23:59 và trạng thái PAID
+    @Query("SELECT COUNT(i) FROM Invoice i " +
+                "WHERE i.invoiceDate >= :startOfDay " +
+                "AND i.invoiceDate <= :endOfDay " +
+                "AND i.status = 'PAID'")
+        Long countInvoicesByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+    // Tính tổng doanh thu (finalTotal) cho ngày cụ thể và trạng thái PAID
+        @Query("SELECT SUM(i.finalTotal) FROM Invoice i " +
+                "WHERE i.invoiceDate >= :startOfDay " +
+                "AND i.invoiceDate <= :endOfDay " +
+                "AND i.status = 'PAID'")
+        BigDecimal sumRevenueByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+    // Tính tổng doanh thu (finalTotal) cho tháng và trạng thái PAID
+    @Query("SELECT SUM(i.finalTotal) FROM Invoice i " +
+            "WHERE i.invoiceDate >= :startOfMonth " +
+            "AND i.invoiceDate <= :endOfMonth " +
+            "AND i.status = 'PAID'")
+    BigDecimal sumRevenueByMonthAndStatus(@Param("startOfMonth") Date startOfMonth, @Param("endOfMonth") Date endOfMonth);
 }
+
 

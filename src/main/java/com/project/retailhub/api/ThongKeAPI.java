@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -38,6 +40,39 @@ public class ThongKeAPI {
     ) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(sv.getSalesVolumeStatistics());
+    @GetMapping("/active-customer-count")
+    public ResponseObject<?> getActiveCustomerCount() {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getActiveCustomerCount());
+        log.info("Get active customer count");
+        return resultApi;
+    }
+
+    @GetMapping("/invoice-count-by-date-and-paid")
+    public ResponseObject<?> getInvoiceCountByDateAndStatus(
+            @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
+
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getInvoiceCountByDateAndStatus(invoiceDate));
+        log.info("Get invoice count for PAID status on date: " + invoiceDate);
+        return resultApi;
+    }
+    @GetMapping("/revenue-by-date-and-paid")
+    public ResponseObject<?> getRevenueByDateAndStatus(
+            @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
+
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getRevenueByDateAndStatus(invoiceDate));
+        log.info("Get revenue for PAID status on date: " + invoiceDate);
+        return resultApi;
+    }
+    @GetMapping("/revenue-by-month-and-paid")
+    public ResponseObject<?> getRevenueByMonthAndStatus(
+            @RequestParam("month") @DateTimeFormat(pattern = "yyyy-MM") Date month) {
+
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getRevenueByMonthAndStatus(month));
+        log.info("Get revenue for PAID status in month: " + month);
         return resultApi;
     }
 }

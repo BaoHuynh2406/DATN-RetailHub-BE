@@ -32,4 +32,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c WHERE c.phoneNumber LIKE %:phoneSuffix% AND c.isDelete = false AND c.isActive = true")
     List<Customer> findByPhoneNumberSuffix(@Param("phoneSuffix") String phoneSuffix);
 
+    Long countByIsDeleteFalse();
 }
