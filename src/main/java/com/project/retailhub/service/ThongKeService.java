@@ -12,6 +12,6 @@ public interface ThongKeService {
     List<InvoiceChartDataResponse> getInvoiceChartDataStartToEnd(Date start, Date end, String status);
 
     //Thống kê luợt bán của các sản phầm
-    List<SalesVolumeStatistics> getSalesVolumeStatistics(Date start, Date end, String sort, int page, int size);
+    List<SalesVolumeStatistics> getSalesVolumeStatistics();
 
 }

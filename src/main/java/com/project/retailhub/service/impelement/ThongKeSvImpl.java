@@ -4,6 +4,7 @@ import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.InvoiceRepository;
+import com.project.retailhub.data.repository.ProductRepository;
 import com.project.retailhub.service.ThongKeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class ThongKeSvImpl implements ThongKeService {
     InvoiceMapper invoiceMapper;
     InvoiceRepository invoiceRepository;
+    private final ProductRepository productRepository;
 
     private Date normalizeStartDate(Date start) {
         return start != null ? start : new Date();
@@ -70,28 +72,28 @@ public class ThongKeSvImpl implements ThongKeService {
     }
 
     @Override
-    public List<SalesVolumeStatistics> getSalesVolumeStatistics(Date start, Date end, String sort, int page, int size) {
+    public List<SalesVolumeStatistics> getSalesVolumeStatistics() {
         // Chuẩn hóa ngày bắt đầu và kết thúc
-        start = normalizeStartDate(start);
-        end = normalizeEndDate(end);
+//        start = normalizeStartDate(start);
+//        end = normalizeEndDate(end);
+//
+//        if (end.before(start)) {
+//            throw new RuntimeException("Ngày kết thúc phải sau ngày bắt đầu");
+//        }
 
-        if (end.before(start)) {
-            throw new RuntimeException("Ngày kết thúc phải sau ngày bắt đầu");
-        }
-
-        // Trạng thái hóa đơn cần truy vấn
-        String status = "PAID";
 
         // Truy vấn danh sách từ repository
-        List<Object[]> results = invoiceRepository.findSoldProductsBetweenDatesWithStatus(start, end, sort, page, size);
+        List<Object[]> results = productRepository.findProductSales();
 
         // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
         return results.stream().map(result -> {
             SalesVolumeStatistics stats = new SalesVolumeStatistics();
-            stats.setInvoiceId(((Number) result[0]).longValue());
+            stats.setProductId(((Number) result[0]).longValue());
             stats.setProductName((String) result[1]);
             stats.setQuantitySold(((Number) result[2]).intValue());
             return stats;
         }).collect(Collectors.toList());
+
+
     }
 }

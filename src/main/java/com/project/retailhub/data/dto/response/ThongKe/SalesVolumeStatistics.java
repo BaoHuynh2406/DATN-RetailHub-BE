@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class SalesVolumeStatistics {
-    Long invoiceId;
+    Long productId;
     String productName;
     int quantitySold;
 }

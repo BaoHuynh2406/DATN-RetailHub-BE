@@ -32,4 +32,12 @@ public class ThongKeAPI {
         log.info("Get invoiceData [" + startDate + "|" + endDate + "]");
         return resultApi;
     }
+    @GetMapping("/invoice-SalesVolumeStatistics")
+    public ResponseObject<?> getSalesVolumeStatistics(
+
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getSalesVolumeStatistics());
+        return resultApi;
+    }
 }

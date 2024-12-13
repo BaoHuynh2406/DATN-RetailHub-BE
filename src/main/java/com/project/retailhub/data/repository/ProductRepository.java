@@ -51,4 +51,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     @Query("SELECT p FROM Product p WHERE p.barcode LIKE %:barcode%")
     List<Product> findByProductBarCodeLike(@Param("barcode") String barcode);
+
+
+    @Query("SELECT p.productId, p.productName, SUM(ii.quantity) " +
+            "FROM Product p " +
+            "JOIN InvoiceItem ii ON p.productId = ii.productId " +
+            "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
+            "WHERE i.status = 'PAID' " +
+            "GROUP BY p.productId, p.productName")
+    List<Object[]> findProductSales();
 }

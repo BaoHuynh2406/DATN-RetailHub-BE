@@ -48,6 +48,5 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
 
     
-    List<Object[]> findSoldProductsBetweenDatesWithStatus(Date start, Date end, String sort, int page, int size);
 }
 
