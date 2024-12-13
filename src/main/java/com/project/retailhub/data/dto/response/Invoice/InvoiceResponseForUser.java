@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -15,6 +16,10 @@ import java.util.List;
 public class InvoiceResponseForUser {
     Long invoiceId;
     Long customerId;
+    String customerName;
+    Long userId;
+    String userFullName;
+    Date invoiceDate;
     BigDecimal totalTax;
     BigDecimal totalAmount;
     BigDecimal totalPayment;

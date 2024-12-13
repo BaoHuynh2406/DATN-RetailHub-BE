@@ -48,11 +48,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     TaxRepository taxRepository;
     PointHistoryService pointHistoryService;
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     @Override
     public InvoiceResponseForUser getInvoiceById(Long invoiceId) {
         return invoiceMapper.toInvoiceResponseForUser(invoiceRepository.findById(invoiceId)
-                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)), invoiceItemRepository, productRepository, invoiceItemMapper);
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)), invoiceItemRepository, productRepository, invoiceItemMapper, userRepository, customerRepository);
     }
 
     /**
@@ -68,40 +69,32 @@ public class InvoiceServiceImpl implements InvoiceService {
                 listInvoice,
                 invoiceItemRepository,
                 productRepository,
-                invoiceItemMapper);
+                invoiceItemMapper,
+                userRepository,
+                customerRepository);
     }
 
-    /**
-     * Retrieves a list of pending invoices associated with a specific user.
-     *
-     * @param userId The unique identifier of the user.
-     * @return A list of {@link InvoiceResponseForUser} objects representing the pending invoices.
-     */
+
     @Override
-    public List<InvoiceResponseForUser> getPendingListInvoiceByUserId(Long userId) {
+    public List<InvoiceResponseForUser> getPendingListInvoiceByUserCurrent() {
+        //Lấy userID từ token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        long userId = Long.parseLong(authentication.getName());
+
         List<Invoice> pendingInvoices = invoiceRepository.findByUserIdAndStatus(userId, "PENDING");
         return invoiceMapper.toInvoiceResponseForUserList(
                 pendingInvoices,
                 invoiceItemRepository,
                 productRepository,
-                invoiceItemMapper);
+                invoiceItemMapper,
+                userRepository,
+                customerRepository);
     }
 
-    /**
-     * Retrieves a list of paid invoices associated with a specific user.
-     *
-     * @param userId The unique identifier of the user.
-     * @return A list of {@link InvoiceResponseForUser} objects representing the paid invoices.
-     */
-    @Override
-    public List<InvoiceResponseForUser> getPaidListInvoiceByUserId(Long userId) {
-        List<Invoice> paidInvoices = invoiceRepository.findByUserIdAndStatus(userId, "PAID");
-        return invoiceMapper.toInvoiceResponseForUserList(
-                paidInvoices,
-                invoiceItemRepository,
-                productRepository,
-                invoiceItemMapper);
-    }
+
 
     @Override
     public PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size) {
@@ -122,33 +115,36 @@ public class InvoiceServiceImpl implements InvoiceService {
         // Truy vấn dữ liệu
         Page<Invoice> invoicePage = invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList, pageable);
 
+        //Mapping cấp 1
+        List<InvoiceResponse> invoiceResponses = invoiceMapper.toInvoiceResponseList(invoicePage.getContent());
+
+        //Mapping cấp 2
+        for (InvoiceResponse invoiceResponse : invoiceResponses) {
+            Customer customer = customerRepository.findById(invoiceResponse.getCustomerId()).orElseThrow(
+                    () -> new RuntimeException("Customer not found")
+            );
+
+            User user = userRepository.findById(invoiceResponse.getUserId()).orElseThrow(
+                    () -> new RuntimeException("User not found")
+            );
+
+            invoiceResponse.setFullName(customer.getFullName());
+            invoiceResponse.setPhoneNumber(customer.getPhoneNumber());
+
+            invoiceResponse.setUserFullName(user.getFullName());
+
+        }
+
         // Trả về phản hồi
         return PageResponse.<InvoiceResponse>builder()
                 .totalPages(invoicePage.getTotalPages())
                 .pageSize(invoicePage.getSize())
                 .currentPage(page)
                 .totalElements(invoicePage.getTotalElements())
-                .data(invoiceMapper.toInvoiceResponseList(invoicePage.getContent()))
+                .data(invoiceResponses)
                 .build();
     }
 
-    @Override
-    public List<InvoiceChartDataResponse> getInvoiceChartData(Date start, Date end, String status) {
-        // Chuẩn hóa ngày bắt đầu và kết thúc
-        start = normalizeStartDate(start);
-        end = normalizeEndDate(end);
-
-        if (end.before(start)) {
-            throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
-        }
-        // Phân tách trạng thái thành danh sách
-        List<String> statusList = parseStatusList(status);
-
-        // Truy vấn dữ liệu và ánh xạ kết quả
-        return invoiceMapper.toInvoiceChartDataResponseList(
-                invoiceRepository.findInvoicesBetweenDatesAndStatuses(start, end, statusList)
-        );
-    }
 
     @Override
     public PageResponse<InvoiceResponse> getAllForUserCurrent(String status, String sort, int page, int size) {
@@ -241,7 +237,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                 invoice,
                 invoiceItemRepository,
                 productRepository,
-                invoiceItemMapper);
+                invoiceItemMapper,
+                userRepository,
+                customerRepository);
     }
 
     /**
@@ -316,6 +314,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .productId(product.getProductId())
                 .taxRate(tax.getTaxRate())
                 .unitPrice(product.getPrice())
+                .cost(product.getCost())
                 .quantity(1)
                 .build()
         );
@@ -383,6 +382,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         BigDecimal TotalTax = BigDecimal.valueOf(0);
         BigDecimal TotalAmount = BigDecimal.valueOf(0);
+        BigDecimal TotalCost = BigDecimal.valueOf(0);
 
         for (InvoiceItem invoiceItem : listInvoiceItem) {
             // Tính tax sử dụng BigDecimal
@@ -394,12 +394,18 @@ public class InvoiceServiceImpl implements InvoiceService {
             BigDecimal amount = BigDecimal.valueOf(invoiceItem.getQuantity())
                     .multiply(invoiceItem.getUnitPrice());
 
+            // Tính cost sử dụng BigDecimal
+            BigDecimal cost = BigDecimal.valueOf(invoiceItem.getQuantity())
+                    .multiply(invoiceItem.getCost());
+
             // Cộng giá trị tax và amount vào tổng
             TotalTax = TotalTax.add(tax);
             TotalAmount = TotalAmount.add(amount);
+            TotalCost = TotalCost.add(cost);
         }
         invoice.setTotalAmount(TotalAmount);
         invoice.setTotalTax(TotalTax);
+        invoice.setTotalCost(TotalCost);
         invoice.setFinalTotal(
                 invoice.getTotalAmount()
                         .add(invoice.getTotalTax())

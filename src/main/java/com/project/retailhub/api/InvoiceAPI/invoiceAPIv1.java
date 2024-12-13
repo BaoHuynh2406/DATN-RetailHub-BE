@@ -27,9 +27,6 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
-    //api cho user
-    //get bang token...
-
 
 
     @GetMapping("/get/{invoiceId}")
@@ -41,25 +38,14 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
-    @GetMapping("/getPendingListInvoiceByUserId")
-    public ResponseObject<?> getPendingListInvoiceByUserId(
-            @RequestParam(value = "userId", required = true) Long userId) {
+    @GetMapping("/getPendingListInvoice")
+    public ResponseObject<?> getPendingListInvoiceByUserCurrent() {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(invoiceService.getPendingListInvoiceByUserId(userId));
+        resultApi.setData(invoiceService.getPendingListInvoiceByUserCurrent());
         log.info("Get ALL Invoice");
         return resultApi;
     }
 
-
-    @GetMapping("/getPaidListInvoiceByUserId")
-    public ResponseObject<?> getPaidListInvoiceByUserId(
-            @RequestParam(value = "userId", required = true) Long userId
-    ) {
-        var resultApi = new ResponseObject<>();
-        resultApi.setData(invoiceService.getPaidListInvoiceByUserId(userId));
-        log.info("Get ALL Invoice");
-        return resultApi;
-    }
 
     @PostMapping("/create")
     public ResponseObject<?> postCreate(

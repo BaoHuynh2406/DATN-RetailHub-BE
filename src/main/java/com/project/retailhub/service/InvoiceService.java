@@ -24,22 +24,14 @@ public interface InvoiceService {
     List<InvoiceResponseForUser> getAllListInvoiceByUserId(Long userId);
 
     //Lấy hóa đơn đang thanh toán theo nhân viên
-    List<InvoiceResponseForUser> getPendingListInvoiceByUserId(Long userId);
+    List<InvoiceResponseForUser> getPendingListInvoiceByUserCurrent();
 
-    //Lấy hóa đơn đã thanh toán theo nhân viên
-    List<InvoiceResponseForUser> getPaidListInvoiceByUserId(Long userId);
-
-    //Bị hủy
-    // viết sau
-    //Hoàn trả
-    // viết sau
 
 
     //--------------PHỤC VỤ CHO VIỆC THÔNG KÊ--------------------------------------------------
     // Lấy hóa đơn từ ngày A -> B
     PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size);
-    //Dữ liệu cho chart
-    List<InvoiceChartDataResponse> getInvoiceChartData(Date start, Date end, String status);
+
     PageResponse<InvoiceResponse> getAllForUserCurrent( String status, String sort, int page, int size);
     //-----------------------------------------------------------------------------------------
 

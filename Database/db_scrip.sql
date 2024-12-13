@@ -147,6 +147,7 @@ CREATE TABLE invoices
     customer_id BIGINT NOT NULL,
     invoice_date DATETIME NOT NULL,
     total_tax DECIMAL(18, 2) NOT NULL,
+    total_cost DECIMAL(18, 2) NOT NULL,
     total_amount DECIMAL(18, 2) NOT NULL,
     discount_amount DECIMAL(18, 2),
     total_payment DECIMAL(18, 2) NOT NULL,
@@ -164,6 +165,7 @@ CREATE TABLE invoice_items
     product_id BIGINT,
     quantity INT NOT NULL,
     unit_price DECIMAL(18, 2) NOT NULL,
+    cost DECIMAL(18, 2) NOT NULL,
     tax_rate DECIMAL(5, 2) NOT NULL,
     CONSTRAINT FK_invoice_items_invoices FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
     CONSTRAINT FK_invoice_items_products FOREIGN KEY (product_id) REFERENCES products(product_id)
@@ -292,3 +294,5 @@ SELECT * FROM invoices
 
 SELECT * FROM taxes
 SELECT * FROM point_history
+
+DELETE from invoices where USER_ID = 100001

@@ -25,6 +25,9 @@ public class Invoice {
     //Tổng tiền thuế
     private BigDecimal totalTax;
 
+    //Tổng chi phí
+    private BigDecimal totalCost;
+
     //Tổng tiền hàng
     private BigDecimal totalAmount;
 

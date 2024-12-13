@@ -20,6 +20,8 @@ public class InvoiceItem {
 
     private Integer quantity;
 
+    private BigDecimal cost;
+
     private BigDecimal unitPrice;
 
     private double taxRate;

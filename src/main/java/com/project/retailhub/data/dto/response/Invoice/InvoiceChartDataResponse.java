@@ -15,6 +15,14 @@ import java.util.Date;
 public class InvoiceChartDataResponse {
     Long invoiceId;
     Date invoiceDate;
+    //Doanh thu
     BigDecimal finalTotal;
+    //Tong thue
+    BigDecimal totalTax;
+    //Chi phi phai tra
+    BigDecimal totalCost;
+    //Giam gia
+    BigDecimal discountAmount;
+
     String status;
 }
