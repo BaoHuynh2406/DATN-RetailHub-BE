@@ -3,7 +3,6 @@ package com.project.retailhub.data.repository;
 import com.project.retailhub.data.entity.Invoice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,4 +45,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("end") Date end,
             @Param("statuses") List<String> statuses
     );
+
+
+    
 }
+
