@@ -17,10 +17,13 @@ public interface ThongKeService {
 
     //Pt mới để thêm số lượng khách hàng
     Long getActiveCustomerCount();
+
     // Đếm số lượng hóa đơn theo ngày và trạng thái PAID (bao gồm từ 00:00 đến 23:59)
     Long getInvoiceCountByDateAndStatus(Date invoiceDate);
+
     // Tính doanh thu cho một ngày và trạng thái PAID
     BigDecimal getRevenueByDateAndStatus(Date invoiceDate);
+
     // Tính doanh thu cho tháng và trạng thái PAID
     BigDecimal getRevenueByMonthAndStatus(Date month);
 }

@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * This interface defines the contract for user-related operations.
  */
-public interface UserService
-{
+public interface UserService {
     /**
      * Adds a new user to the system.
      *

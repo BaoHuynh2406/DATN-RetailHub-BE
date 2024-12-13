@@ -56,10 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(int categoryId) {
-        Category Category = CategoryRepository.findById(categoryId)  // Không cần chuyển kiểu dữ liệu
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
-        Category.setIsDelete(true);
-        CategoryRepository.save(Category);
+        CategoryRepository.deleteById(categoryId);
     }
 
     @Override

@@ -56,9 +56,7 @@ public class TaxServiceImpl implements TaxService {
 
     @Override
     public void deleteTax(String taxId) {
-        Tax tax = taxRepository.findById(taxId)  // Không cần chuyển kiểu dữ liệu
-                .orElseThrow(() -> new AppException(ErrorCode.TAX_NOT_FOUND));
-        taxRepository.delete(tax);
+       taxRepository.deleteById(taxId);
     }
 
     @Override

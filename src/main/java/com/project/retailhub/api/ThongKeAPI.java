@@ -34,12 +34,17 @@ public class ThongKeAPI {
         log.info("Get invoiceData [" + startDate + "|" + endDate + "]");
         return resultApi;
     }
+
     @GetMapping("/invoice-SalesVolumeStatistics")
     public ResponseObject<?> getSalesVolumeStatistics(
 
     ) {
         var resultApi = new ResponseObject<>();
         resultApi.setData(sv.getSalesVolumeStatistics());
+        return resultApi;
+    }
+
+
     @GetMapping("/active-customer-count")
     public ResponseObject<?> getActiveCustomerCount() {
         var resultApi = new ResponseObject<>();
@@ -47,6 +52,7 @@ public class ThongKeAPI {
         log.info("Get active customer count");
         return resultApi;
     }
+
 
     @GetMapping("/invoice-count-by-date-and-paid")
     public ResponseObject<?> getInvoiceCountByDateAndStatus(
@@ -57,6 +63,7 @@ public class ThongKeAPI {
         log.info("Get invoice count for PAID status on date: " + invoiceDate);
         return resultApi;
     }
+
     @GetMapping("/revenue-by-date-and-paid")
     public ResponseObject<?> getRevenueByDateAndStatus(
             @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
@@ -66,6 +73,7 @@ public class ThongKeAPI {
         log.info("Get revenue for PAID status on date: " + invoiceDate);
         return resultApi;
     }
+
     @GetMapping("/revenue-by-month-and-paid")
     public ResponseObject<?> getRevenueByMonthAndStatus(
             @RequestParam("month") @DateTimeFormat(pattern = "yyyy-MM") Date month) {

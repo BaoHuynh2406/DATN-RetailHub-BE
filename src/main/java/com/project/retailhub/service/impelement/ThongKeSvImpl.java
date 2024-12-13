@@ -67,13 +67,19 @@ public class ThongKeSvImpl implements ThongKeService {
 
     @Override
     public List<SalesVolumeStatistics> getSalesVolumeStatistics() {
-        // Chuẩn hóa ngày bắt đầu và kết thúc
-//        start = normalizeStartDate(start);
-//        end = normalizeEndDate(end);
-//
-//        if (end.before(start)) {
-//            throw new RuntimeException("Ngày kết thúc phải sau ngày bắt đầu");
-//        }
+        // Truy vấn danh sách từ repository
+        List<Object[]> results = productRepository.findProductSales();
+
+        // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
+        return results.stream().map(result -> {
+            SalesVolumeStatistics stats = new SalesVolumeStatistics();
+            stats.setProductId(((Number) result[0]).longValue());
+            stats.setProductName((String) result[1]);
+            stats.setQuantitySold(((Number) result[2]).intValue());
+            return stats;
+        }).collect(Collectors.toList());
+    }
+
     public Long getActiveCustomerCount() {
         return customerRepository.countByIsDeleteFalse();  // Đếm khách hàng đang hoạt động
     }
@@ -155,18 +161,4 @@ public class ThongKeSvImpl implements ThongKeService {
     }
 
 
-        // Truy vấn danh sách từ repository
-        List<Object[]> results = productRepository.findProductSales();
-
-        // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
-        return results.stream().map(result -> {
-            SalesVolumeStatistics stats = new SalesVolumeStatistics();
-            stats.setProductId(((Number) result[0]).longValue());
-            stats.setProductName((String) result[1]);
-            stats.setQuantitySold(((Number) result[2]).intValue());
-            return stats;
-        }).collect(Collectors.toList());
-
-
-    }
 }
