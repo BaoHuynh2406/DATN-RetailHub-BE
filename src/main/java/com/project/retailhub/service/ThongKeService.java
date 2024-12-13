@@ -22,7 +22,7 @@ public interface ThongKeService {
     Long getInvoiceCountByDateAndStatus(Date invoiceDate);
 
     // Tính doanh thu cho một ngày và trạng thái PAID
-    BigDecimal getRevenueByDateAndStatus(Date invoiceDate);
+    BigDecimal getRevenueByDateAndStatus(Date date);
 
     // Tính doanh thu cho tháng và trạng thái PAID
     BigDecimal getRevenueByMonthAndStatus(Date month);

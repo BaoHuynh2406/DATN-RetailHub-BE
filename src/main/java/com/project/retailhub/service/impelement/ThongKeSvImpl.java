@@ -109,12 +109,12 @@ public class ThongKeSvImpl implements ThongKeService {
     }
 
     @Override
-    public BigDecimal getRevenueByDateAndStatus(Date invoiceDate) {
+    public BigDecimal getRevenueByDateAndStatus(Date date) {
         // Chuẩn hóa ngày bắt đầu và kết thúc
         Calendar calendar = Calendar.getInstance();
 
         // Ngày bắt đầu là 00:00 của ngày
-        calendar.setTime(invoiceDate);
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -122,7 +122,7 @@ public class ThongKeSvImpl implements ThongKeService {
         Date startOfDay = calendar.getTime();
 
         // Ngày kết thúc là 23:59 của ngày
-        calendar.setTime(invoiceDate);
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);

@@ -66,11 +66,11 @@ public class ThongKeAPI {
 
     @GetMapping("/revenue-by-date-and-paid")
     public ResponseObject<?> getRevenueByDateAndStatus(
-            @RequestParam("invoiceDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date invoiceDate) {
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 
         var resultApi = new ResponseObject<>();
-        resultApi.setData(sv.getRevenueByDateAndStatus(invoiceDate));
-        log.info("Get revenue for PAID status on date: " + invoiceDate);
+        resultApi.setData(sv.getRevenueByDateAndStatus(date));
+        log.info("Get revenue for PAID status on date: " + date);
         return resultApi;
     }
 
