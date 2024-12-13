@@ -34,7 +34,8 @@ public class ApplicationConfig {
                                         CategoryRepository categoryRepository,
                                         TaxRepository taxRepository,
                                         CustomerRepository customerRepository,
-                                        PaymentMethodsRepository paymentMethodsRepository) {
+                                        PaymentMethodsRepository paymentMethodsRepository,
+                                        SupplierRepository supplierRepository) {
         log.info("Initializing application.....");
         return args ->
         {
@@ -113,6 +114,20 @@ public class ApplicationConfig {
                                 .paymentName("Chuyển khoản")
                                 .build()
                 );
+
+            }
+
+            if (supplierRepository.findAll().isEmpty()) {
+                supplierRepository.save(
+                        Supplier.builder()
+                                .supplierAddress("None")
+                                .supplierEmail("None")
+                                .supplierDescription("None")
+                                .supplierPhoneNumber("None")
+                                .supplierName("Default")
+                                .build()
+                );
+
 
             }
 

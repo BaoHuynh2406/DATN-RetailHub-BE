@@ -1,7 +1,10 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.request.Receiving.ReceivingRequest;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.Receiving.ReceivingResponse;
+import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.entity.Receiving;
 import com.project.retailhub.data.mapper.ReceivingMapper;
 import com.project.retailhub.data.repository.ReceivingRepository;
@@ -14,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,8 +69,16 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     @Override
-    public List<ReceivingResponse> findAllReceiving() {
-        return receivingMapper.toReceivingResponseList(receivingRepository.findAll(), supplierRepository, userRepository);
+    public PageResponse<ReceivingResponse> findAllReceiving(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Receiving> p = receivingRepository.findAll(pageable);
+        return PageResponse.<ReceivingResponse>builder()
+                .totalPages(p.getTotalPages())
+                .pageSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(p.getContent().stream().map(receiving -> receivingMapper.toReceivingResponse(receiving, supplierRepository, userRepository)).toList())
+                .build();
     }
 
     @Override

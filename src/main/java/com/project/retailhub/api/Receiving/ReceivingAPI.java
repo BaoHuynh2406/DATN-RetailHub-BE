@@ -51,9 +51,10 @@ public class ReceivingAPI {
 
     // Lấy danh sách tất cả Receiving
     @GetMapping("/findAllReceiving")
-    public ResponseObject<?> findAllReceiving() {
+    public ResponseObject<?> findAllReceiving(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                              @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(receivingService.findAllReceiving());
+        resultApi.setData(receivingService.findAllReceiving(page, size));
         log.info("Fetched all receiving");
         return resultApi;
     }
