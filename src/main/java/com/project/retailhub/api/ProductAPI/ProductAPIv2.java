@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequiredArgsConstructor    
+@RequiredArgsConstructor
 @RequestMapping("/api/v2/product")
 public class ProductAPIv2 {
     final ProductService productService;
@@ -53,19 +53,15 @@ public class ProductAPIv2 {
         log.info("Get all deleted products");
         return resultApi;
     }
+
     @GetMapping("/search")
-    public ResponseObject<PageResponse<ProductResponse>> searchProducts(
+    public ResponseObject<?> searchProducts(
             @RequestParam String keyword,
             @RequestParam int page,
             @RequestParam int size) {
         var resultApi = new ResponseObject<PageResponse<ProductResponse>>();
-        try {
-            resultApi.setData(productService.findProductsByKeywordWithPagination(keyword, page, size));
-            resultApi.setMessage("Products retrieved successfully");
-        } catch (AppException e) {
-            resultApi.setCode(e.getErrorCode().getCode());
-            resultApi.setMessage(e.getMessage());
-        }
+        resultApi.setData(productService.findProductsByKeywordWithPagination(keyword, page, size));
+        resultApi.setMessage("Products retrieved successfully");
         log.info("Search products with keyword: {}", keyword);
         return resultApi;
     }
