@@ -105,4 +105,11 @@ public class ThongKeAPI {
         return response;
     }
 
+    @GetMapping("/lowest-inventory-products")
+    public ResponseObject<?> getTop5LowestInventoryProducts() {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getTop5LowestInventoryCountProducts());
+        log.info("Get top 5 lowest inventory products");
+        return resultApi;
+    }
 }

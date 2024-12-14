@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.ThongKe.RevenueProfitResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
+import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.CustomerRepository;  // Đảm bảo có CustomerRepository
 import com.project.retailhub.data.repository.InvoiceRepository;
@@ -199,4 +200,8 @@ public class ThongKeSvImpl implements ThongKeService {
         }
 
 
+    public List<Product> getTop5LowestInventoryCountProducts() {
+        Pageable pageable = PageRequest.of(0, 5); // Giới hạn top 5
+        return productRepository.findTop5LowestInventoryCount(pageable);
+    }
 }
