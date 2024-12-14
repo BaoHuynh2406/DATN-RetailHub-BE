@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +38,19 @@ public class ThongKeAPI {
 
     @GetMapping("/invoice-SalesVolumeStatistics")
     public ResponseObject<?> getSalesVolumeStatistics(
-
+            @RequestParam(value = "startDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "sort", required = false) String sort
     ) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedStartDate = (startDate != null) ? sdf.format(startDate) : "null";
+        String formattedEndDate = (endDate != null) ? sdf.format(endDate) : "null";
+
+        log.info("Get invoiceData [{}|{}]", formattedStartDate, formattedEndDate);
         var resultApi = new ResponseObject<>();
-        resultApi.setData(sv.getSalesVolumeStatistics());
+        resultApi.setData(sv.getSalesVolumeStatistics(startDate, endDate, sort));
         return resultApi;
     }
 
