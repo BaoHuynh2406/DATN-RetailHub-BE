@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class RevenueProfitResponse {
-    private int month;        // Tháng
-    private double doanhThu;  // Doanh thu
-    private double loiNhuan;  // Lợi nhuận
+    private int month;
+    private double revenue;  // Thay "doanhThu" thành "revenue"
+    private double profit;   // Thay "loiNhuan" thành "profit"
 }
