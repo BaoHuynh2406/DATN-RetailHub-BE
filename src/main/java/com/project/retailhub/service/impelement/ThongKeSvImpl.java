@@ -66,9 +66,19 @@ public class ThongKeSvImpl implements ThongKeService {
     }
 
     @Override
-    public List<SalesVolumeStatistics> getSalesVolumeStatistics() {
+    public List<SalesVolumeStatistics> getSalesVolumeStatistics(
+            Date start, Date end, String sort
+    )
+
+    {
+        start = normalizeStartDate(start);
+        end = normalizeEndDate(end);
+
+        if (end.before(start)) {
+            throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
+        }
         // Truy vấn danh sách từ repository
-        List<Object[]> results = productRepository.findProductSales();
+        List<Object[]> results = productRepository.findProductSales(start, end, sort);
 
         // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
         return results.stream().map(result -> {

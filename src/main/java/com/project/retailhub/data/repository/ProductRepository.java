@@ -1,7 +1,5 @@
 package com.project.retailhub.data.repository;
 
-import com.project.retailhub.data.dto.response.Pagination.PageResponse;
-import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -60,6 +59,11 @@ public interface ProductRepository extends JpaRepository<Product, Long>
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
             "WHERE i.status = 'PAID' " +
             "GROUP BY p.productId, p.productName")
-    List<Object[]> findProductSales();
+    List<Object[]> findProductSales(
+            @Param("start") Date start,
+            @Param("end") Date end,
+            @Param("sort") String sort
+    );
+
     List<Product> findByIsDeleteFalseAndIsActiveTrueAndExpiryDateBefore(LocalDate expiryDate);
 }
