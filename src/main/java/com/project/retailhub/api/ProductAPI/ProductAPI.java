@@ -138,7 +138,7 @@ public class ProductAPI {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @DeleteMapping("/delete/{productId}")
     public ResponseObject<Void> doDeleteProduct(@PathVariable("productId") long productId) {
         var resultApi = new ResponseObject<Void>();
@@ -148,7 +148,7 @@ public class ProductAPI {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PutMapping("/restore/{productId}")
     public ResponseObject<Void> doRestoreProduct(@PathVariable("productId") long productId) {
         var resultApi = new ResponseObject<Void>();
