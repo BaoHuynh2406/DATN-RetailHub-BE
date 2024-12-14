@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductAPI {
     final ProductService productService;
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getAllProducts")
     public ResponseObject<List<ProductResponse>> doGetFindAll() {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -30,7 +30,7 @@ public class ProductAPI {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getAll-available-product")
     public ResponseObject<List<ProductResponse>> doGetFindAllAvailable() {
         var resultApi = new ResponseObject<List<ProductResponse>>();

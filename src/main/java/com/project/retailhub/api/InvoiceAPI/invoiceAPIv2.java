@@ -37,7 +37,7 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/list-for-user-current-all")
     public ResponseObject<?> getListForUserAll(
             @RequestParam(value = "status", required = false) String status,

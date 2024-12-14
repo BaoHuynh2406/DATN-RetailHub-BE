@@ -34,7 +34,7 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getAll-available-product")
     public ResponseObject<?> doGetFindAllAvailable(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,

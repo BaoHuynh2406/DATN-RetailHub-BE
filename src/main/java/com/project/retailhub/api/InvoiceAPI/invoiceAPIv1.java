@@ -19,7 +19,7 @@ public class invoiceAPIv1 {
     final InvoiceService invoiceService;
 
     // api cho quan ly
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getAllListInvoiceByUserId")
     public ResponseObject<?> getAllListInvoiceByUserId(
             @RequestParam(value = "userId", required = true) Long userId) {
@@ -29,7 +29,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/get/{invoiceId}")
     public ResponseObject<?> getInvoiceById(
             @PathVariable("invoiceId") long invoiceId) {

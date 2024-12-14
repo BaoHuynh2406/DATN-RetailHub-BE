@@ -17,7 +17,7 @@ public class PointHistoryAPI {
     final PointHistoryService pointHistoryService;
 
     // API để lấy toàn bộ lịch sử điểm với phân trang
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/history-list")
     public ResponseObject<?> doGetAllHistories(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -30,7 +30,7 @@ public class PointHistoryAPI {
     }
 
     // API để lấy lịch sử điểm theo khách hàng với phân trang
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasPermission('CS')")
     @GetMapping("/history-list/{customerId}")
     public ResponseObject<?> doGetHistoriesByCustomerId(
             @PathVariable Long customerId,
