@@ -3,13 +3,16 @@ package com.project.retailhub.service.impelement;
 import com.project.retailhub.data.dto.response.DiscountResponse;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.entity.Discounts;
+import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.mapper.DiscountMapper;
 import com.project.retailhub.data.repository.DiscountsRepository;
+import com.project.retailhub.data.repository.ProductRepository;
 import com.project.retailhub.service.DiscountsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,13 +23,24 @@ import java.util.List;
 public class DiscountServiceImpl implements DiscountsService {
     private final DiscountsRepository discountsRepository;
     private final DiscountMapper discountMapper;
+    private final ProductRepository productRepository;
 
     @Override
     public PageResponse<DiscountResponse> getAllDiscounts(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size,  Sort.by(Sort.Direction.DESC, "id"));
 
         Page<Discounts> data = discountsRepository.findAll(pageable);
         List<DiscountResponse> result = data.getContent().stream().map(discountMapper::toDiscountResponse).toList();
+        for (DiscountResponse response : result) {
+            Product p = productRepository.findById(response.getProductId()).orElseThrow(
+                    () -> new RuntimeException("Product not found with id " + response.getProductId())
+            );
+
+            response.setProductName(p.getProductName());
+            response.setPrice(p.getPrice());
+            response.setImage(p.getImage());
+        }
+
 
         return PageResponse.<DiscountResponse>builder()
                 .totalPages(data.getTotalPages())
