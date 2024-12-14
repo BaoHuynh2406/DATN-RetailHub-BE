@@ -48,6 +48,18 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
+    @GetMapping("/search")
+    public ResponseObject<?> search(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(invoiceService.findInvoiceWithKeyWord(page, size, keyword));
+        log.info("Get getListForUserAll");
+        return resultApi;
+    }
+
 
 
 

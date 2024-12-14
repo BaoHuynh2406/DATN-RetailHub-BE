@@ -28,13 +28,14 @@ public interface InvoiceService {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     List<InvoiceResponseForUser> getPendingListInvoiceByUserCurrent();
 
-
+    //Tìm kiếm
+    PageResponse<InvoiceResponse> findInvoiceWithKeyWord(int page, int size, String keyword);
 
     //--------------PHỤC VỤ CHO VIỆC THÔNG KÊ--------------------------------------------------
     // Lấy hóa đơn từ ngày A -> B
     PageResponse<InvoiceResponse> getInvoices(Date start, Date end, String status, String sort, int page, int size);
 
-    PageResponse<InvoiceResponse> getAllForUserCurrent( String status, String sort, int page, int size);
+    PageResponse<InvoiceResponse> getAllForUserCurrent(String status, String sort, int page, int size);
     //-----------------------------------------------------------------------------------------
 
 

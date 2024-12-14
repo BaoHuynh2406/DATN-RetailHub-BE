@@ -46,18 +46,21 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             @Param("end") Date end,
             @Param("statuses") List<String> statuses
     );
+
     // Đếm số lượng hóa đơn theo ngày từ 00:00 đến 23:59 và trạng thái PAID
     @Query("SELECT COUNT(i) FROM Invoice i " +
-                "WHERE i.invoiceDate >= :startOfDay " +
-                "AND i.invoiceDate <= :endOfDay " +
-                "AND i.status = 'PAID'")
-        Long countInvoicesByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+            "WHERE i.invoiceDate >= :startOfDay " +
+            "AND i.invoiceDate <= :endOfDay " +
+            "AND i.status = 'PAID'")
+    Long countInvoicesByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+
     // Tính tổng doanh thu (finalTotal) cho ngày cụ thể và trạng thái PAID
-        @Query("SELECT SUM(i.finalTotal) FROM Invoice i " +
-                "WHERE i.invoiceDate >= :startOfDay " +
-                "AND i.invoiceDate <= :endOfDay " +
-                "AND i.status = 'PAID'")
-        BigDecimal sumRevenueByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+    @Query("SELECT SUM(i.finalTotal) FROM Invoice i " +
+            "WHERE i.invoiceDate >= :startOfDay " +
+            "AND i.invoiceDate <= :endOfDay " +
+            "AND i.status = 'PAID'")
+    BigDecimal sumRevenueByDateAndStatus(@Param("startOfDay") Date startOfDay, @Param("endOfDay") Date endOfDay);
+
     // Tính tổng doanh thu (finalTotal) cho tháng và trạng thái PAID
     @Query("SELECT SUM(i.finalTotal) FROM Invoice i " +
             "WHERE i.invoiceDate >= :startOfMonth " +
@@ -74,6 +77,13 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             "ORDER BY month ASC",
             nativeQuery = true)
     List<Object[]> findRevenueAndProfitByMonth(@Param("year") int year);
+
+    //Tìm kiếm hóa đơn
+    @Query("SELECT i FROM Invoice i " +
+            "WHERE (:keyword IS NULL OR CAST(i.invoiceId AS string) LIKE %:keyword% OR " +
+            "CAST(i.userId AS string) LIKE %:keyword% OR " +
+            "CAST(i.customerId AS string) LIKE %:keyword%)")
+    Page<Invoice> searchInvoices(@Param("keyword") String keyword, Pageable pageable);
 
 
 }
