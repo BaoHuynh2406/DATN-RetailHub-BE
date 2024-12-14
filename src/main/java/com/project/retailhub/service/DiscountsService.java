@@ -20,4 +20,6 @@ public interface DiscountsService {
     void deleteDiscount (Long id);
 
     void updateDiscount (Discounts updatedDiscount);
+
+    DiscountResponse getById (Long id);
 }

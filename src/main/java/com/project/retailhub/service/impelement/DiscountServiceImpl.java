@@ -27,7 +27,7 @@ public class DiscountServiceImpl implements DiscountsService {
 
     @Override
     public PageResponse<DiscountResponse> getAllDiscounts(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size,  Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<Discounts> data = discountsRepository.findAll(pageable);
         List<DiscountResponse> result = data.getContent().stream().map(discountMapper::toDiscountResponse).toList();
@@ -89,6 +89,24 @@ public class DiscountServiceImpl implements DiscountsService {
         }
 
         discountsRepository.save(discount);
+    }
+
+    @Override
+    public DiscountResponse getById(Long id) {
+        Discounts d = discountsRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("Not found discount")
+                );
+
+        DiscountResponse response = discountMapper.toDiscountResponse(d);
+        Product p = productRepository.findById(response.getProductId()).orElseThrow(
+                () -> new RuntimeException("Product not found with id " + response.getProductId())
+        );
+
+        response.setProductName(p.getProductName());
+        response.setPrice(p.getPrice());
+        response.setImage(p.getImage());
+        return response;
     }
 
     public String validateDiscount(Discounts discount) {

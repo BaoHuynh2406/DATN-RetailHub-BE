@@ -1,6 +1,7 @@
 package com.project.retailhub.service;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public interface ThongKeService {
     List<InvoiceChartDataResponse> getInvoiceChartDataStartToEnd(Date start, Date end, String status);
 
     //Thống kê luợt bán của các sản phầm
-    List<SalesVolumeStatistics> getSalesVolumeStatistics(Date start, Date end, String sort);
+    PageResponse<SalesVolumeStatistics> getSalesVolumeStatistics(int page, int size, Date start, Date end);
 
     //Pt mới để thêm số lượng khách hàng
     Long getActiveCustomerCount();

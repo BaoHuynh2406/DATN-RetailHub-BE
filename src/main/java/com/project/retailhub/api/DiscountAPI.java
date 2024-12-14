@@ -24,6 +24,16 @@ public class DiscountAPI {
         return resultApi;
     }
 
+    @GetMapping("/{id}")
+    public ResponseObject<?> getById(
+            @PathVariable("id") Long id
+    ) {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(discountService.getById(id));
+        log.info("Get discount by Id");
+        return resultApi;
+    }
+
     @PostMapping("/create")
     public ResponseObject<?> addReceiving(@RequestBody Discounts request) {
         var resultApi = new ResponseObject<Void>();

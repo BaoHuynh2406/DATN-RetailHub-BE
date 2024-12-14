@@ -59,10 +59,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
             "WHERE i.status = 'PAID' " +
             "GROUP BY p.productId, p.productName")
-    List<Object[]> findProductSales(
+    Page<Object[]> findProductSales(
             @Param("start") Date start,
             @Param("end") Date end,
-            @Param("sort") String sort
+            Pageable pageable
     );
 
     List<Product> findByIsDeleteFalseAndIsActiveTrueAndExpiryDateBefore(LocalDate expiryDate);

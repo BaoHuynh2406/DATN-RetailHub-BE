@@ -1,7 +1,9 @@
 package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
+import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
+import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.mapper.InvoiceMapper;
 import com.project.retailhub.data.repository.CustomerRepository;  // Đảm bảo có CustomerRepository
 import com.project.retailhub.data.repository.InvoiceRepository;
@@ -10,6 +12,9 @@ import com.project.retailhub.service.ThongKeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -66,28 +71,36 @@ public class ThongKeSvImpl implements ThongKeService {
     }
 
     @Override
-    public List<SalesVolumeStatistics> getSalesVolumeStatistics(
-            Date start, Date end, String sort
-    )
-
-    {
+    public PageResponse<SalesVolumeStatistics> getSalesVolumeStatistics(
+            int page, int size, Date start, Date end
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, size);
         start = normalizeStartDate(start);
         end = normalizeEndDate(end);
 
         if (end.before(start)) {
             throw new RuntimeException("Ngay ket thuc phai sau ngay bat dau");
         }
-        // Truy vấn danh sách từ repository
-        List<Object[]> results = productRepository.findProductSales(start, end, sort);
+
+
+        Page<Object[]> p = productRepository.findProductSales(start, end, pageable);
 
         // Ánh xạ kết quả từ danh sách Object[] sang DTO SalesVolumeStatistics
-        return results.stream().map(result -> {
+        List<SalesVolumeStatistics> statsList = p.getContent().stream().map(result -> {
             SalesVolumeStatistics stats = new SalesVolumeStatistics();
             stats.setProductId(((Number) result[0]).longValue());
             stats.setProductName((String) result[1]);
             stats.setQuantitySold(((Number) result[2]).intValue());
             return stats;
         }).collect(Collectors.toList());
+
+        return PageResponse.<SalesVolumeStatistics>builder()
+                .totalPages(p.getTotalPages())
+                .pageSize(p.getSize())
+                .currentPage(page)
+                .totalElements(p.getTotalElements())
+                .data(statsList)
+                .build();
     }
 
     public Long getActiveCustomerCount() {
