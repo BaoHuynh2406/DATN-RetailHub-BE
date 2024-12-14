@@ -13,25 +13,25 @@ import java.util.List;
 
 public interface ProductService
 {
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+
     void addProduct(ProductRequest request);
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+
     void updateProduct(ProductRequest request);
 
     ProductResponse getProduct(long productId);
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+
     void deleteProduct(long productId);
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+
     void restoreProduct(long productId);
 
     List<ProductResponse> findAllProduct();
 
     List<ProductResponse> findAllAvailableProduct();
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
+
     List<ProductResponse> findAllDeletedProduct();
 
     ProductResponse findById(Long productId);

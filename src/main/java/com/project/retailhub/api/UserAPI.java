@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
 
     final UserService userService;
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll-available-users")
     public ResponseObject<?> doGetFindAllAvaliable() {
         var resultApi = new ResponseObject<>();
@@ -22,6 +24,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll-deleted-users")
     public ResponseObject<?> doGetFindAllDeleted() {
         var resultApi = new ResponseObject<>();
@@ -30,6 +33,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{userId}")
     public ResponseObject<?> doGetEmployee(@PathVariable("userId") long userId) {
         var resultApi = new ResponseObject<>();
@@ -45,6 +49,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseObject<?> doPostCreateUser(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
@@ -54,6 +59,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update")
     public ResponseObject<?> doPutUpdateUser(@RequestBody UserRequest request) {
         var resultApi = new ResponseObject<>();
@@ -63,6 +69,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/toggle-active/{userId}")
     public ResponseObject<?> doPutToggleActive(@PathVariable("userId") long userId) {
         var resultApi = new ResponseObject<>();
@@ -72,6 +79,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{userId}")
     public ResponseObject<?> doDelete(@PathVariable("userId") long userId) {
         var resultApi = new ResponseObject<>();
@@ -81,6 +89,7 @@ public class UserAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/restore/{userId}")
     public ResponseObject<?> doPutRestore(@PathVariable("userId") long userId) {
         var resultApi = new ResponseObject<>();

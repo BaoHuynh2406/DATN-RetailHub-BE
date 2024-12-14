@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPIv2 {
 
     final UserService userService;
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll")
     public ResponseObject<?> doGetFindAllEmployees(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -25,6 +27,7 @@ public class UserAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll-available-users")
     public ResponseObject<?> doGetFindAllAvaliable(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -36,6 +39,7 @@ public class UserAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll-deleted-users")
     public ResponseObject<?> doGetFindAllDeleted(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
