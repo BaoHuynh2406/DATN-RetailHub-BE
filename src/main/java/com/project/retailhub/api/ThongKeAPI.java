@@ -88,7 +88,6 @@ public class ThongKeAPI {
     @GetMapping("/revenue-by-month-and-paid")
     public ResponseObject<?> getRevenueByMonthAndStatus(
             @RequestParam("month") @DateTimeFormat(pattern = "yyyy-MM") Date month) {
-
         var resultApi = new ResponseObject<>();
         resultApi.setData(sv.getRevenueByMonthAndStatus(month));
         log.info("Get revenue for PAID status in month: " + month);
