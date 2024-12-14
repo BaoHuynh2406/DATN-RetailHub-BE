@@ -81,6 +81,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByIsDeleteFalseAndIsActiveTrueAndExpiryDateBefore(LocalDate expiryDate);
 
     // Lấy top 5 sản phẩm có inventoryCount thấp nhất
-    @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.isActive = true AND p.inventoryCount < 50 ORDER BY p.inventoryCount ASC")
+    @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.inventoryCount < 50 ORDER BY p.inventoryCount ASC")
     List<Product> findTop5LowestInventoryCount(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.expiryDate < :MontAfter AND p.isActive = true AND p.isDelete = false ORDER BY p.expiryDate ASC")
+    List<Product> findProductsWithExpiryLessThan30Days(Date MontAfter);
 }

@@ -35,4 +35,7 @@ public interface ThongKeService {
 
     // Lấy top 5 sản phẩm có lượng tồn kho thấp nhất
     List<Product> getTop5LowestInventoryCountProducts();
+
+    //Ds sản phẩm có hạn sữ dụng dưới 30 ngày();
+    List<Product> getProductsExpiredIn30Days();
 }

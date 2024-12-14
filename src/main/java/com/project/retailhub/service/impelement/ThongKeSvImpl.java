@@ -188,20 +188,29 @@ public class ThongKeSvImpl implements ThongKeService {
 
     @Override
     public List<RevenueProfitResponse> getRevenueAndProfitByYear(int year) {
-            List<Object[]> results = invoiceRepository.findRevenueAndProfitByMonth(year);
+        List<Object[]> results = invoiceRepository.findRevenueAndProfitByMonth(year);
 
-            return results.stream()
-                    .map(result -> new RevenueProfitResponse(
-                            ((Number) result[0]).intValue(),    // month
-                            result[1] != null ? ((Number) result[1]).doubleValue() : 0.0, // doanhThu
-                            result[2] != null ? ((Number) result[2]).doubleValue() : 0.0  // loiNhuan
-                    ))
-                    .collect(Collectors.toList());
-        }
+        return results.stream()
+                .map(result -> new RevenueProfitResponse(
+                        ((Number) result[0]).intValue(),    // month
+                        result[1] != null ? ((Number) result[1]).doubleValue() : 0.0, // doanhThu
+                        result[2] != null ? ((Number) result[2]).doubleValue() : 0.0  // loiNhuan
+                ))
+                .collect(Collectors.toList());
+    }
 
 
     public List<Product> getTop5LowestInventoryCountProducts() {
         Pageable pageable = PageRequest.of(0, 5); // Giới hạn top 5
         return productRepository.findTop5LowestInventoryCount(pageable);
     }
+
+    @Override
+    public List<Product> getProductsExpiredIn30Days() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 30);
+        Date montAfter = calendar.getTime();
+        return productRepository.findProductsWithExpiryLessThan30Days(montAfter);
+    }
 }
+

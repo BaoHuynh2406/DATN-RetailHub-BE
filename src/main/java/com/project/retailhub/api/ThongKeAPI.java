@@ -112,4 +112,12 @@ public class ThongKeAPI {
         log.info("Get top 5 lowest inventory products");
         return resultApi;
     }
+
+    @GetMapping("/ExpiryLessThan30Days")
+    public ResponseObject<?> getExpiryLessThan30Days() {
+        var resultApi = new ResponseObject<>();
+        resultApi.setData(sv.getProductsExpiredIn30Days());
+        log.info("Get top 5 lowest inventory products");
+        return resultApi;
+    }
 }
