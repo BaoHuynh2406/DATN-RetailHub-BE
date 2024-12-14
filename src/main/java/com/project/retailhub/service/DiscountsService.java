@@ -1,5 +1,6 @@
 package com.project.retailhub.service;
 
+import com.project.retailhub.data.dto.response.DiscountResponse;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.entity.Discounts;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface DiscountsService {
 
-     PageResponse<Discounts> getAllDiscounts ();
+     PageResponse<DiscountResponse> getAllDiscounts (int page, int size);
 
     List<Discounts> getAllDiscountsAvailable();
 
@@ -18,5 +19,5 @@ public interface DiscountsService {
 
     void deleteDiscount (Long id);
 
-    Discounts updateDiscount (Discounts updatedDiscount);
+    void updateDiscount (Discounts updatedDiscount);
 }

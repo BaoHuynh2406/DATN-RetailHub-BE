@@ -1,7 +1,6 @@
 package com.project.retailhub.api;
 
 
-
 import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.data.entity.Discounts;
 import com.project.retailhub.service.DiscountsService;
@@ -17,9 +16,10 @@ public class DiscountAPI {
     private final DiscountsService discountService;
 
     @GetMapping("/all")
-    public ResponseObject<?> doGetFindAllActiveCategories() {
+    public ResponseObject<?> doGetFindAllActiveCategories(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                                          @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
         var resultApi = new ResponseObject<>();
-        resultApi.setData(discountService.getAllDiscounts());
+        resultApi.setData(discountService.getAllDiscounts(page, size));
         log.info("Get ALL Discounts");
         return resultApi;
     }

@@ -57,8 +57,8 @@ public class ProductAPIv2 {
     @GetMapping("/search")
     public ResponseObject<?> searchProducts(
             @RequestParam String keyword,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "50") int size) {
         var resultApi = new ResponseObject<PageResponse<ProductResponse>>();
         resultApi.setData(productService.findProductsByKeywordWithPagination(keyword, page, size));
         resultApi.setMessage("Products retrieved successfully");

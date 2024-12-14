@@ -23,13 +23,13 @@ public class Discounts {
 
     private double discountRate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private  Date startDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private Date endDate;
 
     private long productId;
 
-    private boolean isActive;
+    private boolean active;
 }

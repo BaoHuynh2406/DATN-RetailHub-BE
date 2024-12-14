@@ -280,6 +280,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponse> result = p.getContent()
                 .stream()
                 .map(product -> {
+
                     // Chuyển đổi Product sang ProductResponse
                     ProductResponse productResponse = productMapper
                             .toProductResponse(product, categoryRepository, taxRepository);
@@ -292,6 +293,7 @@ public class ProductServiceImpl implements ProductService {
                     }
 
                     return productResponse;
+
                 })
                 .toList();
 

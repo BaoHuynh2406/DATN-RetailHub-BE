@@ -10,17 +10,17 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 public interface DiscountsRepository extends JpaRepository<Discounts, Long> {
 
     Page<Discounts> findAll(Pageable pageable);
 
-    @Query("SELECT d FROM Discounts d WHERE d.isActive = true AND :currentDate BETWEEN d.startDate AND d.endDate")
+    @Query("SELECT d FROM Discounts d WHERE d.active = true AND :currentDate BETWEEN d.startDate AND d.endDate")
     List<Discounts> findActiveDiscounts(@Param("currentDate") Date currentDate);
 
-    @Query("SELECT d FROM Discounts d WHERE d.isActive = true AND :currentDate BETWEEN d.startDate AND d.endDate"
-    +" AND d.productId = :productId")
-    Optional<Discounts> findActiveDiscountsByProductId(@Param("currentDate") Date currentDate,
+    @Query("SELECT d FROM Discounts d WHERE d.active = true AND :currentDate BETWEEN d.startDate AND d.endDate"
+    +" AND d.productId = :productId ORDER BY d.discountRate DESC")
+    List<Discounts> findFirstActiveDiscountByProductId(@Param("currentDate") Date currentDate,
                                                        @Param("productId") long productId);
 }
