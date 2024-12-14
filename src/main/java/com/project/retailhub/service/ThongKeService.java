@@ -2,6 +2,7 @@ package com.project.retailhub.service;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.ThongKe.RevenueProfitResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 
 import java.math.BigDecimal;
@@ -27,4 +28,9 @@ public interface ThongKeService {
 
     // Tính doanh thu cho tháng và trạng thái PAID
     BigDecimal getRevenueByMonthAndStatus(Date month);
+
+
+    // Tính doanh thu Năm
+    List<RevenueProfitResponse> getRevenueAndProfitByYear(int year);
+
 }

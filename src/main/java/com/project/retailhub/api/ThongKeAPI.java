@@ -1,6 +1,7 @@
 package com.project.retailhub.api;
 
 import com.project.retailhub.data.dto.response.ResponseObject;
+import com.project.retailhub.data.dto.response.ThongKe.RevenueProfitResponse;
 import com.project.retailhub.service.ThongKeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,4 +93,16 @@ public class ThongKeAPI {
         log.info("Get revenue for PAID status in month: " + month);
         return resultApi;
     }
+
+    @GetMapping("/revenue-by-year")
+    public ResponseObject<List<RevenueProfitResponse>> getRevenueAndProfitByYear(
+            @RequestParam("year") int year) {
+
+        var response = new ResponseObject<List<RevenueProfitResponse>>();
+        List<RevenueProfitResponse> data = sv.getRevenueAndProfitByYear(year);
+        response.setData(data);
+        log.info("Get revenue and profit for year: " + year);
+        return response;
+    }
+
 }

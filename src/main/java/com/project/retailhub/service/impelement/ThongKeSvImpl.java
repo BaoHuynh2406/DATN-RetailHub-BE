@@ -2,6 +2,7 @@ package com.project.retailhub.service.impelement;
 
 import com.project.retailhub.data.dto.response.Invoice.InvoiceChartDataResponse;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
+import com.project.retailhub.data.dto.response.ThongKe.RevenueProfitResponse;
 import com.project.retailhub.data.dto.response.ThongKe.SalesVolumeStatistics;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.mapper.InvoiceMapper;
@@ -183,6 +184,19 @@ public class ThongKeSvImpl implements ThongKeService {
         // Trả về tổng doanh thu cho tháng
         return invoiceRepository.sumRevenueByMonthAndStatus(startOfMonth, endOfMonth);
     }
+
+    @Override
+    public List<RevenueProfitResponse> getRevenueAndProfitByYear(int year) {
+            List<Object[]> results = invoiceRepository.findRevenueAndProfitByMonth(year);
+
+            return results.stream()
+                    .map(result -> new RevenueProfitResponse(
+                            ((Number) result[0]).intValue(),    // month
+                            result[1] != null ? ((Number) result[1]).doubleValue() : 0.0, // doanhThu
+                            result[2] != null ? ((Number) result[2]).doubleValue() : 0.0  // loiNhuan
+                    ))
+                    .collect(Collectors.toList());
+        }
 
 
 }

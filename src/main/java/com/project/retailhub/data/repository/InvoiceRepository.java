@@ -64,6 +64,18 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
             "AND i.invoiceDate <= :endOfMonth " +
             "AND i.status = 'PAID'")
     BigDecimal sumRevenueByMonthAndStatus(@Param("startOfMonth") Date startOfMonth, @Param("endOfMonth") Date endOfMonth);
+
+    @Query(value = "SELECT MONTH(i.invoice_date) AS month, " +
+            "SUM(i.final_total) AS totalRevenue, " +
+            "SUM(i.final_total - i.total_cost - i.total_tax - i.discount_amount) AS totalProfit " +
+            "FROM invoices i " +
+            "WHERE i.status = 'PAID' AND YEAR(i.invoice_date) = :year " +
+            "GROUP BY MONTH(i.invoice_date) " +
+            "ORDER BY month ASC",
+            nativeQuery = true)
+    List<Object[]> findRevenueAndProfitByMonth(@Param("year") int year);
+
+
 }
 
 
