@@ -39,7 +39,7 @@ public class ThongKeAPI {
     @GetMapping("/invoice-SalesVolumeStatistics")
     public ResponseObject<?> getSalesVolumeStatistics(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
             @RequestParam(value = "startDate", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam(value = "endDate", required = false)
@@ -48,10 +48,9 @@ public class ThongKeAPI {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedStartDate = (startDate != null) ? sdf.format(startDate) : "null";
         String formattedEndDate = (endDate != null) ? sdf.format(endDate) : "null";
-
         log.info("Get invoiceData [{}|{}]", formattedStartDate, formattedEndDate);
         var resultApi = new ResponseObject<>();
-        resultApi.setData(sv.getSalesVolumeStatistics(page, size, startDate, endDate));
+        resultApi.setData(sv.getSalesVolumeStatistics(page, pageSize, startDate, endDate));
         return resultApi;
     }
 

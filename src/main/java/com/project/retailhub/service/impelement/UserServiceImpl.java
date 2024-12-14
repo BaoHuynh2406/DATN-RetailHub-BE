@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.request.LogoutUserIdRequest;
 import com.project.retailhub.data.dto.request.UserRequest;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
+import com.project.retailhub.data.entity.Role;
 import com.project.retailhub.data.entity.User;
 import com.project.retailhub.data.mapper.UserMapper;
 import com.project.retailhub.data.repository.UserRepository;
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toUser(request, roleRepository);
         // Mã hóa mật khẩu
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setImageName(request.getImage());
         try {
             userRepository.save(user);
         } catch (Exception e) {
@@ -117,7 +119,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-//    @PreAuthorize("ADMIN")
     public void deleteUser(long idEmployee) {
         User user = userRepository.findById(idEmployee)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -144,6 +145,7 @@ public class UserServiceImpl implements UserService {
     public PageResponse<UserResponse> getAllUserPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<User> p  = userRepository.findAll(pageable);
+
         return PageResponse.<UserResponse>builder()
                 .totalPages(p.getTotalPages())
                 .pageSize(p.getSize())

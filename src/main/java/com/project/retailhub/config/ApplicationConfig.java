@@ -41,14 +41,24 @@ public class ApplicationConfig {
         {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
+            if (roleRepository.findAll().isEmpty()) {
+                roleRepository.save(Role.builder()
+                        .roleId("ADMIN")
+                        .roleDescription("ADMIN")
+                        .build());
+                roleRepository.save(Role.builder()
+                        .roleId("CS")
+                        .roleDescription("Thu ngân")
+                        .build());
+                roleRepository.save(Role.builder()
+                        .roleId("SC")
+                        .roleDescription("Thủ kho")
+                        .build());
+            }
+
             if (userRepository.findByEmail(ADMIN_EMAIL).isEmpty()) {
                 log.info("Create Account Default: {} | {}", ADMIN_EMAIL, ADMIN_PASSWORD);
-                if (roleRepository.findById("ADMIN").isEmpty()) {
-                    roleRepository.save(Role.builder()
-                            .roleId("ADMIN")
-                            .roleDescription("Quản lý")
-                            .build());
-                }
+
 
                 userRepository.save
                         (User.builder()

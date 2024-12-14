@@ -12,10 +12,11 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>
-{
+public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByBarcode(String barcode);
+
     boolean existsByBarcode(String barcode);
 
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
@@ -59,7 +60,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
             "WHERE i.status = 'PAID' " +
             "AND i.invoiceDate BETWEEN :start AND :end " +
-            "GROUP BY p.productId, p.productName, p.image")
+            "GROUP BY p.productId, p.productName, p.image " +
+            "ORDER BY SUM(ii.quantity) DESC")
     Page<Object[]> findProductSales(
             @Param("start") Date start,
             @Param("end") Date end,

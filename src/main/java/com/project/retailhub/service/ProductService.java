@@ -6,26 +6,32 @@ import com.project.retailhub.data.dto.response.UserResponse;
 import com.project.retailhub.data.dto.response.product.ProductResponse;
 import com.project.retailhub.data.entity.Product;
 import com.project.retailhub.data.repository.CategoryRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService
 {
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     void addProduct(ProductRequest request);
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     void updateProduct(ProductRequest request);
 
     ProductResponse getProduct(long productId);
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     void deleteProduct(long productId);
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     void restoreProduct(long productId);
 
     List<ProductResponse> findAllProduct();
 
     List<ProductResponse> findAllAvailableProduct();
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     List<ProductResponse> findAllDeletedProduct();
 
     ProductResponse findById(Long productId);

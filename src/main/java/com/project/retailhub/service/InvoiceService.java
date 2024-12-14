@@ -11,6 +11,7 @@ import com.project.retailhub.data.dto.response.Invoice.InvoiceResponse;
 import com.project.retailhub.data.dto.response.Invoice.InvoiceResponseForUser;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.entity.InvoiceItem;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ public interface InvoiceService {
     List<InvoiceResponseForUser> getAllListInvoiceByUserId(Long userId);
 
     //Lấy hóa đơn đang thanh toán theo nhân viên
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     List<InvoiceResponseForUser> getPendingListInvoiceByUserCurrent();
 
 

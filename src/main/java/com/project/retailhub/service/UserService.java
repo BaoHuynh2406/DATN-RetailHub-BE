@@ -4,6 +4,7 @@ package com.project.retailhub.service;
 import com.project.retailhub.data.dto.request.UserRequest;
 import com.project.retailhub.data.dto.response.Pagination.PageResponse;
 import com.project.retailhub.data.dto.response.UserResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public interface UserService {
      *
      * @param request The user request containing the necessary information for creating a new user.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     void addNewUser(UserRequest request);
 
     /**
@@ -24,6 +26,7 @@ public interface UserService {
      *
      * @param request The user request containing the updated information for the user.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     void updateUser(UserRequest request);
 
     /**
@@ -32,6 +35,7 @@ public interface UserService {
      * @param idEmployee The unique identifier of the user.
      * @return The user response containing the user's information.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     UserResponse getUser(long idEmployee);
 
     /**
@@ -46,6 +50,7 @@ public interface UserService {
      *
      * @param idEmployee The unique identifier of the user to be deleted.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     void deleteUser(long idEmployee);
 
     /**
@@ -53,6 +58,7 @@ public interface UserService {
      *
      * @param idEmployee The unique identifier of the user to be restored.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     void restoreUser(long idEmployee);
 
     /**
@@ -60,6 +66,7 @@ public interface UserService {
      *
      * @param idEmployee The unique identifier of the user whose status needs to be toggled.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     void toggleActiveUser(long idEmployee);
 
     /**
@@ -67,6 +74,7 @@ public interface UserService {
      *
      * @return A list of user responses containing the information of all users.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     List<UserResponse> findAllUser();
 
     /**
@@ -76,6 +84,7 @@ public interface UserService {
      * @param size The number of users per page.
      * @return A page response containing the list of user responses and pagination information.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     PageResponse<UserResponse> getAllUserPagination(int page, int size);
 
     /**
@@ -85,6 +94,7 @@ public interface UserService {
      * @param size The number of users per page.
      * @return A page response containing the list of available user responses and pagination information.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     PageResponse<UserResponse> getAllAvailableUsersPagination(int page, int size);
 
     /**
@@ -94,6 +104,7 @@ public interface UserService {
      * @param size The number of users per page.
      * @return A page response containing the list of deleted user responses and pagination information.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     PageResponse<UserResponse> getAllDeletedUsersPagination(int page, int size);
 
     /**
@@ -101,6 +112,7 @@ public interface UserService {
      *
      * @return A list of user responses containing the information of all available users.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     List<UserResponse> findAllAvailableUsers();
 
     /**
@@ -108,6 +120,7 @@ public interface UserService {
      *
      * @return A list of user responses containing the information of all deleted users.
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     List<UserResponse> findAllDeletedUsers();
 
     /**
