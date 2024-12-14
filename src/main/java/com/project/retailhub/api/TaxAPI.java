@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.TaxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class TaxAPI {
 
     final TaxService taxService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAllActive")
     public ResponseObject<?> doGetFindAllActiveTaxes() {
         var resultApi = new ResponseObject<>();
@@ -23,6 +25,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAll")
     public ResponseObject<?> doGetFindAllTaxes() {
         var resultApi = new ResponseObject<>();
@@ -31,6 +34,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/{taxId}")
     public ResponseObject<?> doGetTaxById(@PathVariable("taxId") String taxId) {
         var resultApi = new ResponseObject<>();
@@ -39,6 +43,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseObject<?> doPostCreateTax(@RequestBody TaxRequest request) {
         var resultApi = new ResponseObject<>();
@@ -48,6 +53,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update")
     public ResponseObject<?> doPostUpdateTax(@RequestBody TaxRequest request) {
         var resultApi = new ResponseObject<>();
@@ -57,6 +63,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{taxId}")
     public ResponseObject<?> doDeleteTax(@PathVariable("taxId") String taxId) {
         var resultApi = new ResponseObject<>();
@@ -66,6 +73,7 @@ public class TaxAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/restore/{taxId}")
     public ResponseObject<?> doRestoreTax(@PathVariable("taxId") String taxId) {
         var resultApi = new ResponseObject<>();

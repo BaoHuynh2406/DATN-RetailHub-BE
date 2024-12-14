@@ -8,6 +8,7 @@ import com.project.retailhub.service.ReceivingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ReceivingAPI {
     private final ReceivingService receivingService;
 
     // Tạo mới Receiving
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PostMapping("/create")
     public ResponseObject<?> addReceiving(@RequestBody ReceivingRequest request) {
         var resultApi = new ResponseObject<Void>();
@@ -30,6 +32,7 @@ public class ReceivingAPI {
     }
 
     // Cập nhật Receiving
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PutMapping("/update")
     public ResponseObject<?> updateReceiving(@RequestBody ReceivingRequest request) {
         var resultApi = new ResponseObject<>();
@@ -40,6 +43,7 @@ public class ReceivingAPI {
     }
 
     // Xóa Receiving
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{receivingId}")
     public ResponseObject<?> deleteReceiving(@PathVariable("receivingId") long receivingId) {
         var resultApi = new ResponseObject<>();
@@ -50,6 +54,7 @@ public class ReceivingAPI {
     }
 
     // Lấy danh sách tất cả Receiving
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/findAllReceiving")
     public ResponseObject<?> findAllReceiving(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                               @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
@@ -60,6 +65,7 @@ public class ReceivingAPI {
     }
 
     // Lấy Receiving theo ID
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/findById/{receivingId}")
     public ResponseObject<?> findReceivingById(@PathVariable("receivingId") long receivingId) {
         var resultApi = new ResponseObject<List<ReceivingResponse>>();

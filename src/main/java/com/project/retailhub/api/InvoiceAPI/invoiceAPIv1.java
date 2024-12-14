@@ -8,6 +8,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class invoiceAPIv1 {
     final InvoiceService invoiceService;
 
     // api cho quan ly
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAllListInvoiceByUserId")
     public ResponseObject<?> getAllListInvoiceByUserId(
             @RequestParam(value = "userId", required = true) Long userId) {
@@ -27,8 +29,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
-
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/get/{invoiceId}")
     public ResponseObject<?> getInvoiceById(
             @PathVariable("invoiceId") long invoiceId) {
@@ -38,6 +39,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getPendingListInvoice")
     public ResponseObject<?> getPendingListInvoiceByUserCurrent() {
         var resultApi = new ResponseObject<>();
@@ -46,7 +48,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/create")
     public ResponseObject<?> postCreate(
             @RequestBody InvoiceRequestCreate request
@@ -58,6 +60,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @DeleteMapping("/cancel-invoice/{invoiceId}")
     public ResponseObject<?> cancelInvoice(
             @PathVariable("invoiceId") Long invoiceId
@@ -68,6 +71,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/update-quantity")
     public ResponseObject<?> updateQuantity(
             @RequestParam("invoiceId") Long invoiceId,
@@ -81,6 +85,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @DeleteMapping("/remove-item")
     public ResponseObject<?> removeItem(
             @RequestParam("invoiceId") Long invoiceId,
@@ -93,6 +98,7 @@ public class invoiceAPIv1 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/add-new-item")
     public ResponseObject<?> addNewItem(
             @RequestBody InvoiceItemRequest request
@@ -105,6 +111,7 @@ public class invoiceAPIv1 {
 
 
     //Cập nhật khách hàng cho hóa đơn
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PutMapping("/update-custom-invoice")
     public ResponseObject<?> updateCustomer(
             @RequestBody UpdateCustomerInvoiceRq request
@@ -117,6 +124,7 @@ public class invoiceAPIv1 {
     }
 
     //Đổi điểm
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PutMapping("/exchange-points")
     public ResponseObject<?> exchangePoints(
             @RequestBody ExChangePoinstRq request

@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.PointHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class PointHistoryAPI {
     final PointHistoryService pointHistoryService;
 
     // API để lấy toàn bộ lịch sử điểm với phân trang
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/history-list")
     public ResponseObject<?> doGetAllHistories(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -28,6 +30,7 @@ public class PointHistoryAPI {
     }
 
     // API để lấy lịch sử điểm theo khách hàng với phân trang
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/history-list/{customerId}")
     public ResponseObject<?> doGetHistoriesByCustomerId(
             @PathVariable Long customerId,
@@ -41,6 +44,7 @@ public class PointHistoryAPI {
     }
 
     // API để tạo mới một lịch sử điểm
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/exchange")
     public ResponseObject<?> doCreateExchange(@RequestBody TransactionRequest request) {
         var resultApi = new ResponseObject<>();

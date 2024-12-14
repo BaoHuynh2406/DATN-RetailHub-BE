@@ -6,6 +6,7 @@ import com.project.retailhub.data.entity.Discounts;
 import com.project.retailhub.service.DiscountsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class DiscountAPI {
     private final DiscountsService discountService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/all")
     public ResponseObject<?> doGetFindAllActiveCategories(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                                           @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
@@ -24,6 +26,7 @@ public class DiscountAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/{id}")
     public ResponseObject<?> getById(
             @PathVariable("id") Long id
@@ -34,6 +37,7 @@ public class DiscountAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseObject<?> addReceiving(@RequestBody Discounts request) {
         var resultApi = new ResponseObject<Void>();
@@ -44,6 +48,7 @@ public class DiscountAPI {
     }
 
     // Cập nhật Receiving
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PutMapping("/update")
     public ResponseObject<?> updateReceiving(@RequestBody Discounts request) {
         var resultApi = new ResponseObject<>();
@@ -54,6 +59,7 @@ public class DiscountAPI {
     }
 
     // Xóa Receiving
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @DeleteMapping("/delete/{id}")
     public ResponseObject<?> deleteReceiving(@PathVariable("id") long receivingId) {
         var resultApi = new ResponseObject<>();

@@ -6,6 +6,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentAPIv1 {
     final PaymentService paymentService;
 
-
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/handle-payment-cash")
     public ResponseObject<?> postHandlePaymentCash(
             @RequestBody HandlePaymentRequest request
@@ -27,6 +28,4 @@ public class PaymentAPIv1 {
         log.info(message);
         return resultApi;
     }
-
-
 }

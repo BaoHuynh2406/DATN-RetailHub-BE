@@ -7,6 +7,7 @@ import com.project.retailhub.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Date;
 public class invoiceAPIv2 {
     final InvoiceService invoiceService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/list")
     public ResponseObject<?> getInvoiceList(
             @RequestParam(value = "startDate", required = false)
@@ -35,6 +37,7 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/list-for-user-current-all")
     public ResponseObject<?> getListForUserAll(
             @RequestParam(value = "status", required = false) String status,
@@ -48,6 +51,7 @@ public class invoiceAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/search")
     public ResponseObject<?> search(
             @RequestParam(value = "page", defaultValue = "1") int page,
@@ -59,8 +63,4 @@ public class invoiceAPIv2 {
         log.info("Get getListForUserAll");
         return resultApi;
     }
-
-
-
-
 }

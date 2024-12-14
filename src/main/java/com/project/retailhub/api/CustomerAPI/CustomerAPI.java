@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class CustomerAPI {
 
     final CustomerService customerService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/getAll")
     public ResponseObject<?> doGetCustomer() {
         var resultApi = new ResponseObject<>();
@@ -23,6 +25,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PostMapping("/create")
     public ResponseObject<?> doPostCreateCustomer(@RequestBody CustomerRequest request) {
         var resultApi = new ResponseObject<>();
@@ -32,6 +35,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @PutMapping("/update")
     public ResponseObject<?> doPostUpdateCustomer(@RequestBody CustomerRequest request) {
         var resultApi = new ResponseObject<>();
@@ -41,6 +45,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/{customerId}")
     public ResponseObject<?> doGetCustomer(@PathVariable("customerId") long customerId) {
         var resultApi = new ResponseObject<>();
@@ -49,6 +54,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/Delete/{customerId}")
     public ResponseObject<?> doDeleteCustomer(@PathVariable("customerId") long customerId) {
         var resultApi = new ResponseObject<>();
@@ -58,6 +64,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/restore/{customerId}")
     public ResponseObject<?> doRestoreCustomer(@PathVariable("customerId") long customerId) {
         var resultApi = new ResponseObject<>();
@@ -83,6 +90,7 @@ public class CustomerAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/find")
     public ResponseObject<?> doFindCustomerByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber) {
         var resultApi = new ResponseObject<>();

@@ -5,6 +5,7 @@ import com.project.retailhub.data.dto.response.ResponseObject;
 import com.project.retailhub.service.ReceivingDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class ReceivingDetailsAPI {
 
     private final ReceivingDetailsService receivingDetailsService;
     // tao moi receiving-details
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PostMapping("/create")
     public ResponseObject<?> addReceivingDetails(@RequestBody ReceivingDetailsRequest request) {
         var resultApi = new ResponseObject<>();
@@ -25,6 +27,7 @@ public class ReceivingDetailsAPI {
     }
 
     // update receiving details
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PostMapping("/update")
     public ResponseObject<?> updateReceivingDetails(@RequestBody ReceivingDetailsRequest request) {
         var resultApi = new ResponseObject<>();
@@ -35,6 +38,7 @@ public class ReceivingDetailsAPI {
     }
 
     // xoa receiving details
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @DeleteMapping("/delete/{receivingDetailId}")
     public ResponseObject<?> deleteReceivingDetails(@PathVariable("receivingDetailId") long receivingDetailId) {
         var resultApi = new ResponseObject<>();
@@ -45,6 +49,7 @@ public class ReceivingDetailsAPI {
     }
 
     // fill all receiving-details
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/fillAllReceiving")
     public ResponseObject<?> getAllReceivingDetails() {
         var resultApi = new ResponseObject<>();
@@ -53,6 +58,7 @@ public class ReceivingDetailsAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/findById/{receivingDetailId}")
     public ResponseObject<?> getReceivingDetailsById(@PathVariable("receivingDetailId") long receivingDetailId) {
         var resultApi = new ResponseObject<>();

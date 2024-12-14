@@ -5,6 +5,7 @@ import com.project.retailhub.data.entity.PaymentMethod;
 import com.project.retailhub.service.PaymentMethodsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentMethodsAPI {
     final PaymentMethodsService paymentMethodsService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAllPaymentMethods")
     public ResponseObject<?> getAllPaymentMethods() {
         var resultApi = new ResponseObject<>();
@@ -22,6 +24,7 @@ public class PaymentMethodsAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/paymentMethod/{paymentMethodId}")
     public ResponseObject<?> getPaymentMethodById(@PathVariable("paymentMethodId") String paymentMethodId) {
         var resultApi = new ResponseObject<>();
@@ -29,6 +32,4 @@ public class PaymentMethodsAPI {
         log.info("Fetched payment method with ID " + paymentMethodId);
         return resultApi;
     }
-
-
 }

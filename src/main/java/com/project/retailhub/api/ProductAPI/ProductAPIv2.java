@@ -22,6 +22,7 @@ import java.util.List;
 public class ProductAPIv2 {
     final ProductService productService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS') or hasAuthority('SC')")
     @GetMapping("/getAllProducts")
     public ResponseObject<?> doGetFindAll(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -33,7 +34,7 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAll-available-product")
     public ResponseObject<?> doGetFindAllAvailable(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -45,6 +46,7 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAll-deleted-product")
     public ResponseObject<?> doGetFindAllDeleted(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -56,6 +58,7 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('CS')")
     @GetMapping("/search")
     public ResponseObject<?> searchProducts(
             @RequestParam String keyword,

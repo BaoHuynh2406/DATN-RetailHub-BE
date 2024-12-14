@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ProductAPI {
     final ProductService productService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAllProducts")
     public ResponseObject<List<ProductResponse>> doGetFindAll() {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -28,6 +30,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAll-available-product")
     public ResponseObject<List<ProductResponse>> doGetFindAllAvailable() {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -36,6 +39,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/getAll-deleted-product")
     public ResponseObject<List<ProductResponse>> doGetFindAllDeleted() {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -44,6 +48,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/{productId}")
     public ResponseObject<ProductResponse> doGetProduct(@PathVariable("productId") long productId) {
         var resultApi = new ResponseObject<ProductResponse>();
@@ -52,21 +57,25 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/searchByProductIdLike")
     public List<ProductResponse> searchProductByIdLike(@RequestParam Long productId) {
         return productService.findProductsByProductIdLike(productId);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/searchByProductNameLike")
     public List<ProductResponse> searchProductByNameContaining(@RequestParam String productName) {
         return productService.findByProductNameLike(productName);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/searchByProductBarcodeLike")
     public List<ProductResponse> searchProductByBarcodeContaining(@RequestParam String barcode) {
         return productService.findByProductBarcodeLike(barcode);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/category/{categoryId}")
     public ResponseObject<List<ProductResponse>> getAllByCategoryId(@PathVariable int categoryId) {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -81,6 +90,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/barcode/{barcode}")
     public ResponseObject<ProductResponse> doGetProductByBarcode(@PathVariable("barcode") String barcode) {
         var resultApi = new ResponseObject<ProductResponse>();
@@ -89,6 +99,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/productName/{productName}")
     public ResponseObject<ProductResponse> doGetProductByName(@PathVariable("productName") String productName) {
         var resultApi = new ResponseObject<ProductResponse>();
@@ -98,6 +109,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/productId/{productId}")
     public ResponseObject<ProductResponse> doGetProductById(@PathVariable("productId") Long productId) {
         var resultApi = new ResponseObject<ProductResponse>();
@@ -106,6 +118,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PostMapping("/create")
     public ResponseObject<Void> doPostCreateProduct(@RequestBody ProductRequest request) {
         var resultApi = new ResponseObject<Void>();
@@ -115,6 +128,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @PutMapping("/update")
     public ResponseObject<Void> doPutUpdateProduct(@RequestBody ProductRequest request) {
         var resultApi = new ResponseObject<Void>();
@@ -124,6 +138,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{productId}")
     public ResponseObject<Void> doDeleteProduct(@PathVariable("productId") long productId) {
         var resultApi = new ResponseObject<Void>();
@@ -133,6 +148,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/restore/{productId}")
     public ResponseObject<Void> doRestoreProduct(@PathVariable("productId") long productId) {
         var resultApi = new ResponseObject<Void>();
@@ -142,6 +158,7 @@ public class ProductAPI {
         return resultApi;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SC')")
     @GetMapping("/expiring-soon")
     public ResponseObject<List<ProductResponse>> getProductsExpiringSoon() {
         var resultApi = new ResponseObject<List<ProductResponse>>();
@@ -157,5 +174,4 @@ public class ProductAPI {
         log.info("Retrieved products expiring within 1 month");
         return resultApi;
     }
-
 }
