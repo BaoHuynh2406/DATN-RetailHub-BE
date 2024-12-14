@@ -14,5 +14,6 @@ import java.math.BigDecimal;
 public class SalesVolumeStatistics {
     Long productId;
     String productName;
+    String image;
     int quantitySold;
 }

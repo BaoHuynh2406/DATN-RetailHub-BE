@@ -53,7 +53,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>
     List<Product> findByProductBarCodeLike(@Param("barcode") String barcode);
 
 
-    @Query("SELECT p.productId, p.productName, SUM(ii.quantity) " +
+    @Query("SELECT p.productId, p.productName, SUM(ii.quantity), p.image " +
             "FROM Product p " +
             "JOIN InvoiceItem ii ON p.productId = ii.productId " +
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
