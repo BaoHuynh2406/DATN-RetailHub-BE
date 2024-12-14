@@ -59,7 +59,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
             "WHERE i.status = 'PAID' " +
             "AND i.invoiceDate BETWEEN :start AND :end " +
-            "GROUP BY p.productId, p.productName")
+            "GROUP BY p.productId, p.productName, p.image")
     Page<Object[]> findProductSales(
             @Param("start") Date start,
             @Param("end") Date end,
