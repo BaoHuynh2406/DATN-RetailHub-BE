@@ -16,4 +16,5 @@ public class SalesVolumeStatistics {
     String productName;
     String image;
     int quantitySold;
+    String unit;
 }

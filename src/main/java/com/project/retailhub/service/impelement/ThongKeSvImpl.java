@@ -94,6 +94,7 @@ public class ThongKeSvImpl implements ThongKeService {
             stats.setProductName((String) result[1]);
             stats.setQuantitySold(((Number) result[2]).intValue());
             stats.setImage((String) result[3]);
+            stats.setUnit((String) result[4]);
             return stats;
         }).collect(Collectors.toList());
 

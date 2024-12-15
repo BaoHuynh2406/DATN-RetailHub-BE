@@ -63,13 +63,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductBarCodeLike(@Param("barcode") String barcode);
 
     // Thống kê lượt bán sản phẩm trong một khoảng thời gian
-    @Query("SELECT p.productId, p.productName, SUM(ii.quantity), p.image " +
+    @Query("SELECT p.productId, p.productName, SUM(ii.quantity), p.image, p.unit " +
             "FROM Product p " +
             "JOIN InvoiceItem ii ON p.productId = ii.productId " +
             "JOIN Invoice i ON ii.invoiceId = i.invoiceId " +
             "WHERE i.status = 'PAID' " +
             "AND i.invoiceDate BETWEEN :start AND :end " +
-            "GROUP BY p.productId, p.productName, p.image " +
+            "GROUP BY p.productId, p.productName, p.image, p.unit " +
             "ORDER BY SUM(ii.quantity) DESC")
     Page<Object[]> findProductSales(
             @Param("start") Date start,
