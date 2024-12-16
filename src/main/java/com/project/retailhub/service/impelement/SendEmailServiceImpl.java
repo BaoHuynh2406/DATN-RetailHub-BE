@@ -127,12 +127,12 @@ public class SendEmailServiceImpl implements SendEmailService {
     @Override
     public String handleVerifyOtp(String email, String otpStr, String newPassword) {
         // Gọi logic xác thực OTP và xử lý mật khẩu mới
-        try {
+
             int otp = Integer.parseInt(otpStr);
             boolean isVerified = verifyOTP(email, otp, newPassword);
-            return isVerified ? "OTP verification successful and password updated." : "OTP verification failed.";
-        } catch (NumberFormatException e) {
-            return "Invalid OTP format.";
-        }
+            if(!isVerified) {
+                throw new RuntimeException("OTP Khong hop le");
+            }
+            return "OTP verification successful and password updated.";
     }
 }
