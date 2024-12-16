@@ -18,5 +18,7 @@ public class HistoryResponse {
     String description;
     long userId;
     long customerId;
+    String customerName;
+    String userName;
     long invoiceId;
 }

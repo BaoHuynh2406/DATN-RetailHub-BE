@@ -46,6 +46,19 @@ public class PointHistoryServiceImpl implements PointHistoryService {
                 .map(mapper::toResponse) // Ánh xạ từ History sang HistoryResponse
                 .collect(Collectors.toList());
 
+        for (HistoryResponse historyResponse : historyResponseList) {
+            Customer customer = customerRepository.findById(historyResponse.getCustomerId())
+                    .orElseThrow(
+                            () -> new RuntimeException("customer not found")
+                    );
+            User user = userRepository.findById(historyResponse.getUserId())
+                    .orElseThrow(
+                            () -> new RuntimeException("user not found")
+                    );
+            historyResponse.setUserName(user.getFullName());
+            historyResponse.setCustomerName(customer.getFullName());
+        }
+
         // Trả về PageResponse
         return PageResponse.<HistoryResponse>builder()
                 .totalPages(p.getTotalPages()) // Tổng số trang
@@ -64,6 +77,19 @@ public class PointHistoryServiceImpl implements PointHistoryService {
         List<HistoryResponse> historyResponseList = p.getContent().stream()
                 .map(mapper::toResponse) // Ánh xạ từ History sang HistoryResponse
                 .collect(Collectors.toList());
+
+        for (HistoryResponse historyResponse : historyResponseList) {
+            Customer customer = customerRepository.findById(historyResponse.getCustomerId())
+                    .orElseThrow(
+                            () -> new RuntimeException("customer not found")
+                    );
+            User user = userRepository.findById(historyResponse.getUserId())
+                    .orElseThrow(
+                            () -> new RuntimeException("user not found")
+                    );
+            historyResponse.setUserName(user.getFullName());
+            historyResponse.setCustomerName(customer.getFullName());
+        }
 
         // Trả về PageResponse
         return PageResponse.<HistoryResponse>builder()
