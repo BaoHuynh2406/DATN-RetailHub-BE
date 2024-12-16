@@ -34,7 +34,7 @@ public class ProductAPIv2 {
         return resultApi;
     }
 
-
+//    Lấy sản phẩm có sẵn
     @GetMapping("/getAll-available-product")
     public ResponseObject<?> doGetFindAllAvailable(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -43,10 +43,13 @@ public class ProductAPIv2 {
         var resultApi = new ResponseObject<>();
         resultApi.setData(productService.findAllProductPaginationAvailableAndDiscount(page, size));
         log.info("Get all available products");
+
+//      Trả về danh sách sản phẩm đang còn bán (chưa xóa) với phân trang.
         return resultApi;
     }
 
 
+//    Lấy sản phẩm đã xóa
     @GetMapping("/getAll-deleted-product")
     public ResponseObject<?> doGetFindAllDeleted(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -55,10 +58,13 @@ public class ProductAPIv2 {
         var resultApi = new ResponseObject<>();
         resultApi.setData(productService.findAllProductPaginationDeleted(page, size));
         log.info("Get all deleted products");
+
+//      Trả về danh sách các sản phẩm đã bị xóa (vẫn lưu trữ trong hệ thống) với phân trang.
         return resultApi;
     }
 
 
+//    Tìm sản phẩm theo từ khóa với phân trang.
     @GetMapping("/search")
     public ResponseObject<?> searchProducts(
             @RequestParam String keyword,
