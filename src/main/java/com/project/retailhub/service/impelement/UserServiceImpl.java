@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
         //Thực hiện chuyển đồi request thành entity
         User user = userMapper.toUser(request, roleRepository);
+        user.setBirthday(request.getBirthday());
         // Mã hóa mật khẩu
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setImageName(request.getImage());
@@ -91,6 +92,7 @@ public class UserServiceImpl implements UserService {
         user.setEndDate(request.getEndDate());
         user.setIsActive(request.getIsActive());
         user.setEmail(request.getEmail());
+        user.setBirthday(request.getBirthday());
 
         // Lưu nhân viên đã cập nhật
         try {
